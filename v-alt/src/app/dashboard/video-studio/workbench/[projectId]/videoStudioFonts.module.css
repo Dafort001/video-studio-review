@@ -1,0 +1,28 @@
+@font-face { font-family: "Inter"; src: url("/fonts/video-studio/Inter.woff2") format("woff2"); font-style: normal; font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "IBM Plex Sans"; src: url("/fonts/video-studio/IBMPlexSans.woff2") format("woff2"); font-style: normal; font-weight: 100 900; font-stretch: 75% 125%; font-display: swap; }
+@font-face { font-family: "Manrope"; src: url("/fonts/video-studio/Manrope.woff2") format("woff2"); font-style: normal; font-weight: 200 800; font-display: swap; }
+@font-face { font-family: "Sora"; src: url("/fonts/video-studio/Sora.woff2") format("woff2"); font-style: normal; font-weight: 100 800; font-display: swap; }
+@font-face { font-family: "Space Grotesk"; src: url("/fonts/video-studio/SpaceGrotesk.woff2") format("woff2"); font-style: normal; font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Playfair Display"; src: url("/fonts/video-studio/PlayfairDisplay.woff2") format("woff2"); font-style: normal; font-weight: 400 900; font-display: swap; }
+@font-face { font-family: "Cormorant Garamond"; src: url("/fonts/video-studio/CormorantGaramond.woff2") format("woff2"); font-style: normal; font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Libre Baskerville"; src: url("/fonts/video-studio/LibreBaskerville.woff2") format("woff2"); font-style: normal; font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "Fraunces"; src: url("/fonts/video-studio/Fraunces.woff2") format("woff2"); font-style: normal; font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Newsreader"; src: url("/fonts/video-studio/Newsreader.woff2") format("woff2"); font-style: normal; font-weight: 200 800; font-display: swap; }
+@font-face { font-family: "Montserrat"; src: url("/fonts/video-studio/Montserrat.woff2") format("woff2"); font-style: normal; font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Oswald"; src: url("/fonts/video-studio/Oswald.woff2") format("woff2"); font-style: normal; font-weight: 200 700; font-display: swap; }
+@font-face { font-family: "Bebas Neue"; src: url("/fonts/video-studio/BebasNeue.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Outfit"; src: url("/fonts/video-studio/Outfit.woff2") format("woff2"); font-style: normal; font-weight: 100 900; font-display: swap; }
+@font-face { font-family: "Archivo Narrow"; src: url("/fonts/video-studio/ArchivoNarrow.woff2") format("woff2"); font-style: normal; font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "Archivo"; src: url("/fonts/video-studio/Archivo.woff2") format("woff2"); font-style: normal; font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+@font-face { font-family: "Dancing Script"; src: url("/fonts/video-studio/DancingScript.woff2") format("woff2"); font-style: normal; font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "Caveat"; src: url("/fonts/video-studio/Caveat.woff2") format("woff2"); font-style: normal; font-weight: 400 700; font-display: swap; }
+@font-face { font-family: "Fredoka"; src: url("/fonts/video-studio/Fredoka.woff2") format("woff2"); font-style: normal; font-weight: 300 700; font-display: swap; }
+@font-face { font-family: "Baloo 2"; src: url("/fonts/video-studio/Baloo2.woff2") format("woff2"); font-style: normal; font-weight: 400 800; font-display: swap; }
+@font-face { font-family: "Rubik Bubbles"; src: url("/fonts/video-studio/RubikBubbles.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Bungee Shade"; src: url("/fonts/video-studio/BungeeShade.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Bagel Fat One"; src: url("/fonts/video-studio/BagelFatOne.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Modak"; src: url("/fonts/video-studio/Modak.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Chewy"; src: url("/fonts/video-studio/Chewy.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: "Coiny"; src: url("/fonts/video-studio/Coiny.woff2") format("woff2"); font-style: normal; font-weight: 400; font-display: swap; }
+
+.scope { isolation: isolate; }

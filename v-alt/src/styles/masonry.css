@@ -1,0 +1,42 @@
+/* Responsive Masonry Grid for Gallery */
+.masonry-grid-container {
+  column-gap: 16px;
+}
+
+/* Prevent column breaks inside items */
+.masonry-grid-container > * {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  margin-bottom: 16px;
+  display: inline-block;
+  width: 100%;
+}
+
+/* Mobile: 2 columns */
+@media (max-width: 639px) {
+  .masonry-grid-container {
+    column-count: 2;
+  }
+}
+
+/* Tablet: 3 columns */
+@media (min-width: 640px) and (max-width: 1023px) {
+  .masonry-grid-container {
+    column-count: 3;
+  }
+}
+
+/* Desktop: 4 columns */
+@media (min-width: 1024px) and (max-width: 1535px) {
+  .masonry-grid-container {
+    column-count: 4;
+  }
+}
+
+/* Large Desktop: 5 columns */
+@media (min-width: 1536px) {
+  .masonry-grid-container {
+    column-count: 5;
+  }
+}

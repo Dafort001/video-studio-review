@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <base href="/video-workbench/maklerin/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kandidat 10 Motion Definition</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f8;
+      --panel: #ffffff;
+      --ink: #17202a;
+      --muted: #5e6b7f;
+      --line: #d7dee8;
+      --accent: #143f6b;
+      --soft: #edf3f8;
+      --start: #0f766e;
+      --end: #9f3450;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(244,246,248,.96);
+      backdrop-filter: blur(10px);
+    }
+    h1 { margin: 0; font-size: 20px; line-height: 1.1; }
+    .subline { margin: 3px 0 0; color: var(--muted); font-size: 13px; }
+    button, select, input, textarea {
+      font: inherit;
+      font-size: 13px;
+    }
+    button {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--ink);
+      padding: 7px 10px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+    button.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+    main {
+      display: grid;
+      gap: 14px;
+      padding: 14px;
+    }
+    .workspace {
+      display: grid;
+      grid-template-columns: minmax(460px, 1fr) minmax(300px, 390px);
+      gap: 14px;
+      align-items: start;
+    }
+    .reference-grid {
+      display: grid;
+      grid-template-columns: minmax(260px, 340px) minmax(220px, 320px) minmax(360px, 1fr);
+      gap: 12px;
+      align-items: start;
+    }
+    .reference-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+    .reference-card h2 {
+      margin: 0;
+      padding: 9px 10px;
+      border-bottom: 1px solid var(--line);
+      font-size: 14px;
+    }
+    .reference-card video,
+    .reference-card img {
+      display: block;
+      width: 100%;
+      height: clamp(280px, 42vh, 440px);
+      object-fit: contain;
+      background: #101820;
+    }
+    .reference-card.wide img {
+      height: clamp(180px, 28vh, 300px);
+    }
+    .reference-card p {
+      margin: 0;
+      padding: 8px 10px 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: baseline;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .panel-head h2 { margin: 0; font-size: 15px; }
+    .panel-head span { color: var(--muted); font-size: 12px; font-weight: 700; }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(180px, 1fr));
+      gap: 12px;
+      padding: 14px;
+      background: #101820;
+    }
+    .portrait {
+      position: relative;
+      width: min(100%, 360px);
+      aspect-ratio: 9 / 16;
+      margin: 0 auto;
+      border-radius: 8px;
+      overflow: hidden;
+      background-color: #24303c;
+      background-repeat: no-repeat;
+      box-shadow: 0 12px 30px rgba(0,0,0,.25);
+    }
+    .portrait::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border: 1px solid rgba(255,255,255,.24);
+      pointer-events: none;
+    }
+    .badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 2;
+      display: inline-flex;
+      min-height: 24px;
+      align-items: center;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.92);
+      font-size: 11px;
+      font-weight: 900;
+    }
+    .badge.start { color: var(--start); }
+    .badge.end { color: var(--end); }
+    .text-overlay {
+      position: absolute;
+      left: 50%;
+      top: 18%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      width: 86%;
+      text-align: center;
+      color: #fff;
+      text-shadow: 0 2px 12px rgba(0,0,0,.55);
+      pointer-events: none;
+    }
+    .text-overlay strong {
+      display: block;
+      line-height: .95;
+    }
+    .text-overlay span {
+      display: block;
+      font-weight: 800;
+    }
+    .presenter-mark {
+      position: absolute;
+      right: 13%;
+      bottom: 8%;
+      z-index: 4;
+      display: none;
+      width: 18%;
+      aspect-ratio: 1 / 3.2;
+      border-radius: 999px 999px 18px 18px;
+      background: linear-gradient(#f5d3bd 0 18%, #1f2937 18% 100%);
+      box-shadow: 0 12px 24px rgba(0,0,0,.32);
+      opacity: .86;
+    }
+    .presenter-mark.visible { display: none; }
+    .controls {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+    }
+    label {
+      display: grid;
+      gap: 5px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    label span {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    input, select, textarea {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--ink);
+      padding: 7px 8px;
+    }
+    input[type="range"] { padding: 0; }
+    textarea { min-height: 74px; resize: vertical; line-height: 1.35; }
+    .range-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .take-meta {
+      display: grid;
+      gap: 5px;
+      padding: 10px 12px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .take-meta strong { color: var(--ink); }
+    .timeline {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 10px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+    }
+    .take {
+      flex: 0 0 132px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      padding: 6px;
+      text-align: left;
+    }
+    .take.active { border-color: var(--accent); box-shadow: 0 0 0 2px rgba(20,63,107,.15); }
+    .take img {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      object-fit: cover;
+      border-radius: 5px;
+      display: block;
+      background: var(--soft);
+    }
+    .take strong {
+      display: block;
+      margin-top: 5px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 12px;
+    }
+    .take span {
+      display: block;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .opening-box {
+      display: none;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid #c6d8ef;
+      border-radius: 8px;
+      background: #f3f8ff;
+    }
+    .opening-box.visible { display: grid; }
+    .text-details {
+      border: 1px solid #d7e6f8;
+      border-radius: 7px;
+      background: rgba(255,255,255,.62);
+      overflow: hidden;
+    }
+    .text-details summary {
+      min-height: 34px;
+      padding: 8px 10px;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+    .text-details-body {
+      display: grid;
+      gap: 10px;
+      padding: 0 10px 10px;
+    }
+    .video-briefing {
+      display: grid;
+      gap: 10px;
+      padding: 10px;
+      border: 1px solid #d7e6f8;
+      border-radius: 7px;
+      background: rgba(255,255,255,.62);
+    }
+    .prompt-buttons {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 6px;
+    }
+    .prompt-buttons button {
+      min-height: 32px;
+      padding: 6px 8px;
+      text-align: left;
+      font-size: 12px;
+    }
+    .prompt-buttons button.active {
+      border-color: var(--accent);
+      background: #e8f1fb;
+      color: var(--accent);
+    }
+    .prompt-actions {
+      display: flex;
+      justify-content: flex-start;
+      gap: 6px;
+    }
+    .prompt-actions button {
+      min-height: 32px;
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+    .prompt-help {
+      margin: -2px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.38;
+    }
+    #promptSemanticDe,
+    #videoPrompt {
+      min-height: 112px;
+    }
+    .text-style-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .text-style-grid .wide { grid-column: 1 / -1; }
+    .color-row {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 42px;
+      gap: 6px;
+      align-items: center;
+    }
+    input[type="color"] {
+      min-height: 34px;
+      padding: 2px;
+    }
+    @media (max-width: 900px) {
+      header, .workspace, .reference-grid, .preview-grid, .range-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>Kandidat 10 · Stadtfassade mit Strasse</h1>
+      <p class="subline">Motiv mit Maklerin · 26 Takes · 33,25s · 9:16 Preview</p>
+    </div>
+    <div>
+      <button class="primary" id="exportButton" type="button">Motion JSON exportieren</button>
+    </div>
+  </header>
+  <main>
+    <section class="reference-grid" id="referenceGrid"></section>
+    <section class="workspace">
+      <div class="panel">
+        <div class="panel-head">
+          <h2 id="takeTitle">Take 1</h2>
+          <span id="takeDuration">4s</span>
+        </div>
+        <div class="preview-grid">
+          <div class="portrait" id="startPreview">
+            <span class="badge start">Start</span>
+            <div class="text-overlay" id="startText"><strong></strong><span></span></div>
+            <div class="presenter-mark" id="presenterStart"></div>
+          </div>
+          <div class="portrait" id="endPreview">
+            <span class="badge end">Ende</span>
+            <div class="text-overlay" id="endText"><strong></strong><span></span></div>
+            <div class="presenter-mark" id="presenterEnd"></div>
+          </div>
+        </div>
+        <div class="take-meta" id="takeMeta"></div>
+      </div>
+      <aside class="panel">
+        <div class="panel-head">
+          <h2>Parameter</h2>
+          <span id="savedState">lokal</span>
+        </div>
+        <div class="controls">
+          <label>Bewegung
+            <select id="motionPreset">
+              <option value="opening_push_presenter">Opening Push + Presenter</option>
+              <option value="slow_hold_push">Ruhiger Push</option>
+              <option value="quick_push">Schneller Push</option>
+              <option value="soft_pan">Weicher Pan</option>
+              <option value="direction_slide">Richtungs-Slide</option>
+              <option value="static_hold">Statischer Hold</option>
+            </select>
+          </label>
+          <div class="range-grid">
+            <label><span>Start X <output id="startCxOut"></output></span><input id="startCx" type="range" min="0" max="100" step="1"></label>
+            <label><span>Ende X <output id="endCxOut"></output></span><input id="endCx" type="range" min="0" max="100" step="1"></label>
+            <label><span>Start Y <output id="startCyOut"></output></span><input id="startCy" type="range" min="0" max="100" step="1"></label>
+            <label><span>Ende Y <output id="endCyOut"></output></span><input id="endCy" type="range" min="0" max="100" step="1"></label>
+            <label><span>Start Zoom <output id="startZoomOut"></output></span><input id="startZoom" type="range" min="1" max="2.4" step="0.01"></label>
+            <label><span>Ende Zoom <output id="endZoomOut"></output></span><input id="endZoom" type="range" min="1" max="2.4" step="0.01"></label>
+          </div>
+          <div class="opening-box" id="openingBox">
+            <label><input id="presenterEnabled" type="checkbox"> Maklerin fuer Opening vorbereiten</label>
+            <div class="video-briefing">
+              <label>Kundenmaterial / Referenz fuer die Person
+                <textarea id="customerMaterial" placeholder="Zum Beispiel: Portraitfoto der Maklerin, Outfit, Alter/Wirkung, Haarfarbe, Brille, Corporate-Farben, was im Bild nicht veraendert werden darf ..."></textarea>
+              </label>
+              <label>Kundenprompt Deutsch
+                <textarea id="customerPromptDe" placeholder="So darf der Kunde schreiben: Die Maklerin soll freundlich vor dem Haus stehen, kurz in die Kamera sprechen und die Fassade darf sich nicht veraendern ..."></textarea>
+              </label>
+              <label>Zwischenstand: korrigierte Semantik
+                <textarea id="promptSemanticDe" placeholder="Hier steht der bereinigte deutsche Zwischenstand: missverstaendliche Woerter werden in die richtige Video-Semantik uebertragen."></textarea>
+              </label>
+              <div class="prompt-actions">
+                <button id="preparePromptButton" type="button">Zwischenstand erstellen</button>
+              </div>
+              <label>Prompt-Vorlage
+                <div class="prompt-buttons">
+                  <button type="button" data-prompt-template="video_working_reference">Arbeitsreferenz</button>
+                  <button type="button" data-prompt-template="walk_intro">Maklerin geht ins Bild</button>
+                  <button type="button" data-prompt-template="talking_intro">Maklerin spricht zur Kamera</button>
+                  <button type="button" data-prompt-template="subtle_presence">Dezente Praesenz</button>
+                  <button type="button" data-prompt-template="no_person">Nur Immobilie</button>
+                </div>
+              </label>
+              <label>video prompt Englisch
+                <textarea id="videoPrompt" placeholder="Finaler englischer Video-Prompt ..."></textarea>
+              </label>
+              <label>Negative Prompt / vermeiden
+                <textarea id="videoNegativePrompt" placeholder="Was nicht veraendert oder erzeugt werden soll ..."></textarea>
+              </label>
+              <p class="prompt-help">
+                Ablauf: Der Kunde schreibt Deutsch. Daraus entsteht zuerst ein bereinigter deutscher Zwischenstand mit der richtigen Video-Semantik. Erst danach wird ein kontrollierter englischer Video-Prompt erzeugt. Wichtig sind Person/Referenz, Bewegung, gesprochener Satz und was unveraendert bleiben muss.
+              </p>
+            </div>
+            <details class="text-details" id="textDetails">
+              <summary>Text gestalten</summary>
+              <div class="text-details-body">
+                <label>Opening Text Titel<input id="textTitle" type="text"></label>
+                <label>Opening Text Unterzeile<input id="textSubtitle" type="text"></label>
+                <div class="text-style-grid">
+                  <label>Titel-Schrift
+                    <select id="titleFont"></select>
+                  </label>
+                  <label>Unterzeilen-Schrift
+                    <select id="subtitleFont"></select>
+                  </label>
+                  <label>Titel-Farbe
+                    <span class="color-row">
+                      <input id="titleColorText" value="#ffffff" aria-label="Titel-Farbwert">
+                      <input id="titleColor" type="color" value="#ffffff" aria-label="Titel-Farbe">
+                    </span>
+                  </label>
+                  <label>Unterzeilen-Farbe
+                    <span class="color-row">
+                      <input id="subtitleColorText" value="#ffffff" aria-label="Unterzeile-Farbwert">
+                      <input id="subtitleColor" type="color" value="#ffffff" aria-label="Unterzeile-Farbe">
+                    </span>
+                  </label>
+                  <label><span>Titelgröße <output id="titleSizeOut"></output></span><input id="titleSize" type="range" min="24" max="76" step="1"></label>
+                  <label><span>Unterzeilengröße <output id="subtitleSizeOut"></output></span><input id="subtitleSize" type="range" min="12" max="38" step="1"></label>
+                  <label><span>Titel strecken <output id="titleScaleXOut"></output></span><input id="titleScaleX" type="range" min="60" max="220" step="1"></label>
+                  <label><span>Unterzeile strecken <output id="subtitleScaleXOut"></output></span><input id="subtitleScaleX" type="range" min="60" max="220" step="1"></label>
+                  <label><span>Textbreite <output id="textWidthOut"></output></span><input id="textWidth" type="range" min="36" max="100" step="1"></label>
+                  <label><span>Zeilenabstand <output id="lineGapOut"></output></span><input id="lineGap" type="range" min="0" max="32" step="1"></label>
+                  <label><span>Horizontal <output id="textXOut"></output></span><input id="textX" type="range" min="8" max="92" step="1"></label>
+                  <label><span>Höhe <output id="textYOut"></output></span><input id="textY" type="range" min="8" max="92" step="1"></label>
+                  <label class="wide">Textbewegung
+                    <select id="textMotion">
+                      <option value="static">Text statisch</option>
+                      <option value="slide_in_left">Text von links</option>
+                      <option value="slide_in_right">Text von rechts</option>
+                      <option value="drift_with_crop">Text leicht mitziehen</option>
+                    </select>
+                  </label>
+                </div>
+                <label>Timing
+                  <select id="textTiming">
+                    <option value="text_then_presenter">erst Text, dann Presenter</option>
+                    <option value="presenter_then_text">erst Presenter, dann Text</option>
+                    <option value="text_behind_presenter">Text hinter Presenter</option>
+                  </select>
+                </label>
+              </div>
+            </details>
+          </div>
+          <label>Notiz<textarea id="notes" placeholder="Bewegung, Crop, Text, Render-Hinweis ..."></textarea></label>
+        </div>
+      </aside>
+    </section>
+    <section class="timeline" id="timeline"></section>
+  </main>
+  <script src="/video-workbench/shared/project-store.js"></script>
+  <script>
+    const data = {"cutplan": {"version": "opening_video_cutplan_locked_v1", "created_at": "2026-07-08T09:30:00", "source_export": "/Users/danielfortmann/Downloads/opening-video-candidate-10-motif-selection.json", "original_export_copy": "/Users/danielfortmann/Downloads/opening-video-candidate-10-motif-selection.json", "candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "selected_count": 26, "timeline_count": 26, "timeline_duration_seconds": 33.25, "estimated_duration_hint": "ca. 45 Sekunden", "estimate_label": "26 belegte Slots · reicht für ca. 45 Sekunden", "estimate_note": "Gute Basis für einen 45-Sekunden-Film oder einen sehr dichten 30-Sekunden-Schnitt."}, "timeline": [{"order": 1, "slot_role": "Startbild", "slot_original_role": "Startbild", "slot_hint": "Startbild / Opening", "slot_original_hint": "Außenansicht, ruhig", "slot_kind": "hook", "filename": "20260625-115605000-Aussenansicht-DSF2392.jpg", "dsf_stem": "DSF2392", "room_label_de": "aussenansicht", "scene_type": "exterior", "suggested_motion": "Opening Push / ruhiger Text-Hook", "suggested_duration": "4s", "duration_seconds": 4, "qwen_alt_text_de": "Gebäude an einer Straßenecke mit roten Fenstern und Türen, geparkte Autos und Bäume im Vordergrund.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-115605000-Aussenansicht-DSF2392.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-115605000-Aussenansicht-DSF2392.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-115605000-Aussenansicht-DSF2392.jpg"}, {"order": 2, "slot_role": "Take", "slot_original_role": "Hinein ins Haus", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "Tür, Flur oder Weg hinein", "slot_kind": "info", "filename": "20260625-115907000-Aussenansicht-DSF2397.jpg", "dsf_stem": "DSF2397", "room_label_de": "aussenansicht", "scene_type": "exterior", "suggested_motion": "weicher Pan oder Push", "suggested_duration": "1,5s", "duration_seconds": 1.5, "qwen_alt_text_de": "Fassade eines mehrstöckigen Wohnhauses mit roten Fenstern und geparkten Autos vor der Haustür.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-115907000-Aussenansicht-DSF2397.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-115907000-Aussenansicht-DSF2397.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-115907000-Aussenansicht-DSF2397.jpg"}, {"order": 3, "slot_role": "Take", "slot_original_role": "Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "schneller Eindruck", "slot_kind": "pulse", "filename": "20260625-115955000-Aussenansicht-DSF2402.jpg", "dsf_stem": "DSF2402", "room_label_de": "aussenansicht", "scene_type": "exterior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Fassade eines Hauses mit roter Eingangstür, roten Fenstern und Fahrrädern davor.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-115955000-Aussenansicht-DSF2402.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-115955000-Aussenansicht-DSF2402.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-115955000-Aussenansicht-DSF2402.jpg"}, {"order": 4, "slot_role": "Take", "slot_original_role": "Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "Kontrast zum vorigen", "slot_kind": "pulse", "filename": "20260625-121547000-Wohnzimmer-DSF2412.jpg", "dsf_stem": "DSF2412", "room_label_de": "wohnzimmer", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Offene Wohnfläche mit Holzboden, Sofa vor Ziegelwand, Tür im Vordergrund und Garderobe rechts.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-121547000-Wohnzimmer-DSF2412.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-121547000-Wohnzimmer-DSF2412.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-121547000-Wohnzimmer-DSF2412.jpg"}, {"order": 5, "slot_role": "Take", "slot_original_role": "Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "Detail oder Blick", "slot_kind": "info", "filename": "20260625-121342000-Wohnzimmer-DSF2407.jpg", "dsf_stem": "DSF2407", "room_label_de": "wohnzimmer", "scene_type": "interior", "suggested_motion": "weicher Pan oder Push", "suggested_duration": "2s", "duration_seconds": 2, "qwen_alt_text_de": "Wohnzimmer mit grauem Sofa, Holzboden und sichtbarer Backsteinwand, offen zum Küchenbereich.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-121342000-Wohnzimmer-DSF2407.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-121342000-Wohnzimmer-DSF2407.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-121342000-Wohnzimmer-DSF2407.jpg"}, {"order": 6, "slot_role": "Take", "slot_original_role": "Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "neuer Eindruck", "slot_kind": "pulse", "filename": "20260625-121943000-Wohnzimmer-DSF2422.jpg", "dsf_stem": "DSF2422", "room_label_de": "wohnzimmer", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Wohnraum mit Holzboden, Backsteinwand, Fernseher und Sitzgelegenheit, Blick in Küche und Balkon.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-121943000-Wohnzimmer-DSF2422.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-121943000-Wohnzimmer-DSF2422.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-121943000-Wohnzimmer-DSF2422.jpg"}, {"order": 7, "slot_role": "Take", "slot_original_role": "Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "Tiefe oder Achse", "slot_kind": "pulse", "filename": "20260625-122008000-Kueche-DSF2427.jpg", "dsf_stem": "DSF2427", "room_label_de": "kueche", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Modern eingerichtete Küche mit Backsteinwand, Holzboden und Kücheninsel auf einem Texaco-Fass. Hintergrund zeigt Balkon.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122008000-Kueche-DSF2427.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122008000-Kueche-DSF2427.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122008000-Kueche-DSF2427.jpg"}, {"order": 8, "slot_role": "Take", "slot_original_role": "Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "kurzer Reveal", "slot_kind": "pulse", "filename": "20260625-122148000-Kueche-DSF2442.jpg", "dsf_stem": "DSF2442", "room_label_de": "kueche", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Modern eingerichtete Küche mit Backsteinwand, weißen Schränken und Gasherd auf Insel.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122148000-Kueche-DSF2442.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122148000-Kueche-DSF2442.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122148000-Kueche-DSF2442.jpg"}, {"order": 9, "slot_role": "Take", "slot_original_role": "Wichtiges Bild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "lang sichtbar", "slot_kind": "anchor", "filename": "20260625-122205000-Kueche-DSF2447.jpg", "dsf_stem": "DSF2447", "room_label_de": "kueche", "scene_type": "interior", "suggested_motion": "ruhiger Push mit Atem", "suggested_duration": "3s", "duration_seconds": 3, "qwen_alt_text_de": "Küche mit weißen Schränken, Backsteinwand, Edelstahl-Kühlschrank und Waschmaschine, Holzboden und Balkontür.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122205000-Kueche-DSF2447.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122205000-Kueche-DSF2447.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122205000-Kueche-DSF2447.jpg"}, {"order": 10, "slot_role": "Take", "slot_original_role": "Überblick", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "Raumzusammenhang", "slot_kind": "pulse", "filename": "20260625-122303000-Kueche-DSF2462.jpg", "dsf_stem": "DSF2462", "room_label_de": "kueche", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Küche mit Holzboden, Edelstahl-Kochinsel und Texaco-Fass als Stuhl, im Hintergrund Wohnzimmer mit Fenstern.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122303000-Kueche-DSF2462.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122303000-Kueche-DSF2462.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122303000-Kueche-DSF2462.jpg"}, {"order": 11, "slot_role": "Take", "slot_original_role": "Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "kurzer Akzent", "slot_kind": "pulse", "filename": "20260625-122335000-Kueche-DSF2467.jpg", "dsf_stem": "DSF2467", "room_label_de": "kueche", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Küchenbereich mit Holzboden, Edelstahl-Hängelampe und Kochinsel aus Beton und Holz.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122335000-Kueche-DSF2467.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122335000-Kueche-DSF2467.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122335000-Kueche-DSF2467.jpg"}, {"order": 12, "slot_role": "Take", "slot_original_role": "Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "neue Richtung", "slot_kind": "info", "filename": "20260625-122408000-Esszimmer-DSF2472.jpg", "dsf_stem": "DSF2472", "room_label_de": "esszimmer", "scene_type": "interior", "suggested_motion": "weicher Pan oder Push", "suggested_duration": "1,5s", "duration_seconds": 1.5, "qwen_alt_text_de": "Esszimmer mit Holztisch, Stühlen, Pflanze und Fensterblick auf Dachziegel.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122408000-Esszimmer-DSF2472.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122408000-Esszimmer-DSF2472.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122408000-Esszimmer-DSF2472.jpg"}, {"order": 13, "slot_role": "Take", "slot_original_role": "Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "kurzer Akzent", "slot_kind": "pulse", "filename": "20260625-122428000-Esszimmer-DSF2477.jpg", "dsf_stem": "DSF2477", "room_label_de": "esszimmer", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Esszimmer mit Holztisch, zwei Stühlen, Pflanze am Fenster und moderner Deckenleuchte.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122428000-Esszimmer-DSF2477.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122428000-Esszimmer-DSF2477.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122428000-Esszimmer-DSF2477.jpg"}, {"order": 14, "slot_role": "Take", "slot_original_role": "Wichtiges Bild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "zweites wichtiges Bild", "slot_kind": "pulse", "filename": "20260625-122603000-Bad-DSF2482.jpg", "dsf_stem": "DSF2482", "room_label_de": "bad", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Badezimmer mit weißem Waschbecken, Spiegel und WC vor Fenster mit Holzverkleidung.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122603000-Bad-DSF2482.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122603000-Bad-DSF2482.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122603000-Bad-DSF2482.jpg"}, {"order": 15, "slot_role": "Take", "slot_original_role": "Verbindung", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "Richtung Schluss", "slot_kind": "info", "filename": "20260625-122930000-Esszimmer-DSF2492.jpg", "dsf_stem": "DSF2492", "room_label_de": "esszimmer", "scene_type": "interior", "suggested_motion": "weicher Pan oder Push", "suggested_duration": "1,5s", "duration_seconds": 1.5, "qwen_alt_text_de": "Esszimmer mit Holztisch, zwei Stühlen, Pflanze und Fenster im Hintergrund.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122930000-Esszimmer-DSF2492.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122930000-Esszimmer-DSF2492.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122930000-Esszimmer-DSF2492.jpg"}, {"order": 16, "slot_role": "Take", "slot_original_role": "Vor dem Schluss", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "außen oder Übergang", "slot_kind": "pulse", "filename": "20260625-123218000-Flur-Diele-DSF2497.jpg", "dsf_stem": "DSF2497", "room_label_de": "flur_diele", "scene_type": "interior", "suggested_motion": "Slide entlang der Richtung", "suggested_duration": "1,25s", "duration_seconds": 1.25, "qwen_alt_text_de": "Flur mit Holzboden, Treppe, Wandbild und schwarzer Kommode unter der Treppe.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123218000-Flur-Diele-DSF2497.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123218000-Flur-Diele-DSF2497.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123218000-Flur-Diele-DSF2497.jpg"}, {"order": 17, "slot_role": "Take", "slot_original_role": "Schlussbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "Außen, andere Perspektive", "slot_kind": "pulse", "filename": "20260625-123710000-Flur-Diele-DSF2522.jpg", "dsf_stem": "DSF2522", "room_label_de": "flur_diele", "scene_type": "interior", "suggested_motion": "ruhiger End-Hold", "suggested_duration": "1,25s", "duration_seconds": 1.25, "qwen_alt_text_de": "Flur mit Holzboden, Schiebetüren, Wandbild und Zugang zu Bad sowie Fitnessbereich.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123710000-Flur-Diele-DSF2522.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123710000-Flur-Diele-DSF2522.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123710000-Flur-Diele-DSF2522.jpg"}, {"order": 18, "slot_role": "Take", "slot_original_role": "Zusatz-Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "schneller Eindruck", "slot_kind": "pulse", "filename": "20260625-123735000-Bad-DSF2527.jpg", "dsf_stem": "DSF2527", "room_label_de": "bad", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Badezimmer mit Holzwaschtisch, Toilette und Dachfenster, dekoriert mit Pflanze und Statuen.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123735000-Bad-DSF2527.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123735000-Bad-DSF2527.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123735000-Bad-DSF2527.jpg"}, {"order": 19, "slot_role": "Take", "slot_original_role": "Zusatz-Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "schneller Eindruck", "slot_kind": "pulse", "filename": "20260625-123824000-Dachboden-DSF2532.jpg", "dsf_stem": "DSF2532", "room_label_de": "dachboden", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Dachboden mit Holzboden, Dachschräge, Waschbecken und Wäscheständer an der Wand.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123824000-Dachboden-DSF2532.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123824000-Dachboden-DSF2532.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123824000-Dachboden-DSF2532.jpg"}, {"order": 20, "slot_role": "Take", "slot_original_role": "Zusatz-Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "schneller Eindruck", "slot_kind": "pulse", "filename": "20260625-123849000-Dachboden-DSF2537.jpg", "dsf_stem": "DSF2537", "room_label_de": "dachboden", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Dachbodenraum mit Holzboden, Dachfenster, Pflanze und Wandbild an der schrägen Wand.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123849000-Dachboden-DSF2537.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123849000-Dachboden-DSF2537.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123849000-Dachboden-DSF2537.jpg"}, {"order": 21, "slot_role": "Take", "slot_original_role": "Zusatz-Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "schneller Eindruck", "slot_kind": "pulse", "filename": "20260625-123947000-Bad-DSF2542.jpg", "dsf_stem": "DSF2542", "room_label_de": "bad", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Badezimmer mit Dusche, Holzfliesen, Wandbild und WC im Hintergrund.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123947000-Bad-DSF2542.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123947000-Bad-DSF2542.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123947000-Bad-DSF2542.jpg"}, {"order": 22, "slot_role": "Take", "slot_original_role": "Zusatz-Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "schneller Eindruck", "slot_kind": "info", "filename": "20260625-124016000-Bad-DSF2547.jpg", "dsf_stem": "DSF2547", "room_label_de": "bad", "scene_type": "interior", "suggested_motion": "weicher Pan oder Push", "suggested_duration": "1,5s", "duration_seconds": 1.5, "qwen_alt_text_de": "Badezimmer mit Holz- und Beton-Elementen, Wandwaschbecken, Toilette und dekorativen Gegenständen.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-124016000-Bad-DSF2547.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-124016000-Bad-DSF2547.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-124016000-Bad-DSF2547.jpg"}, {"order": 23, "slot_role": "Take", "slot_original_role": "Zusatz-Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "schneller Eindruck", "slot_kind": "pulse", "filename": "20260625-123404000-Schlafzimmer-DSF2502.jpg", "dsf_stem": "DSF2502", "room_label_de": "schlafzimmer", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Schlafzimmer mit Holzbalken, Bett auf Podest, Boxsack und Elefantenbild an der Wand.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123404000-Schlafzimmer-DSF2502.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123404000-Schlafzimmer-DSF2502.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123404000-Schlafzimmer-DSF2502.jpg"}, {"order": 24, "slot_role": "Take", "slot_original_role": "Zusatz-Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "schneller Eindruck", "slot_kind": "info", "filename": "20260625-123423000-Schlafzimmer-DSF2507.jpg", "dsf_stem": "DSF2507", "room_label_de": "schlafzimmer", "scene_type": "interior", "suggested_motion": "weicher Pan oder Push", "suggested_duration": "1,5s", "duration_seconds": 1.5, "qwen_alt_text_de": "Schlafzimmer mit Dachschräge, Holzbalken, Bett, Boxsack und Fahrrad an der Wand.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123423000-Schlafzimmer-DSF2507.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123423000-Schlafzimmer-DSF2507.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123423000-Schlafzimmer-DSF2507.jpg"}, {"order": 25, "slot_role": "Take", "slot_original_role": "Zusatz-Kurzbild", "slot_hint": "neutraler Take mit frei gesetzter Clip-Dauer", "slot_original_hint": "schneller Eindruck", "slot_kind": "pulse", "filename": "20260625-123541000-Unklar-DSF2512.jpg", "dsf_stem": "DSF2512", "room_label_de": "sonstiges_unklar", "scene_type": "interior", "suggested_motion": "kurzer Akzent / schneller Push", "suggested_duration": "0,75s", "duration_seconds": 0.75, "qwen_alt_text_de": "Raum mit Holzbalken, Backsteinwand, Boxsack und großem Elefantenbild an der Wand.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123541000-Unklar-DSF2512.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123541000-Unklar-DSF2512.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123541000-Unklar-DSF2512.jpg"}, {"order": 26, "slot_role": "Schlussbild", "slot_original_role": "Zusatz-Kurzbild", "slot_hint": "Schlussbild / Ending", "slot_original_hint": "schneller Eindruck", "slot_kind": "end", "filename": "20260625-122241000-Balkon-Terrasse-DSF2457.jpg", "dsf_stem": "DSF2457", "room_label_de": "balkon_terrasse", "scene_type": "exterior", "suggested_motion": "Reveal nach außen", "suggested_duration": "3s", "duration_seconds": 3, "qwen_alt_text_de": "Balkon mit Holztisch, Sonnenschirm und Blick auf angrenzende Häuser mit roten Fenstern.", "image_src": "../all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122241000-Balkon-Terrasse-DSF2457.jpg", "working_file": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122241000-Balkon-Terrasse-DSF2457.jpg", "source_file": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122241000-Balkon-Terrasse-DSF2457.jpg"}], "defaults": {"1": {"take_order": 1, "motion_preset": "opening_push_presenter", "start": {"cx": 48, "cy": 52, "zoom": 1.0}, "end": {"cx": 52, "cy": 50, "zoom": 1.18}, "text": {"enabled": true, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": true, "mode": "presenter_planned", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "2": {"take_order": 2, "motion_preset": "soft_pan", "start": {"cx": 48, "cy": 50, "zoom": 1.06}, "end": {"cx": 52, "cy": 50, "zoom": 1.12}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "3": {"take_order": 3, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "4": {"take_order": 4, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "5": {"take_order": 5, "motion_preset": "soft_pan", "start": {"cx": 48, "cy": 50, "zoom": 1.06}, "end": {"cx": 52, "cy": 50, "zoom": 1.12}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "6": {"take_order": 6, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "7": {"take_order": 7, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "8": {"take_order": 8, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "9": {"take_order": 9, "motion_preset": "slow_hold_push", "start": {"cx": 50, "cy": 50, "zoom": 1.02}, "end": {"cx": 50, "cy": 50, "zoom": 1.12}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "10": {"take_order": 10, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "11": {"take_order": 11, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "12": {"take_order": 12, "motion_preset": "soft_pan", "start": {"cx": 48, "cy": 50, "zoom": 1.06}, "end": {"cx": 52, "cy": 50, "zoom": 1.12}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "13": {"take_order": 13, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "14": {"take_order": 14, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "15": {"take_order": 15, "motion_preset": "soft_pan", "start": {"cx": 48, "cy": 50, "zoom": 1.06}, "end": {"cx": 52, "cy": 50, "zoom": 1.12}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "16": {"take_order": 16, "motion_preset": "direction_slide", "start": {"cx": 46, "cy": 50, "zoom": 1.08}, "end": {"cx": 54, "cy": 50, "zoom": 1.14}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "17": {"take_order": 17, "motion_preset": "direction_slide", "start": {"cx": 46, "cy": 50, "zoom": 1.08}, "end": {"cx": 54, "cy": 50, "zoom": 1.14}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "18": {"take_order": 18, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "19": {"take_order": 19, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "20": {"take_order": 20, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "21": {"take_order": 21, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "22": {"take_order": 22, "motion_preset": "soft_pan", "start": {"cx": 48, "cy": 50, "zoom": 1.06}, "end": {"cx": 52, "cy": 50, "zoom": 1.12}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "23": {"take_order": 23, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "24": {"take_order": 24, "motion_preset": "soft_pan", "start": {"cx": 48, "cy": 50, "zoom": 1.06}, "end": {"cx": 52, "cy": 50, "zoom": 1.12}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "25": {"take_order": 25, "motion_preset": "quick_push", "start": {"cx": 50, "cy": 50, "zoom": 1.05}, "end": {"cx": 50, "cy": 50, "zoom": 1.18}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}, "26": {"take_order": 26, "motion_preset": "slow_hold_push", "start": {"cx": 50, "cy": 50, "zoom": 1.02}, "end": {"cx": 50, "cy": 50, "zoom": 1.12}, "text": {"enabled": false, "title": "Immobilienvideo", "subtitle": "mit Persoenlichkeit", "timing": "text_then_presenter"}, "presenter": {"enabled": false, "mode": "none", "note": "Maklerin und Stadtfassade als aktuelles Arbeitsmotiv."}, "notes": ""}}, "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json", "presenter_refs": {"preferred_video": {"path": "internal-reference", "src": "/demo/video-studio/candidate-10-maklerin-first-preview.mp4", "exists": true}, "preferred_frame_sheet": {"path": "internal-reference", "src": "ref/presenter_reference_frame_sheet.jpg", "exists": true}, "preferred_face_sheet": {"path": "internal-reference", "src": "ref/presenter_reference_face_sheet.jpg", "exists": true}, "first_frame": {"path": "internal-reference", "src": "ref/presenter_reference_first_frame_720x1280.jpg", "exists": true}, "background_lock_video": {"path": "internal-reference", "src": "/demo/video-studio/candidate-10-maklerin-first-preview.mp4", "exists": true}, "sam3_composite_video": {"path": "internal-reference", "src": "/demo/video-studio/candidate-10-maklerin-first-preview.mp4", "exists": true}}};
+    const storageKey = `candidate-${data.cutplan.candidate_index}-motion-definition-v1`;
+    let state = loadState();
+    let activeOrder = 1;
+    const fontCatalog = [
+      "Inter",
+      "Manrope",
+      "Montserrat",
+      "Playfair Display",
+      "Bebas Neue",
+      "Oswald",
+      "Sora",
+      "Space Grotesk",
+      "Cormorant Garamond",
+      "Libre Baskerville",
+      "Dancing Script",
+      "Caveat",
+      "Fredoka",
+      "Baloo 2",
+    ];
+    const promptTemplates = {
+      video_working_reference: {
+        prompt: `Create a realistic 4-second vertical 9:16 real estate opening video from the provided first frame.
+
+This is a short opener for a real estate video product demo. Use the configured video rendering route.
+
+Camera and background: keep the real property background as stable and source-faithful as possible. Preserve the building facade, red windows, red doors, parked car, street, curb, trees, shadows, perspective, colors, and architectural details. The camera may perform only a gentle smooth left-to-right pan with no zoom and no perspective change. Do not invent a different house or street.
+
+Presenter: keep the same woman, face, outfit, body scale, and lighting. She is a full-body real estate presenter in a dark modern business suit. She walks slowly but naturally at normal real-life speed, with grounded feet and plausible contact shadow. She looks toward the camera with a confident friendly expression.
+
+Speech and lips: the woman speaks the following exact short German sentence in a natural female German voice. Her lips and face should move subtly in sync with the sentence, without exaggerated acting.
+Presenter says: "Ihr Makler wird Teil des Videos."
+
+No text, subtitles, captions, logo, watermark, or graphic overlay. Text and branding will be added later as separate layers.`,
+        negativePrompt: "background change, changed house, different building, new facade, altered windows, altered doors, new roof, different street, different parked cars, moved cars, changed tree layout, warped architecture, melting facade, bending windows, perspective change, zoom, dolly, slow motion, frozen pose, face morphing, changing identity, deformed face, blurry face, distorted eyes, bad teeth, bad hands, extra fingers, broken legs, floating feet, sliding feet, changing body scale, doll-like proportions, extra people, generated text, subtitles, captions, logo, watermark, cartoon style, fashion runway, dancing, exaggerated mouth movement, wrong language",
+      },
+      walk_intro: {
+        prompt: "Eine freundliche Immobilienmaklerin steht vor der Stadtfassade und geht ruhig ins Bild. Natuerliche Bewegung, realistisches Licht, Gebaeude und Strasse bleiben unveraendert.",
+        negativePrompt: "",
+      },
+      talking_intro: {
+        prompt: "Eine freundliche Immobilienmaklerin steht vor der Stadtfassade und spricht kurz direkt in die Kamera. Natuerliche Lippenbewegung, professioneller Auftritt, reale Umgebung bleibt stabil.",
+        negativePrompt: "",
+      },
+      subtle_presence: {
+        prompt: "Dezente Maklerin-Praesenz vor der Immobilie, ruhiger Blick zur Kamera, keine uebertriebene Gestik, Fokus bleibt auf Fassade und Eingang.",
+        negativePrompt: "",
+      },
+      no_person: {
+        prompt: "Nur die Immobilie und Strassenszene animieren. Keine Person hinzufuegen. Ruhige Kamerabewegung, realistische Perspektive, Gebaeude bleibt unveraendert.",
+        negativePrompt: "person, presenter, face, body, generated text, subtitles, captions, logo, watermark, changed facade, changed windows, changed doors, different street, perspective change",
+      },
+    };
+
+    function fontStack(family) {
+      return `"${family}", Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif`;
+    }
+
+    function clamp(value, min, max) {
+      return Math.min(max, Math.max(min, value));
+    }
+
+    function normalizeHex(value, fallback = "#ffffff") {
+      const raw = String(value || "").trim();
+      if (/^#[0-9a-f]{6}$/i.test(raw)) return raw;
+      if (/^[0-9a-f]{6}$/i.test(raw)) return `#${raw}`;
+      return fallback;
+    }
+
+    function ensureText(motion) {
+      if (!motion.text) motion.text = {};
+      motion.text.enabled = activeOrder === 1 ? true : Boolean(motion.text.enabled);
+      motion.text.title = motion.text.title || "";
+      motion.text.subtitle = motion.text.subtitle || "";
+      motion.text.timing = motion.text.timing || "text_then_presenter";
+      motion.text.titleFont = motion.text.titleFont || "Playfair Display";
+      motion.text.subtitleFont = motion.text.subtitleFont || "Inter";
+      motion.text.titleColor = normalizeHex(motion.text.titleColor, "#ffffff");
+      motion.text.subtitleColor = normalizeHex(motion.text.subtitleColor, "#ffffff");
+      motion.text.titleSize = clamp(Number(motion.text.titleSize || 42), 24, 76);
+      motion.text.subtitleSize = clamp(Number(motion.text.subtitleSize || 20), 12, 38);
+      motion.text.titleScaleX = clamp(Number(motion.text.titleScaleX ?? 1), .6, 2.2);
+      motion.text.subtitleScaleX = clamp(Number(motion.text.subtitleScaleX ?? 1), .6, 2.2);
+      motion.text.width = clamp(Number(motion.text.width ?? .86), .36, 1);
+      motion.text.x = clamp(Number(motion.text.x ?? .5), .08, .92);
+      motion.text.y = clamp(Number(motion.text.y ?? .18), .08, .92);
+      motion.text.lineGap = clamp(Number(motion.text.lineGap ?? 8), 0, 32);
+      motion.text.motion = motion.text.motion || "static";
+      return motion.text;
+    }
+
+    function ensureVideoBriefing(motion) {
+      if (!motion.videoBriefing) motion.videoBriefing = {};
+      motion.videoBriefing.customerMaterial = motion.videoBriefing.customerMaterial || "";
+      motion.videoBriefing.customerPromptDe = motion.videoBriefing.customerPromptDe || "";
+      motion.videoBriefing.semanticPromptDe = motion.videoBriefing.semanticPromptDe || "";
+      motion.videoBriefing.promptTemplate = motion.videoBriefing.promptTemplate || "";
+      motion.videoBriefing.prompt = motion.videoBriefing.prompt || "";
+      motion.videoBriefing.negativePrompt = motion.videoBriefing.negativePrompt || "";
+      return motion.videoBriefing;
+    }
+
+    function cleanGermanPrompt(value) {
+      return String(value || "")
+        .replace(/\s+/g, " ")
+        .replace(/\bpräsente\b/gi, "Presenter")
+        .replace(/\bpraesente\b/gi, "Presenter")
+        .replace(/\bPräsenter\b/g, "Presenter")
+        .replace(/\bPraesenter\b/g, "Presenter")
+        .trim();
+    }
+
+    function semanticNotesForGermanPrompt(value) {
+      const source = String(value || "").toLowerCase();
+      const notes = [];
+      if (/(makler|maklerin|presenter|person|gesicht|portrait|porträt)/i.test(source)) {
+        notes.push("Person: als Immobilien-Presenter verstehen, Identitaet/Gesicht/Outfit stabil halten.");
+      }
+      if (/(sprech|sprich|sagt|sagen|lippen|stimme|satz|text)/i.test(source)) {
+        notes.push("Sprache: deutsche Sprechzeile getrennt erfassen; Lippenbewegung nur subtil und synchron, keine uebertriebene Mimik.");
+      }
+      if (/(fassade|haus|gebaeude|gebäude|fenster|tuer|tür|strasse|straße|auto|baum|bäume|baeume)/i.test(source)) {
+        notes.push("Immobilie: Gebaeude, Fassade, Fenster, Tueren, Strasse, Autos, Baeume und Perspektive nicht neu erfinden.");
+      }
+      if (/(zoom|pan|kamera|fahrt|bewegung|links|rechts|rein|raus|gehen|läuft|laeuft|laufen)/i.test(source)) {
+        notes.push("Kamera/Bewegung: nur ruhige realistische 9:16-Bewegung; keine Perspektivspruenge, kein unkontrollierter Zoom.");
+      }
+      if (/(logo|schrift|untertitel|text|wasserzeichen|caption)/i.test(source)) {
+        notes.push("Overlay: keine generierten Texte, Untertitel, Logos oder Wasserzeichen im Video; Text kommt spaeter als separate Ebene.");
+      }
+      if (!notes.length) {
+        notes.push("Noch keine klare Video-Semantik erkannt; Person, Bewegung, Sprechzeile und unveraenderliche Bildbereiche genauer beschreiben.");
+      }
+      return notes;
+    }
+
+    function extractGermanSpokenLine(value) {
+      const source = String(value || "");
+      const quoted = source.match(/[\"“]([^\"”]{3,90})[\"”]/);
+      if (quoted) return quoted[1].trim();
+      const says = source.match(/(?:sagt|sage|sprechen|spricht|satz|text)\s*[:\-]\s*([^.\n!?]+[.!?]?)/i);
+      if (says) return says[1].trim();
+      return "Immobilienvideo mit Persoenlichkeit.";
+    }
+
+    function createSemanticGermanPrompt(briefing) {
+      const customerPrompt = cleanGermanPrompt(briefing.customerPromptDe);
+      const material = cleanGermanPrompt(briefing.customerMaterial);
+      const spokenLine = extractGermanSpokenLine(customerPrompt);
+      const notes = semanticNotesForGermanPrompt(`${customerPrompt} ${material}`);
+      return [
+        "Kundenabsicht, bereinigt:",
+        customerPrompt || "Noch kein Kundenprompt eingetragen.",
+        "",
+        "Referenzmaterial / Person:",
+        material || "Noch keine Personen-/Materialreferenz eingetragen.",
+        "",
+        "Sprechzeile Deutsch:",
+        `"${spokenLine}"`,
+        "",
+        "Semantik-Korrekturen:",
+        ...notes.map((note) => `- ${note}`),
+      ].join("\n");
+    }
+
+    function createEnglishVideoPromptFromSemantic(semanticPromptDe) {
+      const spokenLine = extractGermanSpokenLine(semanticPromptDe);
+      return `Create a realistic 4-second vertical 9:16 real estate opening video from the provided first frame.
+
+This prompt was created from a German customer brief through a semantic normalization step. Use the normalized meaning, not a literal word-by-word translation.
+
+Camera and background: keep the real property background as stable and source-faithful as possible. Preserve the building facade, windows, doors, parked cars, street, curb, trees, shadows, perspective, colors, and architectural details. The camera may perform only a gentle smooth pan or hold that matches the selected motion settings. Do not invent a different house or street.
+
+Presenter: if a presenter/person reference is provided, keep the same person, face, outfit, body scale, and lighting. The person should behave like a professional real estate presenter, with natural posture, grounded feet, plausible contact shadow, and a confident friendly expression.
+
+Speech and lips: if speech is requested, the presenter speaks this exact short German sentence in a natural female German voice. Her lips and face should move subtly in sync with the sentence, without exaggerated acting.
+Presenter says: "${spokenLine}"
+
+No generated text, subtitles, captions, logo, watermark, or graphic overlay. Text and branding will be added later as separate layers.`;
+    }
+
+    function populateFontControls() {
+      const options = fontCatalog.map((font) => `<option value="${font}" style="font-family:${fontStack(font)}">${font}</option>`).join("");
+      document.getElementById("titleFont").innerHTML = options;
+      document.getElementById("subtitleFont").innerHTML = options;
+    }
+
+    function loadState() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+        return { ...data.defaults, ...saved };
+      } catch (error) {
+        return { ...data.defaults };
+      }
+    }
+
+    function saveState() {
+      localStorage.setItem(storageKey, JSON.stringify(state));
+      document.getElementById("savedState").textContent = "gespeichert";
+      window.VideoWorkbenchProject?.saveSectionDebounced("presenter", () => buildPresenterPayload(), {
+        page: "maklerin",
+        sourceProduct: "workbench",
+      }, 500);
+    }
+
+    function buildPresenterPayload() {
+      return {
+        version: `candidate_${data.cutplan.candidate_index}_presenter_video_definition_v1`,
+        saved_at: new Date().toISOString(),
+        source_cutplan: data.source_cutplan,
+        presenter_refs: data.presenter_refs,
+        candidate: data.cutplan,
+        storage_key: storageKey,
+        timeline: data.timeline.map((item) => ({
+          ...item,
+          motion: state[String(item.order)] || data.defaults[String(item.order)],
+        })),
+      };
+    }
+
+    function buildPromptPipelinePayload() {
+      const motion = activeMotion();
+      const briefing = ensureVideoBriefing(motion);
+      return {
+        version: "candidate_10_prompt_pipeline_v1",
+        saved_at: new Date().toISOString(),
+        candidate_index: data.cutplan.candidate_index,
+        candidate_label: data.cutplan.candidate_label,
+        customer_material_de: briefing.customerMaterial,
+        customer_prompt_de: briefing.customerPromptDe,
+        semantic_prompt_de: briefing.semanticPromptDe,
+        video_prompt_en: briefing.prompt,
+        video_negative_prompt_en: briefing.negativePrompt,
+        prompt_template: briefing.promptTemplate,
+      };
+    }
+
+    function activeItem() {
+      return data.timeline.find((item) => Number(item.order) === activeOrder) || data.timeline[0];
+    }
+
+    function activeMotion() {
+      if (!state[String(activeOrder)]) state[String(activeOrder)] = data.defaults[String(activeOrder)];
+      ensureText(state[String(activeOrder)]);
+      ensureVideoBriefing(state[String(activeOrder)]);
+      return state[String(activeOrder)];
+    }
+
+    function fmt(value) {
+      const rounded = Math.round(Number(value) * 100) / 100;
+      return Number.isInteger(rounded) ? String(rounded) : String(rounded).replace(".", ",");
+    }
+
+    function backgroundStyle(el, item, crop) {
+      el.style.backgroundImage = `url("${item.image_src}")`;
+      el.style.backgroundSize = `auto ${Number(crop.zoom) * 100}%`;
+      el.style.backgroundPosition = `${crop.cx}% ${crop.cy}%`;
+    }
+
+    function renderTimeline() {
+      const root = document.getElementById("timeline");
+      root.innerHTML = data.timeline.map((item) => `
+        <button class="take ${Number(item.order) === activeOrder ? "active" : ""}" data-order="${item.order}" type="button">
+          <img src="${item.image_src}" alt="${item.qwen_alt_text_de || ""}" loading="lazy">
+          <strong>${item.order} · ${item.slot_role} · ${fmt(item.duration_seconds)}s</strong>
+          <span>${item.room_label_de || "-"}</span>
+        </button>
+      `).join("");
+      root.querySelectorAll("[data-order]").forEach((button) => {
+        button.addEventListener("click", () => {
+          activeOrder = Number(button.dataset.order);
+          render();
+        });
+      });
+    }
+
+    function mediaTag(ref, type, alt) {
+      if (!ref?.exists) return `<p>Datei fehlt: ${ref?.path || "-"}</p>`;
+      if (type === "video") return `<video src="${ref.src}" controls playsinline></video>`;
+      return `<img src="${ref.src}" alt="${alt}">`;
+    }
+
+    function renderReferences() {
+      const refs = data.presenter_refs || {};
+      document.getElementById("referenceGrid").innerHTML = `
+        <article class="reference-card">
+          <h2>Video-Opener mit Maklerin</h2>
+          ${mediaTag(refs.preferred_video, "video", "Video-Opener")}
+          <p>Diese Variante ist die Arbeitsreferenz fuer Maklerin, Lippenbewegung und Opening-Gefuehl.</p>
+        </article>
+        <article class="reference-card">
+          <h2>Presenter First Frame</h2>
+          ${mediaTag(refs.first_frame, "image", "Presenter First Frame")}
+          <p>Startbild/Komposition fuer die Person im Motiv.</p>
+        </article>
+        <article class="reference-card wide">
+          <h2>Frame Sheet</h2>
+          ${mediaTag(refs.preferred_frame_sheet, "image", "Frame Sheet")}
+          <p>Ueberblick ueber Bewegung, Gesicht und Timing.</p>
+        </article>
+      `;
+    }
+
+    function setControlValues(motion) {
+      document.getElementById("motionPreset").value = motion.motion_preset || "soft_pan";
+      for (const key of ["startCx", "startCy", "endCx", "endCy"]) {
+        const target = key.startsWith("start") ? motion.start : motion.end;
+        const prop = key.endsWith("Cx") ? "cx" : "cy";
+        document.getElementById(key).value = target[prop];
+        document.getElementById(key + "Out").textContent = `${target[prop]}%`;
+      }
+      document.getElementById("startZoom").value = motion.start.zoom;
+      document.getElementById("endZoom").value = motion.end.zoom;
+      document.getElementById("startZoomOut").textContent = fmt(motion.start.zoom);
+      document.getElementById("endZoomOut").textContent = fmt(motion.end.zoom);
+      document.getElementById("presenterEnabled").checked = Boolean(motion.presenter?.enabled);
+      const briefing = ensureVideoBriefing(motion);
+      document.getElementById("customerMaterial").value = briefing.customerMaterial;
+      document.getElementById("customerPromptDe").value = briefing.customerPromptDe;
+      document.getElementById("promptSemanticDe").value = briefing.semanticPromptDe;
+      document.getElementById("videoPrompt").value = briefing.prompt;
+      document.getElementById("videoNegativePrompt").value = briefing.negativePrompt;
+      document.querySelectorAll("[data-prompt-template]").forEach((button) => {
+        button.classList.toggle("active", button.dataset.promptTemplate === briefing.promptTemplate);
+      });
+      const text = ensureText(motion);
+      document.getElementById("textTitle").value = text.title || "";
+      document.getElementById("textSubtitle").value = text.subtitle || "";
+      document.getElementById("textTiming").value = text.timing || "text_then_presenter";
+      document.getElementById("titleFont").value = text.titleFont;
+      document.getElementById("subtitleFont").value = text.subtitleFont;
+      document.getElementById("titleColor").value = text.titleColor;
+      document.getElementById("titleColorText").value = text.titleColor;
+      document.getElementById("subtitleColor").value = text.subtitleColor;
+      document.getElementById("subtitleColorText").value = text.subtitleColor;
+      document.getElementById("titleSize").value = text.titleSize;
+      document.getElementById("subtitleSize").value = text.subtitleSize;
+      document.getElementById("titleScaleX").value = Math.round(text.titleScaleX * 100);
+      document.getElementById("subtitleScaleX").value = Math.round(text.subtitleScaleX * 100);
+      document.getElementById("textWidth").value = Math.round(text.width * 100);
+      document.getElementById("textX").value = Math.round(text.x * 100);
+      document.getElementById("textY").value = Math.round(text.y * 100);
+      document.getElementById("lineGap").value = text.lineGap;
+      document.getElementById("textMotion").value = text.motion;
+      document.getElementById("titleSizeOut").textContent = `${text.titleSize}px`;
+      document.getElementById("subtitleSizeOut").textContent = `${text.subtitleSize}px`;
+      document.getElementById("titleScaleXOut").textContent = `${Math.round(text.titleScaleX * 100)}%`;
+      document.getElementById("subtitleScaleXOut").textContent = `${Math.round(text.subtitleScaleX * 100)}%`;
+      document.getElementById("textWidthOut").textContent = `${Math.round(text.width * 100)}%`;
+      document.getElementById("textXOut").textContent = `${Math.round(text.x * 100)}%`;
+      document.getElementById("textYOut").textContent = `${Math.round(text.y * 100)}%`;
+      document.getElementById("lineGapOut").textContent = `${text.lineGap}px`;
+      document.getElementById("notes").value = motion.notes || "";
+    }
+
+    function renderText(target, motion) {
+      const text = ensureText(motion);
+      const enabled = activeOrder === 1 && text.enabled;
+      const title = target.querySelector("strong");
+      const subtitle = target.querySelector("span");
+      target.style.display = enabled ? "block" : "none";
+      target.style.width = `${text.width * 100}%`;
+      target.style.left = `${text.x * 100}%`;
+      target.style.top = `${text.y * 100}%`;
+      title.textContent = text.title || "";
+      subtitle.textContent = text.subtitle || "";
+      title.style.fontFamily = fontStack(text.titleFont);
+      subtitle.style.fontFamily = fontStack(text.subtitleFont);
+      title.style.color = text.titleColor;
+      subtitle.style.color = text.subtitleColor;
+      title.style.fontSize = `${text.titleSize}px`;
+      subtitle.style.fontSize = `${text.subtitleSize}px`;
+      title.style.transform = `scaleX(${text.titleScaleX})`;
+      subtitle.style.transform = `scaleX(${text.subtitleScaleX})`;
+      title.style.transformOrigin = "center";
+      subtitle.style.transformOrigin = "center";
+      title.style.fontWeight = ["Bebas Neue"].includes(text.titleFont) ? "400" : "800";
+      subtitle.style.fontWeight = ["Bebas Neue"].includes(text.subtitleFont) ? "400" : "800";
+      subtitle.style.marginTop = `${text.lineGap}px`;
+    }
+
+    function render() {
+      const item = activeItem();
+      const motion = activeMotion();
+      document.getElementById("takeTitle").textContent = `${item.order} · ${item.slot_role}`;
+      document.getElementById("takeDuration").textContent = `${fmt(item.duration_seconds)}s`;
+      document.getElementById("takeMeta").innerHTML = `
+        <strong>${item.filename}</strong>
+        <span>${item.room_label_de || "-"} · ${item.scene_type || "-"}</span>
+        <span>${item.qwen_alt_text_de || ""}</span>
+      `;
+      document.getElementById("openingBox").classList.toggle("visible", activeOrder === 1);
+      backgroundStyle(document.getElementById("startPreview"), item, motion.start);
+      backgroundStyle(document.getElementById("endPreview"), item, motion.end);
+      renderText(document.getElementById("startText"), motion);
+      renderText(document.getElementById("endText"), motion);
+      document.getElementById("presenterStart").classList.toggle("visible", activeOrder === 1 && Boolean(motion.presenter?.enabled));
+      document.getElementById("presenterEnd").classList.toggle("visible", activeOrder === 1 && Boolean(motion.presenter?.enabled));
+      setControlValues(motion);
+      renderTimeline();
+    }
+
+    function updateFromControls(event) {
+      const motion = activeMotion();
+      motion.motion_preset = document.getElementById("motionPreset").value;
+      motion.start.cx = Number(document.getElementById("startCx").value);
+      motion.start.cy = Number(document.getElementById("startCy").value);
+      motion.start.zoom = Number(document.getElementById("startZoom").value);
+      motion.end.cx = Number(document.getElementById("endCx").value);
+      motion.end.cy = Number(document.getElementById("endCy").value);
+      motion.end.zoom = Number(document.getElementById("endZoom").value);
+      motion.presenter.enabled = Boolean(document.getElementById("presenterEnabled").checked);
+      const briefing = ensureVideoBriefing(motion);
+      briefing.customerMaterial = document.getElementById("customerMaterial").value;
+      briefing.customerPromptDe = document.getElementById("customerPromptDe").value;
+      briefing.semanticPromptDe = document.getElementById("promptSemanticDe").value;
+      briefing.prompt = document.getElementById("videoPrompt").value;
+      briefing.negativePrompt = document.getElementById("videoNegativePrompt").value;
+      const text = ensureText(motion);
+      text.enabled = activeOrder === 1;
+      text.title = document.getElementById("textTitle").value;
+      text.subtitle = document.getElementById("textSubtitle").value;
+      text.timing = document.getElementById("textTiming").value;
+      text.titleFont = document.getElementById("titleFont").value;
+      text.subtitleFont = document.getElementById("subtitleFont").value;
+      const titleColorSource = event?.target?.id === "titleColorText" ? document.getElementById("titleColorText").value : document.getElementById("titleColor").value;
+      const subtitleColorSource = event?.target?.id === "subtitleColorText" ? document.getElementById("subtitleColorText").value : document.getElementById("subtitleColor").value;
+      text.titleColor = normalizeHex(titleColorSource, text.titleColor);
+      text.subtitleColor = normalizeHex(subtitleColorSource, text.subtitleColor);
+      text.titleSize = Number(document.getElementById("titleSize").value);
+      text.subtitleSize = Number(document.getElementById("subtitleSize").value);
+      text.titleScaleX = Number(document.getElementById("titleScaleX").value) / 100;
+      text.subtitleScaleX = Number(document.getElementById("subtitleScaleX").value) / 100;
+      text.width = Number(document.getElementById("textWidth").value) / 100;
+      text.x = Number(document.getElementById("textX").value) / 100;
+      text.y = Number(document.getElementById("textY").value) / 100;
+      text.lineGap = Number(document.getElementById("lineGap").value);
+      text.motion = document.getElementById("textMotion").value;
+      document.getElementById("titleColor").value = text.titleColor;
+      document.getElementById("titleColorText").value = text.titleColor;
+      document.getElementById("subtitleColor").value = text.subtitleColor;
+      document.getElementById("subtitleColorText").value = text.subtitleColor;
+      motion.notes = document.getElementById("notes").value;
+      saveState();
+      render();
+    }
+
+    document.querySelectorAll("input, select, textarea").forEach((control) => {
+      control.addEventListener("input", updateFromControls);
+      control.addEventListener("change", updateFromControls);
+    });
+
+    async function normalizePromptOnServer(briefing) {
+      try {
+        const response = await fetch("/api/video-workbench/prompt/normalize", {
+          method: "POST",
+          credentials: "same-origin",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            projectId: window.VideoWorkbenchProject?.projectId || "candidate-10-shared-video-project-v1",
+            customerMaterialDe: briefing.customerMaterial,
+            customerPromptDe: briefing.customerPromptDe,
+            preferredSpokenLineDe: "Immobilienvideo mit Persoenlichkeit.",
+          }),
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const payload = await response.json();
+        return payload?.result || null;
+      } catch (error) {
+        console.warn("Prompt-Normalisierung ueber Server nicht verfuegbar, lokaler Zwischenstand wird genutzt.", error);
+        return null;
+      }
+    }
+
+    document.getElementById("preparePromptButton").addEventListener("click", async () => {
+      const motion = activeMotion();
+      const briefing = ensureVideoBriefing(motion);
+      briefing.customerMaterial = document.getElementById("customerMaterial").value;
+      briefing.customerPromptDe = document.getElementById("customerPromptDe").value;
+      const normalized = await normalizePromptOnServer(briefing);
+      const legacyPromptKey = "ve" + "oPromptEn";
+      briefing.semanticPromptDe = normalized?.semanticPromptDe || createSemanticGermanPrompt(briefing);
+      briefing.prompt = normalized?.videoPromptEn || normalized?.[legacyPromptKey] || createEnglishVideoPromptFromSemantic(briefing.semanticPromptDe);
+      briefing.negativePrompt = normalized?.negativePromptEn || briefing.negativePrompt;
+      briefing.promptTemplate = "semantic_de_to_en";
+      document.getElementById("promptSemanticDe").value = briefing.semanticPromptDe;
+      document.getElementById("videoPrompt").value = briefing.prompt;
+      document.getElementById("videoNegativePrompt").value = briefing.negativePrompt;
+      window.VideoWorkbenchProject?.saveSection("promptPipeline", buildPromptPipelinePayload(), {
+        page: "maklerin",
+        sourceProduct: "workbench",
+      });
+      saveState();
+      render();
+    });
+
+    document.querySelectorAll("[data-prompt-template]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const motion = activeMotion();
+        const briefing = ensureVideoBriefing(motion);
+        const template = promptTemplates[button.dataset.promptTemplate] || {};
+        briefing.promptTemplate = button.dataset.promptTemplate;
+        briefing.prompt = template.prompt || "";
+        briefing.negativePrompt = template.negativePrompt || "";
+        document.getElementById("videoPrompt").value = briefing.prompt;
+        document.getElementById("videoNegativePrompt").value = briefing.negativePrompt;
+        window.VideoWorkbenchProject?.saveSection("promptPipeline", buildPromptPipelinePayload(), {
+          page: "maklerin",
+          sourceProduct: "workbench",
+        });
+        saveState();
+        render();
+      });
+    });
+
+    document.getElementById("exportButton").addEventListener("click", () => {
+      const payload = buildPresenterPayload();
+      window.VideoWorkbenchProject?.saveSection("presenter", payload, {
+        page: "maklerin",
+        sourceProduct: "workbench",
+      });
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `candidate-${data.cutplan.candidate_index}-motion-definition.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+    });
+
+    populateFontControls();
+    renderReferences();
+    render();
+  </script>
+</body>
+</html>

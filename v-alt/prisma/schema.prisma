@@ -1,0 +1,1645 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// -----------------------------------------------------------------------------
+// NEXTAUTH MODELS
+// -----------------------------------------------------------------------------
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  name               String?
+  email              String?   @unique
+  emailVerified      DateTime?
+  hashedPassword     String? // Added for Credentials Provider
+  image              String?
+  role               String    @default("customer") // customer, admin
+  isApproved         Boolean   @default(false) // Must be manually approved by admin
+  mobileConnectToken String?   @unique // Secret long-lived token for iOS App Camera authentication
+
+  // Custom PixCapture Fields
+  customerId   String? @unique @db.VarChar(3) // The 3-letter Base36 code (cust3), e.g., 'A9F'
+  stripeCustId String? @unique
+  priceTier    String  @default("standard") // standard, pro, enterprise
+
+  // B2B Contact Fields
+  companyName              String?
+  phone                    String?
+  phoneVerified            Boolean   @default(false)
+  phoneVerificationCode    String?
+  phoneVerificationExpires DateTime?
+  street                   String?
+  houseNumber              String?
+  postalCode               String?
+  city                     String?
+  country                  String?
+  vatId                    String? // Steuernummer / USt-IdNr.
+  website                  String? // Firmen-Webseite (optional)
+
+  // Mobile App Access
+  pixcaptureEnabled         Boolean   @default(false) // Must be enabled for mobile app login
+  isSuspended               Boolean   @default(false)
+  isDeleted                 Boolean   @default(false)
+  mobileCodeHash            String? // Hashed 6-digit code for mobile auth
+  mobileCodeExpires         DateTime? // Code expiry (10 min)
+  mobileCodeAttempts        Int       @default(0) // Failed verification attempts
+  mobileCodeLastRequestedAt DateTime? // Rate limiting: last code request timestamp
+
+  // DSGVO Compliance
+  privacyConsentAt DateTime? // Timestamp when user accepted privacy policy
+
+  accounts           Account[]
+  sessions           Session[]
+  jobs               Job[]
+  piximmoBookings    PiximmoBooking[]
+  piximmoAddonOrders PiximmoAddonOrder[]
+  accountInvitations CustomerAccountInvitation[]
+  globalPrefs        GlobalPreferences?
+  notifications      Notification[]
+  videoStudioBrandAssets VideoStudioBrandAsset[]
+  videoStudioFontAssets  VideoStudioFontAsset[]
+  videoStudioPresets     VideoStudioPreset[]
+
+  // Billing
+  trialUsed             Boolean                @default(false) // Whether the user already used the trial package
+  aiEditTrialUsedAt     DateTime? // Productübergreifend einmaliger kostenloser AI-Playground-Durchgang
+  aiEditTrialRequestId  String?                @unique // Erster Request des eingelösten Durchgangs
+  aiEditPaymentMethod   String                 @default("stripe") // stripe | invoice (nur nach ausdrücklicher Admin-Freigabe)
+  aiEditCodeRedemptions AiEditCodeRedemption[]
+  invoices              Invoice[]
+  creditBalance         CreditBalance?
+  creditTransactions    CreditTransaction[]
+}
+
+model VideoStudioBrandAsset {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storageKey String   @unique @db.Text
+  filename   String
+  mimeType   String
+  width      Int
+  height     Int
+  sizeBytes  Int
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([userId, isActive])
+}
+
+model VideoStudioPreset {
+  id         String   @id @default(cuid())
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name       String
+  kind       String
+  definition Json
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@unique([userId, kind, name])
+  @@index([userId, kind])
+}
+
+model VideoStudioFontAsset {
+  id                   String   @id
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  storageKey           String   @unique @db.Text
+  displayName          String
+  filename             String
+  mimeType             String
+  sizeBytes            Int
+  rightsConfirmedAt    DateTime
+  licenseReference     String?  @db.Text
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  @@index([userId, updatedAt])
+}
+
+model CustomerAccountInvitation {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tokenHash String    @unique @db.VarChar(64)
+  expiresAt DateTime
+  usedAt    DateTime?
+  revokedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  @@index([userId, expiresAt])
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model AiEditAccessCode {
+  id         String   @id @default(cuid())
+  code       String   @unique
+  weekKey    String   @unique
+  validFrom  DateTime
+  expiresAt  DateTime
+  maxResults Int      @default(5)
+  active     Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  redemptions AiEditCodeRedemption[]
+
+  @@index([active, expiresAt])
+}
+
+model AiEditCodeRedemption {
+  id               String           @id @default(cuid())
+  accessCodeId     String
+  accessCode       AiEditAccessCode @relation(fields: [accessCodeId], references: [id], onDelete: Cascade)
+  userId           String
+  user             User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  remainingResults Int
+  reservedResults  Int              @default(0)
+  consumedResults  Int              @default(0)
+  expiresAt        DateTime
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  @@unique([accessCodeId, userId])
+  @@index([userId, expiresAt])
+}
+
+model VideoWorkbenchProject {
+  id             String   @id @default(cuid())
+  projectId      String   @unique
+  title          String
+  candidateIndex Int?
+  candidateLabel String?
+  ownerProducts  Json
+  sections       Json
+  lastWriter     Json?
+  revision       Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+// -----------------------------------------------------------------------------
+// PIXCAPTURE CORE MODELS
+// -----------------------------------------------------------------------------
+
+model GlobalPreferences {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  defaultStyle    String @default("standard")
+  defaultWindow   String @default("clear")
+  defaultDelivery String @default("jpg,tif_base")
+}
+
+model Job {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  // The V1 Standard Identifier
+  customerCode String @db.VarChar(3) // cust3 from user
+  jobId        String @db.VarChar(5) // unique job5 code per job
+
+  projectName     String? // Optional visual label, e.g. "Sonnenallee"
+  propertyAddress String? // Added for PixCapture Mobile App UI representation
+  contactName     String? // Ansprechpartner innerhalb eines Firmenkunden, z.B. Haferkamp -> Anja Roberts
+  notes           String? @db.Text // Optional notes sent from Mobile App
+
+  // Job Lifecycle: pending_upload -> style_selection -> pending_payment -> processing -> completed
+  status                     String    @default("pending_upload")
+  paymentStatus              String    @default("unpaid") // unpaid, paid, failed
+  sourceProduct              String    @default("pixcapture") @db.VarChar(24) // pixcapture | piximmo
+  sourceChannel              String    @default("pixcapture_portal") @db.VarChar(32) // admin/customer/mobile origin within sourceProduct
+  analysisStatus             String    @default("not_started") @db.VarChar(32) // not_started | running | completed | partial | failed
+  analysisRunId              String?
+  analysisStages             Json?
+  analysisExpectedCount      Int       @default(0)
+  analysisProcessedCount     Int       @default(0)
+  analysisFailedCount        Int       @default(0)
+  analysisEstimatedCostCents Int       @default(0)
+  analysisStartedAt          DateTime?
+  analysisCompletedAt        DateTime?
+  analysisError              String?   @db.Text
+
+  // --- Order Configuration (ImageLife Workflow) ---
+  selectedStyleId    Int? // 1 to 5 (1-4 Automated, 5 Personal Editor)
+  styleModifiers     Json? // Stores user selections (e.g. { "windowMode": "clear" })
+  editorInstructions String? @db.Text // Specific text instructions for Style 5 (Personal Editor)
+  selectedFileCount  Int? // Number of images chosen for processing in Gallery check
+
+  // Immutable PixImmo order contract. Null for PixCapture and legacy jobs.
+  piximmoProcessingMode          String?   @db.VarChar(16) // ki | manuell
+  piximmoIncludedImageCount      Int?
+  piximmoPricingCatalogVersion   String?   @db.VarChar(16)
+  piximmoPricingSnapshot         Json?
+  piximmoFirstCustomerDownloadAt DateTime?
+  piximmoInvoiceScheduledFor     DateTime?
+  piximmoInvoiceScheduleReason   String?   @db.VarChar(32) // first_download | release_fallback | later_download
+
+  // Telemetry & Cost Tracking
+  computeCostCents Int @default(0) // Modal CPU/GPU cost
+  apiCostCents     Int @default(0) // Replicate, FAL, OpenAI cost
+  totalCostCents   Int @default(0) // Pre-calculated total for dashboard 
+
+  // Grundriss-PDF (vom Telefon via App hochgeladen)
+  floorPlanKey String? // R2-Key für Grundriss-PDF
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  uploadSessions           UploadSession[]
+  captures                 Capture[]
+  exposee                  ExposeePackage?
+  exposeePublicLinks       ExposeePublicLink[]
+  processedImages          ProcessedImage[]
+  galleryShares            GalleryShare[]
+  pixcaptureCaptures       PixcaptureCapture[] // V2 Naming Spec
+  imageLifeOrders          ImageLifeOrder[]
+  invoices                 Invoice[]
+  piximmoBooking           PiximmoBooking?
+  piximmoGallerySelections PiximmoGallerySelection[]
+  piximmoAddonOrders       PiximmoAddonOrder[]
+  piximmoMileageTrips      PiximmoMileageTrip[]
+  videoStudioSourceSets        VideoStudioSourceSet[]
+  activeVideoStudioSourceSetId String?                   @unique
+  activeVideoStudioSourceSet   VideoStudioSourceSet?     @relation("ActiveVideoStudioSourceSet", fields: [activeVideoStudioSourceSetId], references: [id], onDelete: SetNull)
+
+  @@unique([customerCode, jobId])
+}
+
+/// Immutable, versioned source manifest for one Video Studio job. The JSON
+/// payload is verified against snapshotDigest whenever it is read; activation
+/// is an independent pointer on Job so an incomplete import can never replace
+/// the current source set.
+model VideoStudioSourceSet {
+  id                String   @id @default(cuid())
+  jobId             String
+  job               Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  schemaVersion     String   @db.VarChar(48)
+  manifestDigest    String   @db.VarChar(64)
+  snapshotDigest    String   @db.VarChar(64)
+  sourceReferenceId String   @unique @db.VarChar(120)
+  assetCount        Int
+  entries           Json
+  createdAt         DateTime @default(now())
+
+  activeForJob Job? @relation("ActiveVideoStudioSourceSet")
+
+  @@unique([jobId, manifestDigest])
+  @@unique([id, jobId])
+  @@index([jobId, createdAt])
+}
+
+// -----------------------------------------------------------------------------
+// IMAGELIFE PROVIDER HANDOFF / RETURN
+// -----------------------------------------------------------------------------
+
+/// Stable internal parent for one provider submission. The human-readable
+/// reference is deliberately not unique; provider order and batch IDs carry
+/// the immutable external identity once ImageLife has accepted the order.
+model ImageLifeOrder {
+  id                      String    @id @default(cuid())
+  jobId                   String
+  job                     Job       @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  sourceProduct           String    @db.VarChar(24) // piximmo | pixcapture
+  sourceChannel           String    @db.VarChar(32)
+  transferInstanceId      String    @unique
+  humanReference          String    @db.VarChar(160)
+  providerOrderId         String?   @unique @db.VarChar(64)
+  section                 String    @db.VarChar(24)
+  status                  String    @default("prepared") @db.VarChar(32)
+  expectedSourceFileCount Int
+  expectedOutputCount     Int
+  sourceManifest          Json
+  sourceManifestSha256    String    @db.VarChar(64)
+  providerAcceptedAt      DateTime?
+  providerCompletedAt     DateTime?
+  lastSignalAt            DateTime?
+  createdAt               DateTime  @default(now())
+  updatedAt               DateTime  @updatedAt
+
+  batches       ImageLifeBatch[]
+  inboundEvents ImageLifeInboundEvent[]
+
+  @@index([jobId])
+  @@index([sourceProduct, status])
+  @@index([humanReference, status])
+}
+
+model ImageLifeBatch {
+  id                String         @id @default(cuid())
+  orderId           String
+  order             ImageLifeOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  providerBatchId   String         @unique @db.VarChar(64)
+  productName       String?
+  quantity          Int?
+  uploadedFileCount Int?
+  status            String         @default("accepted") @db.VarChar(32)
+  archiveR2Key      String?        @unique @db.Text
+  archiveSizeBytes  BigInt?
+  archiveEtag       String?
+  archiveSha256     String?        @db.VarChar(64)
+  returnManifest    Json?
+  downloadedAt      DateTime?
+  reconciledAt      DateTime?
+  quarantineReason  String?        @db.Text
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+
+  inboundEvents ImageLifeInboundEvent[]
+  returnFiles   ImageLifeReturnFile[]
+
+  @@index([orderId])
+  @@index([status])
+}
+
+/// Metadata-only audit record. Full mail bodies and confidential provider
+/// download URLs are intentionally never stored here.
+model ImageLifeInboundEvent {
+  id              String          @id @default(cuid())
+  webhookEventId  String          @unique @db.VarChar(160)
+  resendEmailId   String          @unique @db.VarChar(160)
+  messageId       String?
+  fromAddress     String
+  recipients      Json
+  subject         String          @db.Text
+  classification  String          @db.VarChar(32)
+  status          String          @default("received") @db.VarChar(32)
+  providerOrderId String?         @db.VarChar(64)
+  providerBatchId String?         @db.VarChar(64)
+  humanReference  String?         @db.VarChar(160)
+  errorMessage    String?         @db.Text
+  orderId         String?
+  order           ImageLifeOrder? @relation(fields: [orderId], references: [id], onDelete: SetNull)
+  batchId         String?
+  batch           ImageLifeBatch? @relation(fields: [batchId], references: [id], onDelete: SetNull)
+  receivedAt      DateTime        @default(now())
+  processedAt     DateTime?
+  createdAt       DateTime        @default(now())
+
+  @@index([classification, status])
+  @@index([providerOrderId])
+  @@index([providerBatchId])
+}
+
+model ImageLifeReturnFile {
+  id                       String         @id @default(cuid())
+  batchId                  String
+  batch                    ImageLifeBatch @relation(fields: [batchId], references: [id], onDelete: Cascade)
+  providerFilename         String
+  r2ObjectKey              String         @unique @db.Text
+  sizeBytes                BigInt
+  checksumSha256           String?        @db.VarChar(64)
+  crc32                    String?        @db.VarChar(16)
+  sourceStackKey           String?
+  status                   String         @default("stored") @db.VarChar(32)
+  version                  Int            @default(1)
+  importedProcessedImageId String?
+  qwenStatus               String         @default("pending") @db.VarChar(24)
+  createdAt                DateTime       @default(now())
+  updatedAt                DateTime       @updatedAt
+
+  @@unique([batchId, providerFilename])
+  @@index([batchId, status])
+  @@index([qwenStatus])
+}
+
+model PiximmoBooking {
+  id            String @id @default(cuid())
+  bookingNumber String @unique @db.VarChar(24)
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  sourceSystem     String    @default("piximmo") @db.VarChar(32)
+  sourceReference  String?   @unique @db.VarChar(128)
+  legacyImportedAt DateTime?
+
+  jobId String? @unique
+  job   Job?    @relation(fields: [jobId], references: [id], onDelete: SetNull)
+
+  customerCode          String? @db.VarChar(3)
+  status                String  @default("confirmed") // confirmed | cancelled
+  bookingKind           String  @default("property") @db.VarChar(24) // property | drone_solo
+  processingMode        String? @db.VarChar(16) // ki | manuell; null only on legacy bookings
+  additionalUnits       Int     @default(0)
+  droneIncluded         Boolean @default(false)
+  includedImageCount    Int     @default(15)
+  pricingCatalogVersion String  @default("2026-08-01") @db.VarChar(16)
+  pricingSnapshot       Json?
+
+  projectName     String
+  propertyAddress String
+  propertyType    String?
+
+  street           String?
+  houseNumber      String?
+  postalCode       String?
+  city             String?
+  country          String  @default("Deutschland")
+  formattedAddress String?
+  addressLat       String?
+  addressLng       String?
+  addressPlaceId   String?
+
+  requestedDate   String   @db.VarChar(10)
+  requestedTime   String   @db.VarChar(5)
+  durationMinutes Int
+  slotStartAt     DateTime
+  slotEndAt       DateTime
+
+  contactName   String?
+  contactEmail  String?
+  contactPhone  String?
+  onSiteContact String?
+
+  accessDetails       String? @db.Text
+  specialRequirements String? @db.Text
+  sunPreference       String?
+
+  services      Json
+  subtotalCents Int    @default(0)
+  taxCents      Int    @default(0)
+  totalCents    Int    @default(0)
+  currency      String @default("EUR") @db.VarChar(3)
+  paymentStatus String @default("invoice_open") @db.VarChar(24) // invoice_open | invoice_draft | invoiced | paid | cancelled
+
+  confirmationEmailSentAt DateTime?
+  confirmationEmailError  String?   @db.Text
+  confirmationSmsSentAt   DateTime?
+  confirmationSmsError    String?   @db.Text
+  calendarInviteSentAt    DateTime?
+  calendarInviteError     String?   @db.Text
+
+  mileageTrips PiximmoMileageTrip[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([status, requestedDate])
+  @@index([requestedDate, requestedTime])
+}
+
+model PiximmoMileageTrip {
+  id        String @id @default(cuid())
+  sourceKey String @unique @db.VarChar(160)
+
+  sourceSystem String          @default("piximmo") @db.VarChar(32)
+  bookingId    String?
+  booking      PiximmoBooking? @relation(fields: [bookingId], references: [id], onDelete: SetNull)
+  jobId        String?
+  job          Job?            @relation(fields: [jobId], references: [id], onDelete: SetNull)
+
+  tripDate  String @db.VarChar(10)
+  sequence  Int
+  direction String @db.VarChar(24) // outbound | between | return | manual
+
+  startedAt DateTime?
+  endedAt   DateTime?
+
+  originLabel        String
+  originAddress      String
+  destinationLabel   String
+  destinationAddress String
+  purpose            String
+  businessPartner    String?
+
+  status          String   @default("draft") @db.VarChar(24) // draft | confirmed | locked | superseded
+  distanceKm      Decimal? @db.Decimal(9, 2)
+  distanceSource  String?  @db.VarChar(32) // google_directions | straight_line | odometer | manual
+  durationMinutes Int?
+  odometerStartKm Decimal? @db.Decimal(10, 1)
+  odometerEndKm   Decimal? @db.Decimal(10, 1)
+  routeSnapshot   Json?
+
+  importedAt  DateTime?
+  confirmedAt DateTime?
+  confirmedBy String?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  revisions PiximmoMileageRevision[]
+
+  @@index([tripDate, sequence])
+  @@index([status, tripDate])
+  @@index([bookingId])
+  @@index([jobId])
+}
+
+model PiximmoMileageRevision {
+  id     String             @id @default(cuid())
+  tripId String
+  trip   PiximmoMileageTrip @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  version      Int
+  changedAt    DateTime @default(now())
+  changedBy    String?
+  changeReason String?  @db.Text
+  snapshot     Json
+
+  @@unique([tripId, version])
+  @@index([changedAt])
+}
+
+model PiximmoAddonOrder {
+  id          String @id @default(cuid())
+  orderNumber String @unique @db.VarChar(24)
+
+  jobId  String
+  job    Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status         String    @default("draft") @db.VarChar(24) // draft | confirmed | invoice_draft | invoiced | paid | cancelled
+  productScope   String    @default("gallery") @db.VarChar(24)
+  catalogVersion String    @db.VarChar(16)
+  subtotalCents  Int
+  taxCents       Int
+  totalCents     Int
+  currency       String    @default("EUR") @db.VarChar(3)
+  confirmedAt    DateTime?
+  paidAt         DateTime?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  lines      PiximmoAddonOrderLine[]
+  selections PiximmoGallerySelection[]
+
+  @@index([jobId, status])
+  @@index([userId, createdAt])
+}
+
+model PiximmoAddonOrderLine {
+  id      String            @id @default(cuid())
+  orderId String
+  order   PiximmoAddonOrder @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  productCode       String   @db.VarChar(32)
+  motifKey          String?  @db.Text
+  description       String
+  quantity          Int      @default(1)
+  unitPriceNetCents Int
+  lineNetCents      Int
+  metadata          Json?
+  createdAt         DateTime @default(now())
+
+  @@index([orderId])
+  @@index([productCode])
+}
+
+model PiximmoGallerySelection {
+  id    String @id @default(cuid())
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  motifKey          String    @db.Text
+  processedImageId  String?
+  entitlementKind   String    @db.VarChar(16) // included | goodwill | extra
+  status            String    @default("selected") @db.VarChar(24) // selected | payment_pending | purchased | processing | delivery_ready | removed
+  unitPriceNetCents Int       @default(0)
+  selectedAt        DateTime  @default(now())
+  confirmedAt       DateTime?
+  removedAt         DateTime?
+
+  addonOrderId String?
+  addonOrder   PiximmoAddonOrder? @relation(fields: [addonOrderId], references: [id], onDelete: SetNull)
+
+  @@unique([jobId, motifKey])
+  @@index([jobId, status])
+  @@index([addonOrderId])
+}
+
+model PiximmoBookingHold {
+  id              String   @id @default(cuid())
+  tokenHash       String   @unique @db.VarChar(64)
+  activeSlotKey   String?  @unique @db.VarChar(32)
+  status          String   @default("active") @db.VarChar(16) // active | consumed | released | expired
+  requestedDate   String   @db.VarChar(10)
+  requestedTime   String   @db.VarChar(5)
+  durationMinutes Int      @default(90)
+  expiresAt       DateTime
+  claimedByUserId String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status, requestedDate, expiresAt])
+  @@index([requestedDate, requestedTime])
+}
+
+model UploadSession {
+  id    String  @id @default(cuid())
+  jobId String?
+  job   Job?    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  sessionId String @unique // e.g. "sess_abcd123" (used in Web Connect & API)
+
+  // V1 WebApp/Backend Contract Fields
+  shootId    String?
+  shoot      Shoot?  @relation(fields: [shootId], references: [id], onDelete: Cascade)
+  customerId String?
+
+  type   String @default("DIRECT_R2") // LOCAL_WIFI, DIRECT_R2
+  status String @default("created") // created, pending, connected, uploading, complete_staged, committed, failed, expired, finalized
+
+  transferTokenHash String?
+  expiresAt         DateTime?
+
+  filesExpected Int    @default(0)
+  filesReceived Int    @default(0)
+  bytesExpected BigInt @default(0)
+  bytesReceived BigInt @default(0)
+
+  errorLog Json?
+
+  manifest       Json? // The parsed UNIFIED_CAPTURE_DATA_HANDOFF_MANIFEST_V1
+  totalSizeBytes BigInt?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  files       UploadFile[]
+  fileObjects FileObject[]
+}
+
+model Shoot {
+  id            String @id @default(cuid()) // shoot_id
+  customerId    String // index
+  shootCode     String
+  status        String @default("draft") // draft, uploading, staged, committed, failed
+  schemaVersion String @default("upload-contract-v1")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  uploadSessions UploadSession[]
+  fileObjects    FileObject[]
+
+  @@index([customerId])
+}
+
+model FileObject {
+  id        String        @id @default(cuid()) // file_id
+  sessionId String // FK
+  session   UploadSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  shootId String // FK
+  shoot   Shoot  @relation(fields: [shootId], references: [id], onDelete: Cascade)
+
+  kind         String // image, raw, arkit, meta
+  relativePath String
+  pathStaging  String
+  pathFinal    String?
+
+  sizeBytes BigInt
+  sha256    String?
+
+  status String @default("missing") // missing, uploaded, verified
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sessionId])
+  @@index([shootId])
+}
+
+model UploadFile {
+  id        String        @id @default(cuid())
+  sessionId String
+  session   UploadSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+
+  fileId String @unique // Internal ID from the manifest
+
+  // Upload lifecycle: pending -> url_presigned -> uploaded -> merged -> canonical
+  status String @default("pending")
+
+  originalName   String
+  canonicalName  String?
+  r2ObjectKey    String?
+  sizeBytes      BigInt?
+  checksumSha256 String?
+  mimeType       String?
+
+  canonicalObjectKey String?
+  relativePath       String?
+
+  // --- NEW: Mobile Handoff V2 Metadata ---
+  roomId      String?
+  roomName    String?
+  roomType    String?
+  roomVariant String?
+  floor       String? // Etage des Raums (V1 Naming Rule) — z. B. "EG", "OG1". Aus floorId im App-Manifest.
+
+  captureId      String?
+  captureType    String?
+  captureSubtype String?
+
+  motifIndex    Int?
+  exposureIndex Int?
+
+  fileMetadata Json? // Speichert XMP/EXIF Sidecar Verknüpfungen
+
+  uploadId String? // Used for AWS S3 / R2 Multipart Upload Tracking
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// @deprecated — V1 Capture-Modell. Wird durch PixcaptureCapture (V2) ersetzt.
+// Daten bleiben erhalten, neue Uploads nutzen ausschließlich V2.
+model Capture {
+  id    String @id @default(cuid())
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  // V1 Filename Standard Components (e.g. A9F-Q2K7M_livingroom_m01_e03)
+  customerId    String  @db.VarChar(3) // cust3
+  projectCode   String  @db.VarChar(5) // job5
+  roomName      String // extracted from filename, e.g. 'livingroom'
+  floor         String? // Etage (V1 Naming Rule) — z. B. "EG", "OG1"
+  motifIndex    Int // mXX (1-99)
+  exposureIndex Int // eYY (1-99)
+
+  fileExtension String // e.g. 'dng', 'jpg', 'mov'
+
+  // Selection Logic for Gallery Review
+  status                String  @default("included") // included, excluded, processing, ready
+  selectedForProcessing Boolean @default(true) // Whether the user checked this image in the Gallery view
+
+  cameraMetadata Json? // Any extra EXIF / sensor JSON
+
+  // Qwen AI Outputs
+  altText        String? @db.Text
+  seoDescription String? @db.Text
+
+  // Monetization limits
+  inpaintingAttempts Int @default(0) // Tracks how many times AI Inpainting was used (Max 3 free)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // CRITICAL: The required DB-Unique Constraint from the Aenderungsdokument
+  @@unique([customerId, projectCode, motifIndex, exposureIndex])
+}
+
+model ExposeePackage {
+  id    String @id @default(cuid())
+  jobId String @unique
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  status                   String    @default("pending") // pending | generating | ready
+  promptTemplate           String?   @db.Text
+  packageSchemaVersion     String    @default("expose-package-v1")
+  packageRevision          Int       @default(1)
+  previousVersionReference String?
+  packageStatus            String    @default("draft")
+  workflowStatus           String    @default("draft")
+  styleDirection           String?
+  styleNote                String?   @db.Text
+  referenceText            String?   @db.Text
+  outputForm               String?   @default("Fließtext")
+  packageState             Json?
+  masterPackageKey         String?
+  masterZipKey             String?
+  approvedAt               DateTime?
+
+  // Objektdaten (aus piximmo Exposé-Generator)
+  propertyType        String? // apartment | house | villa | ...
+  livingSpace         Float? // m²
+  rooms               Float? // Anzahl Zimmer
+  bedrooms            Int?
+  bathrooms           Int?
+  yearBuilt           Int?
+  energyCertificate   String? // A+ bis H
+  heatingType         String? // gas | oil | district | heatPump | ...
+  parkingType         String? // garage | carport | outdoor | ...
+  floorNumber         Int? // Stockwerk der Wohnung
+  totalFloors         Int? // Gesamtanz. Stockwerke im Gebäude
+  balconyTerrace      Boolean?
+  garden              Boolean?
+  cellar              Boolean?
+  elevator            Boolean?
+  locationDescription String?  @db.Text
+  specialFeatures     String?  @db.Text
+
+  // KI-Generierungseinstellungen
+  templateLength String @default("standard") // short | standard | long
+  templateTone   String @default("fresh") // fresh | classic
+
+  // KI-Output
+  generatedText String?   @db.Text // Fertiger Exposé-Text (Markdown)
+  generatedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  publicLinks ExposeePublicLink[]
+}
+
+model ExposeePublicLink {
+  id               String          @id
+  slug             String          @unique
+  jobId            String
+  job              Job             @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  exposeePackageId String?
+  exposeePackage   ExposeePackage? @relation(fields: [exposeePackageId], references: [id], onDelete: SetNull)
+  purpose          String          @default("llm_working_file") @db.VarChar(32)
+  label            String?         @db.Text
+  packageRevision  Int?
+  isActive         Boolean         @default(true)
+  expiresAt        DateTime?
+  createdByUserId  String?
+  createdAt        DateTime        @default(now())
+  updatedAt        DateTime        @updatedAt
+
+  @@index([jobId])
+  @@index([isActive, expiresAt])
+}
+
+// In-Portal Benachrichtigungen für Kunden
+model Notification {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  type    String // results_ready | job_processing | error | info
+  title   String
+  message String  @db.Text
+  jobId   String?
+  read    Boolean @default(false)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([userId, read])
+}
+
+// -----------------------------------------------------------------------------
+// PUBLIC WEBSITE / MARKETING MODELS
+// -----------------------------------------------------------------------------
+
+model MarketingContent {
+  id               String          @id @default(cuid())
+  page             String // "home" (Startseite), "pricing", etc.
+  type             String // "image", "video", "gif"
+  url              String          @db.Text
+  altText          String?         @db.Text
+  description      String?         @db.Text
+  aspectRatio      String?         @default("3:2")
+  orderIndex       Int             @default(0) // Für die Reihenfolge auf der Seite (1-9)
+  isActive         Boolean         @default(true)
+  marketingAssetId String?
+  marketingAsset   MarketingAsset? @relation(fields: [marketingAssetId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([page, isActive])
+  @@index([orderIndex])
+  @@index([marketingAssetId])
+}
+
+model MarketingAsset {
+  id              String             @id @default(cuid())
+  product         String             @default("piximmo")
+  category        String
+  page            String?
+  title           String?
+  altText         String             @db.Text
+  caption         String?            @db.Text
+  seoDescription  String?            @db.Text
+  status          String             @default("draft")
+  sourceType      String             @default("own")
+  sourceNote      String?            @db.Text
+  fileName        String
+  r2Key           String             @unique @db.Text
+  publicUrl       String             @db.Text
+  mimeType        String
+  width           Int?
+  height          Int?
+  aspectRatio     String?
+  fileSizeBytes   Int?
+  orderIndex      Int                @default(0)
+  posterR2Key     String?            @db.Text
+  posterUrl       String?            @db.Text
+  durationSeconds Float?
+  placements      MarketingContent[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([product, category, status])
+  @@index([page, status])
+  @@index([category, status, orderIndex])
+  @@index([createdAt])
+}
+
+model BlogPost {
+  id          String  @id @default(cuid())
+  slug        String  @unique
+  title       String
+  excerpt     String  @db.Text
+  content     String? @db.Text
+  category    String
+  imageUrl    String  @db.Text
+  brand       String  @default("PIXCAPTURE") @db.VarChar(16) // PIXIMMO | PIXCAPTURE | SHARED
+  isPublished Boolean @default(true)
+  orderIndex  Int     @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([isPublished])
+  @@index([brand, isPublished, orderIndex])
+  @@index([slug])
+}
+
+// -----------------------------------------------------------------------------
+// PIPELINE RESULTS — Verarbeitete/entwickelte Bilder aus Modal
+// -----------------------------------------------------------------------------
+
+model ProcessedImage {
+  id    String @id @default(cuid())
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  // Herkunft (Verknüpfung mit Original-Upload)
+  captureId    String? // captureId aus UploadFile
+  sourceFileId String? // UploadFile.fileId (Original)
+
+  // R2 Storage
+  r2ObjectKey            String // Finales Bild (JPG/TIF) in R2
+  thumbKey               String? // Thumbnail-Key in R2 (optional, kleinere Version)
+  depthMapKey            String? // Tiefenkarte-Key in R2 (aus Depth-Anything)
+  editorMasterKey        String? // Unveraenderte Editor-Rueckgabe in voller Aufloesung
+  qcVariantKey           String? // Aktuell gewaehlter QC-/Crop-/Photoshop-Stand
+  deliveryKey            String? // Operative 3000-px-Delivery-Version
+  deliveryWidth          Int?
+  deliveryHeight         Int?
+  deliveryFileSizeBytes  BigInt?
+  deliveryVersion        Int     @default(1)
+  parentProcessedImageId String? // Ursprung bei versionierten Varianten
+  variantLabel           String? // Original, Crop, Photoshop, KI usw.
+
+  // Bild-Metadaten
+  roomType       String?
+  roomName       String? // Deutsch, z. B. "Wohnzimmer"
+  floor          String? // "EG", "OG1" etc.
+  motifIndex     Int?
+  width          Int? // px
+  height         Int? // px
+  fileSizeBytes  BigInt?
+  finalRoomType  String?
+  finalRoomName  String?
+  finalFloor     String?
+  finalMotifName String?
+  finalFilename  String?
+
+  // KI-Ausgaben
+  altText    String? @db.Text // Qwen-generierter Kurztext fuer Alt/SEO, maximal 200 Zeichen
+  exposeText String? @db.Text // Qwen-generierte laengere Bildbeschreibung fuer Exposee-Vorbereitung
+  aiOverlays Json? // { boxes: [...], masks: [...], labels: [...] } — YOLO/SAM3 Ergebnisse
+
+  // Bearbeitungs-Einstellungen (vom Admin oder Kunden wählbar)
+  stylePreset   String @default("natural_hdr") // natural_hdr | flambient | sunny_bright | pure | editorial | classic
+  windowPreset  String @default("auto") // auto | blend | replace | clear
+  skyPreset     String @default("none") // none | blue | twilight | cloudy | dramatic
+  cleaningFlags Json? // { denoise_floor: bool, denoise_wall: bool, correct_vertical: bool, remove_cables: bool, remove_plumbing: bool }
+
+  // Manuelle Masken-Korrekturen (für Pipeline Re-Run)
+  annotations Json? // Canvas-Pfade vom AnnotationOverlay-Editor
+
+  // Admin QC
+  qcNote          String?   @db.Text // Admin-Kommentar bei Ablehnung oder Revision
+  qcStatus        String    @default("qc_pending") // qc_pending, qc_working, qc_needs_revision, qc_rejected, qc_approved, delivery_ready
+  qcApprovedAt    DateTime?
+  deliveryReadyAt DateTime?
+  qcMetadata      Json?
+
+  // Status-Lifecycle
+  // ready → re_processing → pending_edit → approved → downloaded
+  status String @default("ready")
+
+  // Kunden-Bearbeitungsaufträge (Galerie 2 Editing-Panel)
+  editRequests       ImageEditRequest[]
+  // Privates Gesamtmanifest aller nicht-destruktiven KI-Versionen.
+  editManifest       Json?
+  editManifestKey    String?
+  editManifestSha256 String?             @db.VarChar(64)
+  galleryLabelAssets GalleryLabelAsset[]
+  // Review-Galerie Bewertungen
+  reviews            ImageReview[]
+
+  // V2 Naming Spec: Versionierte Outputs unter diesem stabilen Workflow-Anker
+  captureOutputs         PixcaptureCaptureOutput[]
+  currentCaptureOutputId String? // Schneller Zeiger auf die aktuelle Output-Version
+
+  // Kunden-Freigabe
+  isApproved      Boolean @default(false)
+  isDownloaded    Boolean @default(false)
+  customerNote    String? @db.Text // Kommentar des Kunden zum Bild
+  customerRating  String? // GREEN | YELLOW | RED
+  exposeSortOrder Int? // Reihenfolge im Exposé (1 = Startbild, 2, 3, ...)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([jobId])
+  @@index([jobId, status])
+  @@index([jobId, qcStatus])
+  @@index([deliveryKey])
+  @@index([captureId])
+}
+
+// -----------------------------------------------------------------------------
+// EDITING REQUESTS — Kunden-initiierte Bildbearbeitungen (Galerie 2)
+// -----------------------------------------------------------------------------
+
+model ImageEditRequest {
+  id               String         @id @default(cuid())
+  processedImageId String
+  processedImage   ProcessedImage @relation(fields: [processedImageId], references: [id], onDelete: Cascade)
+
+  // Was soll getan werden?
+  actionType       String // remove_object | replace_object | adjust | custom
+  prompt           String  @db.Text
+  standardPromptId String? // z. B. "remove_cables", "swap_bedding", ...
+
+  // Masken-Daten: Canvas-Pfade + ausgewählte AI-Masken-Labels
+  maskData Json? // { paths, arrows, selectedMasks, width, height }
+
+  // Lifecycle
+  // pending → processing → done | failed
+  status String @default("pending")
+
+  // Wiederholungssteuerung: 1 Original + max. 2 Wiederholungen = 3 Versuche
+  attemptNumber Int @default(1) // Aktueller Versuch (1–3)
+  maxAttempts   Int @default(3)
+
+  // Nicht-destruktive Versionskette
+  parentRequestId     String?
+  inputImageKey       String?
+  inputSha256         String? @db.VarChar(64)
+  resultImageKey      String?
+  resultFilename      String?
+  resultMimeType      String?
+  resultWidth         Int?
+  resultHeight        Int?
+  resultFileSizeBytes BigInt?
+  resultSha256        String? @db.VarChar(64)
+
+  // Private Provider- und Laufdaten
+  provider              String?
+  model                 String?
+  providerRequestId     String?
+  providerRawSha256     String?   @db.VarChar(64)
+  promptSha256          String?   @db.VarChar(64)
+  promptTemplateVersion String?
+  durationMs            Int?
+  startedAt             DateTime?
+  completedAt           DateTime?
+
+  // Optionaler Wirkbereich und Referenzbild
+  maskImageKey      String?
+  maskSha256        String? @db.VarChar(64)
+  referenceImageKey String?
+  referenceFilename String?
+  referenceSha256   String? @db.VarChar(64)
+
+  // Qwen beschreibt jede erfolgreiche Variante erneut
+  altText            String?   @db.Text
+  altTextStatus      String    @default("pending")
+  altTextModel       String?
+  altTextConfidence  Float?
+  altTextCompletedAt DateTime?
+
+  provenance Json?
+
+  // Abrechnung (Platzhalter — Preis noch nicht festgelegt)
+  priceCents          Int? // z. B. 199 = 1,99 €
+  isPaid              Boolean @default(false)
+  billingKind         String?
+  billingRedemptionId String?
+
+  // Fehlerprotokoll
+  errorMessage String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([processedImageId])
+  @@index([processedImageId, status])
+  @@index([parentRequestId])
+}
+
+// -----------------------------------------------------------------------------
+// KI-KENNZEICHNUNG — dauerhafte Auslieferungssätze und revisionsfähiges Protokoll
+// -----------------------------------------------------------------------------
+
+model GalleryLabelAsset {
+  id               String         @id @default(cuid())
+  processedImageId String
+  processedImage   ProcessedImage @relation(fields: [processedImageId], references: [id], onDelete: Cascade)
+
+  // Die konkrete, unveränderliche PixImmo-Galeriefreigabe ist die Quelle.
+  sourceVersionId String
+  sourceObjectKey String
+  sourceFilename  String
+  sourceSha256    String? @db.VarChar(64)
+
+  modelName    String
+  modelVersion String
+  generatedAt  DateTime
+
+  tier         Int?
+  tierSetAt    DateTime?
+  tierSetBy    String?
+  labeled      Boolean   @default(false)
+  status       String    @default("pending") @db.VarChar(24)
+  errorMessage String?   @db.Text
+
+  setAObjectKey     String?
+  setBObjectKey     String?
+  setASha256        String? @db.VarChar(64)
+  setBSha256        String? @db.VarChar(64)
+  setAImageDataHash String? @db.VarChar(128)
+  setBImageDataHash String? @db.VarChar(128)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([processedImageId, sourceVersionId])
+  @@index([processedImageId, status])
+}
+
+model GalleryLabelAudit {
+  id               String   @id @default(cuid())
+  batchId          String
+  jobId            String
+  processedImageId String
+  sourceVersionId  String
+  userId           String
+  tier             Int
+  result           String   @db.VarChar(24)
+  errorMessage     String?  @db.Text
+  createdAt        DateTime @default(now())
+
+  @@index([jobId, createdAt])
+  @@index([processedImageId, createdAt])
+  @@index([batchId])
+}
+
+// -----------------------------------------------------------------------------
+// REVIEW-GALERIE — Öffentliche Bildfreigabe mit Ampel-Bewertung & Kommentaren
+// -----------------------------------------------------------------------------
+
+model GalleryShare {
+  id    String @id @default(cuid())
+  token String @unique @default(cuid())
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  label       String? // z.B. "Mustermann — Bewertungsrunde 1"
+  shareType   String    @default("external_review") // customer_portal | external_review | delivery_download
+  canRate     Boolean   @default(true)
+  canComment  Boolean   @default(true)
+  canAnnotate Boolean   @default(true)
+  canDownload Boolean   @default(false)
+  expiresAt   DateTime?
+  viewCount   Int       @default(0) // Wie oft wurde der Link geöffnet
+  active      Boolean   @default(true)
+
+  createdAt DateTime      @default(now())
+  reviews   ImageReview[]
+
+  @@index([token])
+  @@index([jobId])
+}
+
+model ImageReview {
+  id      String         @id @default(cuid())
+  shareId String
+  share   GalleryShare   @relation(fields: [shareId], references: [id], onDelete: Cascade)
+  imageId String
+  image   ProcessedImage @relation(fields: [imageId], references: [id], onDelete: Cascade)
+
+  reviewerName String  @default("Anonym")
+  rating       String? // GREEN | YELLOW | RED
+  comment      String? @db.Text
+  annotations  Json? // Externe Review-Markierungen fuer KI-Bearbeitungsvorbereitung
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([shareId, imageId, reviewerName])
+  @@index([shareId])
+  @@index([imageId])
+}
+
+// =============================================================================
+// NAMING SPEC V2 — Taxonomie-Lookup-Tabellen (bilingual DE/EN)
+// =============================================================================
+
+model RoomTaxonomy {
+  id        String   @id // kebab-case slug: "living-room"
+  labelDe   String // "Wohnzimmer"
+  labelEn   String // "Living Room"
+  category  String   @default("interior") // interior | exterior | utility | other
+  active    Boolean  @default(true)
+  synonyms  String[] @default([]) // Legacy-Aliase: ["living_room"]
+  sortOrder Int      @default(100)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("room_taxonomy")
+}
+
+model ViewTaxonomy {
+  id        String   @id // kebab-case slug: "wide"
+  labelDe   String // "Weitwinkel"
+  labelEn   String // "Wide"
+  active    Boolean  @default(true)
+  sortOrder Int      @default(100)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("view_taxonomy")
+}
+
+model FloorTaxonomy {
+  id        String   @id // kebab-case slug: "eg"
+  labelDe   String // "Erdgeschoss"
+  labelEn   String // "Ground Floor"
+  active    Boolean  @default(true)
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("floor_taxonomy")
+}
+
+// =============================================================================
+// NAMING SPEC V2 — Capture/Frame/Output Hierarchie
+// =============================================================================
+
+/// Ein Motiv (= ein Kamerstandpunkt/eine Perspective). Nicht ein einzelnes Bild.
+/// Mehrere Frames (Brackets) gehören zu einem Capture.
+model PixcaptureCapture {
+  id    String @id @default(cuid())
+  jobId String
+  job   Job    @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  sourceSessionId String? // UploadSession.id (wenn über App)
+  sourceCaptureId String // Idempotenter Client-Key, z.B. "cap_2d4c1c7b"
+
+  floorId    String  @default("none") // FK floor_taxonomy.id — NOT NULL, "none" = kein Geschoss
+  roomId     String // FK room_taxonomy.id — z.B. "living-room"
+  viewId     String? // FK view_taxonomy.id — nullable während Cutover
+  motifIndex Int? // Nullable bis Finalize, dann serverseitig vergeben
+
+  captureType    String    @default("single_photo") // single_photo | bracketed_photo | panorama | video
+  captureSubtype String? // dark_room_single etc. — Workflow-Hint
+  capturedAt     DateTime?
+  frameCount     Int       @default(1)
+
+  // staged → pending_naming (kein viewId) → finalized | qc_failed → processing → ready
+  status        String  @default("staged")
+  canonicalStem String? // "abc-x7k2q-eg-living-room-wide-m01"
+
+  // ── Quality Control ──────────────────────────────────────────────
+  qcStatus    String    @default("pending") // pending | passed | failed | warning
+  qcCheckedAt DateTime?
+  qcErrors    Json? // [{ code, message, messageTech, severity, frameId? }]
+  qcScore     Int? // 0-100 Qualitäts-Score
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  frames  PixcaptureCaptureFrame[]
+  outputs PixcaptureCaptureOutput[]
+
+  // Ingest-Unique: Ein Client-Capture-ID pro Job (idempotent)
+  @@unique([jobId, sourceCaptureId])
+  // Motif-Zählung Index (für MAX query bei Finalize)
+  // Partial Unique Constraint wird via raw SQL Migration erstellt
+  @@index([jobId, floorId, roomId, viewId])
+  @@map("pixcapture_captures")
+}
+
+/// Quelldatei eines Motivs. Wird erst nach Upload-Verify aus UploadFile erzeugt.
+/// UploadFile = Transportschicht (presign, checksum, retry)
+/// CaptureFrame = fachlich validiertes Frame (nach verified)
+model PixcaptureCaptureFrame {
+  id        String            @id @default(cuid())
+  captureId String
+  capture   PixcaptureCapture @relation(fields: [captureId], references: [id], onDelete: Cascade)
+
+  sourceFileId     String? // UploadFile.fileId — Herkunft
+  originalFilename String // "IMG_1234.DNG"
+  storageKey       String // R2 Object Key (erst temp UUID, dann kanonisch)
+  extension        String // "dng"
+  mimeType         String?
+  sizeBytes        BigInt?
+
+  bracketIndex Int     @default(1) // 1-N, 1 bei Einzelbild
+  bracketTotal Int     @default(1) // 1=Einzelbild, 3=3er-Bracket, 5=5er
+  evValue      Float? // -2.0, 0.0, +2.0
+  evToken      String? // "n2", "0", "p2"
+
+  canonicalFilename String? // "abc-x7k2q-eg-living-room-wide-m01-b01-en2.dng"
+  checksumSha256    String?
+
+  // ── Quality Control ──────────────────────────────────────────────
+  qcStatus     String  @default("pending") // pending | passed | failed | warning
+  qcErrors     Json? // [{ code, message, severity }]
+  fileVerified Boolean @default(false) // R2 HEAD bestätigt Existenz + Größe
+
+  // ── Kamera-Sensordaten (aus EXIF-Sidecar) ─────────────────────
+  exposureQualityState  String? // "good" | "warning" | "bad" — von Kamera
+  sharpnessQualityState String? // "good" | "bad" — von Kamera
+  sensorData            Json? // Vollständige Sidecar-Daten (levelAngle, histogram, etc.)
+
+  createdAt DateTime @default(now())
+
+  // Ein Frame-Index pro Capture
+  @@unique([captureId, bracketIndex])
+  @@index([captureId])
+  @@map("pixcapture_capture_frames")
+}
+
+/// Versionierte Ableitung eines Motivs (merged, edited, web export, etc.)
+/// ProcessedImage bleibt als stabiler Workflow-Anker für Reviews/Editing bestehen.
+/// CaptureOutput ist das konkrete versionierte Artefakt darunter.
+model PixcaptureCaptureOutput {
+  id        String            @id @default(cuid())
+  captureId String
+  capture   PixcaptureCapture @relation(fields: [captureId], references: [id], onDelete: Cascade)
+
+  // Relation zur stabilen ProcessedImage-Identität
+  processedImageId String?
+  processedImage   ProcessedImage? @relation(fields: [processedImageId], references: [id], onDelete: SetNull)
+
+  outputKind        String // "merged" | "edited" | "web" | "print" | "thumb"
+  version           Int     @default(1) // v1, v2, v3
+  extension         String // "jpg"
+  storageKey        String // R2 Object Key
+  canonicalFilename String? // "abc-x7k2q-eg-living-room-wide-m01-v1.jpg"
+
+  createdAt DateTime @default(now())
+
+  // Ein Output-Kind + Version pro Capture
+  @@unique([captureId, outputKind, version])
+  @@index([captureId])
+  @@index([processedImageId])
+  @@map("pixcapture_capture_outputs")
+}
+
+// =============================================================================
+// KOSTEN-TRACKING — API-Nutzung und Kosten-Logging
+// =============================================================================
+
+model ApiUsageLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // ── Zuordnung ──
+  jobId   String? // Zu welchem Job gehört der Call?
+  imageId String? // Zu welchem Bild gehört der Call?
+  userId  String? // Wer hat ausgelöst?
+
+  // ── Service-Info ──
+  provider  String // "gemini" | "modal" | "r2" | "openai" | "replicate"
+  model     String? // "gemini-2.0-flash-exp" | "qwen-vl" | "sam3" | "da3"
+  operation String // "edit" | "describe" | "expose" | "pipeline" | "depth" | "segment"
+
+  // ── Messgrößen ──
+  inputTokens  Int? // Input-Tokens (LLM)
+  outputTokens Int? // Output-Tokens (LLM)
+  inputImages  Int? // Anzahl eingehender Bilder
+  outputImages Int? // Anzahl ausgehender Bilder
+  durationMs   Int? // Laufzeit in Millisekunden
+
+  // ── Kosten ──
+  costCents     Int     @default(0) // Kosten in Cent (ganzzahlig)
+  costEstimated Boolean @default(true) // true = geschätzt, false = von API bestätigt
+  currency      String  @default("EUR")
+
+  // ── Details ──
+  status       String  @default("success") // "success" | "error" | "partial"
+  errorMessage String? @db.Text
+  metadata     Json? // Beliebige Zusatzinfos (Prompt-Länge, Resolution, etc.)
+
+  @@index([jobId])
+  @@index([imageId])
+  @@index([provider])
+  @@index([createdAt])
+  @@index([userId])
+  @@map("api_usage_logs")
+}
+
+// =============================================================================
+// NUTZER-ANALYTICS — Session-Dauer, Feature-Nutzung
+// =============================================================================
+
+model UserActivityLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+
+  // ── Zuordnung ──
+  userId    String? // Login-User (null = anonym/Review-Link)
+  sessionId String // Eindeutige Session-ID (UUID vom Client)
+  jobId     String? // Falls in einem Job-Kontext
+
+  // ── Event ──
+  event  String // "page_view" | "gallery_open" | "image_click" | "rating" | "comment"
+  // "expose_select" | "download" | "edit_start" | "edit_submit"
+  // "measure_tool" | "annotation_draw" | "csv_export" | "zip_download"
+  // "session_start" | "session_end"
+  page   String? // z. B. "/results/abc123", "/dashboard/galleries"
+  target String? // z. B. imageId, jobId, button name
+  value  String? // z. B. Rating-Wert, Prompt-Text (gekürzt)
+
+  // ── Session-Messung ──
+  durationMs Int? // Verweildauer auf der Seite/Session (in ms)
+
+  // ── Geräte-Info (anonymisiert) ──
+  deviceType String? // "desktop" | "mobile" | "tablet"
+  userAgent  String? // Gekürzt, keine Fingerprinting-Daten
+
+  @@index([userId])
+  @@index([sessionId])
+  @@index([event])
+  @@index([createdAt])
+  @@index([jobId])
+  @@map("user_activity_logs")
+}
+
+// -----------------------------------------------------------------------------
+// BILLING & INVOICING
+// -----------------------------------------------------------------------------
+
+model Invoice {
+  id     String  @id @default(cuid())
+  userId String
+  user   User    @relation(fields: [userId], references: [id])
+  jobId  String?
+  job    Job?    @relation(fields: [jobId], references: [id])
+
+  invoiceNumber   String  @unique // e.g. "PIX-2026-0001"
+  invoiceSequence Int?    @unique
+  status          String  @default("draft") // draft, issued, paid, overdue, cancelled, refunded
+  invoiceKind     String  @default("final") @db.VarChar(24) // final | supplementary
+  sourceKey       String? @unique @db.VarChar(64)
+
+  issuedAt    DateTime?
+  dueAt       DateTime?
+  paidAt      DateTime?
+  serviceDate DateTime?
+
+  // All amounts in cents
+  subtotalCents Int   @default(0)
+  taxRate       Float @default(19.0)
+  taxCents      Int   @default(0)
+  totalCents    Int   @default(0)
+
+  // Structured line items
+  lineItems       Json  @default("[]") // Array of LineItem objects
+  billingSnapshot Json?
+  sourceSnapshot  Json?
+
+  // Style & config snapshot (for historical reference)
+  styleId      String? // Style that was selected
+  motifCount   Int?
+  windowOption String? // clear | bright | auto
+
+  // Payment
+  stripePaymentIntentId String? @unique
+  paymentMethod         String? // "stripe", "credit", "invoice", "trial"
+
+  pdfObjectKey   String?
+  pdfSha256      String?   @db.VarChar(64)
+  pdfGeneratedAt DateTime?
+  emailTo        String?
+  emailCc        String?
+  emailMessageId String?
+  emailSentAt    DateTime?
+  emailError     String?   @db.Text
+  approvedAt     DateTime?
+  approvedBy     String?
+
+  notes String? @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@index([jobId])
+  @@index([status])
+}
+
+model CreditBalance {
+  id           String   @id @default(cuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id])
+  balanceCents Int      @default(0) // Current credit balance in cents
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model CreditTransaction {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  amountCents Int // Positive = credit (top-up), Negative = debit (charge)
+  type        String // topup, job_charge, refund, trial_credit, adjustment
+  description String
+  jobId       String? // Reference to job if applicable
+  reference   String? // External ref (Stripe payment ID etc.)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([createdAt])
+}
+
+// -----------------------------------------------------------------------------
+// WEB-CONNECT SESSIONS — QR-Pairing zwischen Browser und iOS-App
+// Quelle: PIXCAPTURE_IOS_BACKEND_CONTRACT_DEFINITIV_20260404.md
+// -----------------------------------------------------------------------------
+
+model WebConnectSession {
+  id        String @id @default(cuid())
+  sessionId String @unique // web_session_id aus QR (sess_xxx)
+  status    String @default("pending") // pending, connected, approved, uploading, completed, expired
+  command   String @default("wait") // wait, go
+
+  uploadSessionId String? // UUID der UploadSession (NICHT identisch mit sessionId!)
+
+  webUserId    String? // User-ID des Browsers
+  mobileUserId String? // User-ID des Telefons
+
+  projectId String?
+  cust3     String? @db.VarChar(3)
+  job5      String? @db.VarChar(5)
+
+  totalFiles     Int?
+  totalSizeBytes BigInt?
+
+  stylePreset String?
+  tasks       Json? // String[] — z.B. ["clear_window", "hdr_merge"]
+  warnings    Json? // String[]
+  manifest    Json? // Vollständiges Manifest vom Telefon
+
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([sessionId])
+  @@index([expiresAt])
+  @@map("web_connect_sessions")
+}

@@ -1,0 +1,3180 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <base href="/video-workbench/motion/">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kandidat 7 Bewegung & Text</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Baloo+2:wght@500;700&family=Bebas+Neue&family=Bungee+Shade&family=Caveat:wght@500;700&family=Chewy&family=Coiny&family=Cormorant+Garamond:wght@500;700&family=Dancing+Script:wght@600;700&family=Fredoka:wght@500;700&family=IBM+Plex+Sans:wght@500;700&family=Inter:wght@500;700;800&family=Libre+Baskerville:wght@400;700&family=Manrope:wght@500;700;800&family=Modak&family=Montserrat:wght@600;800&family=Oswald:wght@500;700&family=Playfair+Display:wght@600;800&family=Rubik+Bubbles&family=Sora:wght@500;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f4f6f8;
+      --panel: #fff;
+      --ink: #18212d;
+      --muted: #657386;
+      --line: #d7dee7;
+      --start: #0f766e;
+      --end: #a13d55;
+      --accent: #1c2a3a;
+      --soft: #edf2f6;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      letter-spacing: 0;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 8;
+      display: grid;
+      grid-template-columns: minmax(260px, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      background: rgba(244,246,248,.95);
+      backdrop-filter: blur(12px);
+    }
+    h1 { margin: 0 0 3px; font-size: 20px; line-height: 1.1; }
+    .subline { margin: 0; color: var(--muted); font-size: 13px; }
+    button, select, input {
+      font: inherit;
+      font-size: 13px;
+    }
+    button {
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--ink);
+      padding: 7px 10px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .header-actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+    .workflow-strip {
+      grid-column: 1 / -1;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+      padding-top: 4px;
+    }
+    .workflow-step {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--muted);
+      padding: 5px 10px;
+      font-size: 12px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+    .workflow-step strong {
+      margin-right: 6px;
+      color: var(--ink);
+      font-size: 11px;
+    }
+    .workflow-step.warning {
+      border-color: #f0b86a;
+      background: #fff8ec;
+      color: #85530d;
+    }
+    .workflow-step.ready {
+      border-color: #9cc9be;
+      background: #effaf7;
+      color: #0f766e;
+    }
+    .render-links {
+      display: inline-flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .render-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      border: 1px solid var(--accent);
+      border-radius: 7px;
+      background: var(--accent);
+      color: #fff;
+      padding: 6px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+    .render-link.secondary {
+      background: #fff;
+      color: var(--accent);
+    }
+    .brand-dot {
+      position: fixed;
+      left: 12px;
+      bottom: 12px;
+      z-index: 20;
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border: 1px solid rgba(24,33,45,.18);
+      border-radius: 999px;
+      background: rgba(255,255,255,.88);
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 900;
+      box-shadow: 0 8px 24px rgba(14,22,32,.14);
+      backdrop-filter: blur(10px);
+    }
+    .brand-dot:hover {
+      background: #fff;
+      border-color: var(--accent);
+    }
+    main {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      min-height: calc(100vh - 65px);
+      padding: 16px 18px 18px;
+      gap: 14px;
+    }
+    .editor {
+      display: grid;
+      grid-template-columns: minmax(420px, 1fr) minmax(280px, 390px);
+      gap: 14px;
+      min-height: 0;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      overflow: hidden;
+    }
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      background: #fbfcfd;
+    }
+    .panel-title { font-size: 14px; font-weight: 800; }
+    .source-wrap {
+      padding: 12px;
+      display: grid;
+      place-items: center;
+    }
+    .source-stage {
+      position: relative;
+      width: 80%;
+      aspect-ratio: 3 / 2;
+      background: #111923;
+      overflow: hidden;
+      border-radius: 7px;
+      user-select: none;
+      touch-action: none;
+    }
+    .source-stage img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+      pointer-events: none;
+    }
+    .crop-box {
+      position: absolute;
+      border: 2px solid var(--start);
+      background: rgba(15,118,110,.08);
+      cursor: grab;
+      box-shadow: 0 0 0 9999px rgba(0,0,0,.16);
+    }
+    .crop-box[data-target="end"] {
+      border-color: var(--end);
+      background: rgba(161,61,85,.08);
+      box-shadow: none;
+    }
+    .crop-box.editing {
+      outline: 3px solid rgba(255,255,255,.84);
+      z-index: 3;
+    }
+    .crop-label {
+      position: absolute;
+      left: 6px;
+      top: 6px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      color: #fff;
+      background: var(--start);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .crop-box[data-target="end"] .crop-label { background: var(--end); }
+    .avatar-marker {
+      position: absolute;
+      z-index: 4;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #fff;
+      border-radius: 999px;
+      background: #2563eb;
+      box-shadow: 0 0 0 4px rgba(37,99,235,.25), 0 8px 20px rgba(0,0,0,.24);
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .avatar-marker span {
+      position: absolute;
+      left: 50%;
+      top: calc(100% + 6px);
+      transform: translateX(-50%);
+      padding: 3px 6px;
+      border-radius: 999px;
+      background: rgba(15,23,42,.88);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .preview-panel {
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      min-height: 0;
+    }
+    .portrait-shell {
+      display: grid;
+      place-items: center;
+      padding: 12px;
+      background: #101720;
+      min-height: 0;
+    }
+    .portrait {
+      position: relative;
+      width: min(100%, 315px);
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #222;
+      box-shadow: 0 14px 42px rgba(0,0,0,.25);
+    }
+    .portrait img {
+      position: absolute;
+      max-width: none;
+      max-height: none;
+      transform-origin: top left;
+    }
+    .preview-grid {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      background:
+        linear-gradient(to right, transparent calc(50% - 1px), rgba(255,255,255,.78) calc(50% - 1px), rgba(255,255,255,.78) calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(to bottom, transparent calc(50% - 1px), rgba(255,255,255,.72) calc(50% - 1px), rgba(255,255,255,.72) calc(50% + 1px), transparent calc(50% + 1px)),
+        linear-gradient(to right, transparent calc(25% - .5px), rgba(255,255,255,.34) calc(25% - .5px), rgba(255,255,255,.34) calc(25% + .5px), transparent calc(25% + .5px), transparent calc(75% - .5px), rgba(255,255,255,.34) calc(75% - .5px), rgba(255,255,255,.34) calc(75% + .5px), transparent calc(75% + .5px)),
+        linear-gradient(to right, transparent calc(33.333% - .5px), rgba(255,255,255,.26) calc(33.333% - .5px), rgba(255,255,255,.26) calc(33.333% + .5px), transparent calc(33.333% + .5px), transparent calc(66.666% - .5px), rgba(255,255,255,.26) calc(66.666% - .5px), rgba(255,255,255,.26) calc(66.666% + .5px), transparent calc(66.666% + .5px)),
+        linear-gradient(to bottom, transparent calc(33.333% - .5px), rgba(255,255,255,.34) calc(33.333% - .5px), rgba(255,255,255,.34) calc(33.333% + .5px), transparent calc(33.333% + .5px), transparent calc(66.666% - .5px), rgba(255,255,255,.34) calc(66.666% - .5px), rgba(255,255,255,.34) calc(66.666% + .5px), transparent calc(66.666% + .5px)),
+        linear-gradient(to bottom, transparent calc(25% - .5px), rgba(255,255,255,.22) calc(25% - .5px), rgba(255,255,255,.22) calc(25% + .5px), transparent calc(25% + .5px), transparent calc(75% - .5px), rgba(255,255,255,.22) calc(75% - .5px), rgba(255,255,255,.22) calc(75% + .5px), transparent calc(75% + .5px));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.38);
+      mix-blend-mode: normal;
+    }
+    .preview-badge {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      z-index: 2;
+      border-radius: 999px;
+      padding: 5px 8px;
+      background: rgba(255,255,255,.9);
+      color: var(--ink);
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .text-layer {
+      position: absolute;
+      left: 50%;
+      top: 18%;
+      z-index: 3;
+      width: 88%;
+      max-width: 100%;
+      transform: translate(-50%, -50%);
+      color: #fff;
+      text-align: center;
+      cursor: grab;
+      user-select: none;
+      touch-action: none;
+      text-shadow: 0 2px 14px rgba(0,0,0,.38), 0 1px 2px rgba(0,0,0,.45);
+    }
+    .text-layer.dragging { cursor: grabbing; }
+    .text-title, .text-subtitle {
+      display: block;
+      width: fit-content;
+      max-width: 100%;
+      margin-inline: auto;
+      overflow-wrap: normal;
+      word-break: normal;
+      white-space: normal;
+      line-height: .98;
+    }
+    .text-subtitle {
+      margin-top: 6px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+    .controls {
+      display: grid;
+      gap: 10px;
+      padding: 12px;
+      border-top: 1px solid var(--line);
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 110px 1fr;
+      gap: 9px;
+      align-items: center;
+    }
+    .row label { color: var(--muted); font-size: 12px; font-weight: 760; }
+    .row input, .row select {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      padding: 6px 8px;
+    }
+    input[type="range"] { padding: 0; }
+    .zoom-tools {
+      display: grid;
+      grid-template-columns: minmax(90px, 1fr) auto;
+      gap: 8px;
+      align-items: center;
+    }
+    .sync-button {
+      white-space: nowrap;
+      min-height: 34px;
+      padding-inline: 9px;
+    }
+    .play-row {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 9px;
+      align-items: center;
+    }
+    .motion-progress {
+      height: 7px;
+      border-radius: 999px;
+      background: #d8e0ea;
+      overflow: hidden;
+    }
+    .motion-progress span {
+      display: block;
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: var(--accent);
+    }
+    .motion-help {
+      grid-column: 1 / -1;
+      margin: -2px 0 2px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .preset-grid {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 7px;
+    }
+    .preset-button {
+      min-height: 54px;
+      padding: 7px 8px;
+      text-align: left;
+      line-height: 1.15;
+    }
+    .preset-button strong {
+      display: block;
+      font-size: 12px;
+      color: var(--ink);
+    }
+    .preset-button span {
+      display: block;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 650;
+    }
+    .preset-button.active {
+      border-color: var(--accent);
+      background: #eef3f7;
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+    .type-composer {
+      display: grid;
+      grid-template-columns: minmax(180px, .75fr) minmax(420px, 2fr) minmax(220px, .9fr);
+      gap: 10px 14px;
+      align-items: stretch;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fbfcfd;
+    }
+    .type-composer-head {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .type-composer-head strong { font-size: 14px; }
+    .type-composer-head p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    .text-enabled-button[aria-pressed="true"] {
+      border-color: #9cc9be;
+      background: #effaf7;
+      color: #0f766e;
+    }
+    .type-preset-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(105px, 1fr));
+      gap: 8px;
+    }
+    .type-preset {
+      min-height: 92px;
+      padding: 9px;
+      overflow: hidden;
+      text-align: left;
+    }
+    .type-preset small {
+      display: block;
+      margin-bottom: 9px;
+      color: var(--muted);
+      font: 800 10px/1.1 Inter, sans-serif;
+    }
+    .type-preset span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .type-preset.active {
+      border-color: var(--accent);
+      background: #edf2f7;
+      color: var(--ink);
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+    .type-quick-copy {
+      display: grid;
+      gap: 7px;
+    }
+    .type-quick-copy input {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      padding: 6px 8px;
+    }
+    .type-quick-copy .type-summary {
+      min-height: 16px;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.3;
+    }
+    .render-note {
+      grid-column: 1 / -1;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #f8fafc;
+    }
+    .avatar-card {
+      grid-column: 1 / -1;
+      display: grid;
+      gap: 8px;
+      padding: 9px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #f8fafc;
+    }
+    .avatar-card.active {
+      border-color: #93c5fd;
+      background: #eff6ff;
+    }
+    .avatar-card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      align-items: center;
+    }
+    .avatar-card-head strong {
+      font-size: 12px;
+      font-weight: 850;
+    }
+    .avatar-status {
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: #e2e8f0;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 850;
+      white-space: nowrap;
+    }
+    .avatar-card.active .avatar-status {
+      background: #2563eb;
+      color: #fff;
+    }
+    .avatar-card.suggested {
+      border-color: #bfdbfe;
+      background: #f8fbff;
+    }
+    .avatar-card.suggested .avatar-status {
+      background: #dbeafe;
+      color: #1d4ed8;
+    }
+    .avatar-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    .avatar-mini-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .avatar-mini-grid label {
+      display: grid;
+      gap: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 760;
+    }
+    .avatar-note-input {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      padding: 6px 8px;
+    }
+    .text-panel {
+      gap: 10px;
+      display: grid;
+    }
+    .text-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .text-grid input,
+    .text-grid select {
+      width: 100%;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      padding: 6px 8px;
+    }
+    .text-grid .wide { grid-column: 1 / -1; }
+    .text-source-block {
+      grid-column: 1 / -1;
+      display: grid;
+      gap: 6px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+    }
+    .text-source-block label {
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 850;
+    }
+    .text-source-block textarea {
+      width: 100%;
+      min-height: 56px;
+      max-height: 92px;
+      resize: vertical;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 7px 8px;
+      font: inherit;
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--ink);
+      background: #f8fafc;
+    }
+    .suggestion-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: end;
+    }
+    .suggestion-row input {
+      min-height: 34px;
+    }
+    .font-picker {
+      display: grid;
+      gap: 6px;
+    }
+    .font-preview {
+      min-height: 48px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 8px 10px;
+      background: #f8fafc;
+      color: var(--ink);
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+    .font-samples {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      max-height: 220px;
+      overflow: auto;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 6px;
+      background: #fff;
+    }
+    .font-sample {
+      display: block;
+      width: 100%;
+      min-height: 50px;
+      padding: 7px 9px 8px;
+      border: 1px solid transparent;
+      border-radius: 5px;
+      background: #f8fafc;
+      color: var(--ink);
+      text-align: left;
+      overflow: hidden;
+    }
+    .font-sample.active {
+      border-color: var(--accent);
+      background: #edf2f7;
+      color: var(--ink);
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+    .font-sample small {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--muted);
+      font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+      font-size: 10px;
+      font-weight: 800;
+    }
+    .font-sample span {
+      display: block;
+      font-size: 18px;
+      line-height: 1.18;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .range-control {
+      display: grid;
+      gap: 5px;
+    }
+    .range-control label {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 760;
+    }
+    .range-control output {
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+    .range-action {
+      justify-self: start;
+      min-height: 30px;
+      padding: 5px 8px;
+    }
+    .swatch-row {
+      display: grid;
+      grid-template-columns: 1fr 56px;
+      gap: 8px;
+    }
+    .swatch-row input[type="color"] {
+      min-height: 34px;
+      padding: 3px;
+    }
+    .mode-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .meta {
+      padding: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.35;
+    }
+    .meta strong { color: var(--ink); }
+    .rail {
+      display: grid;
+      grid-template-columns: repeat(26, minmax(120px, 1fr));
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+    .motif {
+      position: relative;
+      min-width: 132px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+      text-align: left;
+    }
+    .motif.active { border-color: var(--accent); box-shadow: 0 0 0 3px #dde5ee; }
+    .motif.avatar-ready { border-color: #93c5fd; }
+    .motif.avatar-suggested { border-color: #bfdbfe; }
+    .motif-avatar-badge {
+      position: absolute;
+      left: 7px;
+      top: 7px;
+      z-index: 2;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(37,99,235,.92);
+      color: #fff;
+      font-size: 10px;
+      font-weight: 900;
+    }
+    .motif-avatar-badge.suggestion {
+      background: rgba(255,255,255,.94);
+      color: #1d4ed8;
+      border: 1px solid #bfdbfe;
+    }
+    .motif img {
+      display: block;
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      object-fit: cover;
+    }
+    .motif span {
+      display: block;
+      padding: 7px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    textarea {
+      width: 100%;
+      min-height: 170px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      padding: 9px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 11px;
+      line-height: 1.35;
+    }
+    dialog {
+      width: min(920px, calc(100vw - 32px));
+      border: 0;
+      border-radius: 8px;
+      padding: 14px;
+    }
+    dialog::backdrop { background: rgba(12,18,26,.55); }
+    .text-dialog {
+      width: min(1180px, calc(100vw - 28px));
+      height: min(760px, calc(100vh - 28px));
+      max-height: calc(100vh - 28px);
+      padding: 0;
+      overflow: hidden;
+    }
+    .text-dialog-layout {
+      display: grid;
+      grid-template-columns: minmax(340px, 1fr) minmax(320px, 420px);
+      height: 100%;
+      min-height: 0;
+      background: var(--panel);
+    }
+    .text-dialog-preview {
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background: #0d151f;
+      min-height: 0;
+    }
+    .text-modal-portrait {
+      position: relative;
+      width: min(440px, 74vw, calc((100vh - 96px) * 9 / 16));
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #222;
+      box-shadow: 0 18px 54px rgba(0,0,0,.35);
+    }
+    .text-modal-portrait img {
+      position: absolute;
+      max-width: none;
+      max-height: none;
+      transform-origin: top left;
+    }
+    .text-dialog-side {
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
+      min-height: 0;
+      border-left: 1px solid var(--line);
+      background: #fbfcfd;
+    }
+    .text-dialog-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .text-dialog-head h2 {
+      margin: 0;
+      font-size: 16px;
+      line-height: 1.15;
+    }
+    .text-dialog-scroll {
+      overflow: auto;
+      min-height: 0;
+      padding: 12px;
+      overscroll-behavior: contain;
+    }
+    .text-dialog-foot {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid var(--line);
+      background: #fff;
+    }
+    @media (max-width: 980px) {
+      header, .editor { grid-template-columns: 1fr; }
+      .source-stage { width: 100%; }
+      .rail { grid-template-columns: repeat(26, 150px); }
+      .header-actions { justify-content: flex-start; }
+      .text-dialog-layout { grid-template-columns: 1fr; }
+      .text-dialog-side { border-left: 0; border-top: 1px solid var(--line); }
+      .text-modal-portrait { width: min(290px, 72vw); }
+    }
+  
+    :root {
+      --workbench-stage-height: clamp(340px, calc(100vh - 430px), 460px);
+    }
+    main {
+      grid-template-rows: auto auto auto;
+      min-height: calc(100vh - 72px);
+      padding: 10px 18px 12px;
+      gap: 10px;
+    }
+    .editor {
+      grid-template-columns: minmax(560px, 1fr) minmax(260px, 380px);
+      align-items: start;
+    }
+    .source-wrap {
+      height: var(--workbench-stage-height);
+      padding: 10px;
+    }
+    .source-stage {
+      width: auto;
+      height: 100%;
+      max-width: 100%;
+    }
+    .preview-panel {
+      grid-template-rows: auto var(--workbench-stage-height);
+    }
+    .portrait-shell {
+      height: var(--workbench-stage-height);
+      padding: 10px;
+    }
+    .portrait {
+      width: auto;
+      height: 100%;
+      max-width: 100%;
+    }
+    .meta {
+      max-height: 62px;
+      overflow: auto;
+      padding: 8px 12px;
+    }
+    .controls.wide-controls {
+      display: grid;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 8px 12px;
+      align-items: start;
+      padding: 10px 12px;
+      border-top: 0;
+    }
+    .controls.wide-controls .row {
+      grid-template-columns: 78px minmax(0, 1fr);
+      align-items: center;
+      min-width: 0;
+      margin: 0;
+    }
+    .header-actions .timeline-header-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 7px;
+      background: #fff;
+      color: var(--ink);
+      font-size: 13px;
+      font-weight: 900;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .header-actions #planStatus {
+      align-self: center;
+      min-width: 150px;
+    }
+    .controls.wide-controls .motion-row {
+      grid-column: 1 / span 2;
+      grid-row: 1;
+    }
+    .controls.wide-controls .motion-help {
+      grid-column: 1 / span 2;
+      grid-row: 2;
+      margin: 0;
+      min-height: 0;
+    }
+    .controls.wide-controls .preset-grid {
+      grid-column: 3 / span 10;
+      grid-row: 1 / span 2;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(120px, 1fr));
+      gap: 8px;
+      min-width: 0;
+    }
+    .controls.wide-controls .preset-button {
+      min-height: 58px;
+      white-space: normal;
+      overflow: hidden;
+    }
+    .controls.wide-controls .zoom-row,
+    .controls.wide-controls .duration-row,
+    .controls.wide-controls .preview-row,
+    .controls.wide-controls .text-row {
+      grid-row: 4;
+    }
+    .controls.wide-controls .type-composer {
+      grid-column: 1 / -1;
+      grid-row: 3;
+    }
+    .controls.wide-controls .zoom-row {
+      grid-column: 1 / span 3;
+    }
+    .controls.wide-controls .duration-row {
+      grid-column: 4 / span 3;
+      max-width: none;
+    }
+    .controls.wide-controls .duration-row::after {
+      content: "Start aus Timeline";
+      grid-column: 2;
+      margin-top: 3px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 800;
+    }
+    .controls.wide-controls .preview-row {
+      grid-column: 7 / span 3;
+      justify-self: stretch;
+      width: auto;
+    }
+    .controls.wide-controls .text-row {
+      grid-column: 10 / span 3;
+      justify-self: stretch;
+      width: auto;
+    }
+    .controls.wide-controls .zoom-tools {
+      grid-template-columns: minmax(90px, 1fr) minmax(138px, auto);
+    }
+    .controls.wide-controls .sync-button,
+    .controls.wide-controls #toggleTextPanel,
+    .controls.wide-controls #playMotionPreview {
+      white-space: normal;
+      min-width: 0;
+      width: 100%;
+    }
+    .controls.wide-controls #toggleTextPanel {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+    .controls.wide-controls .avatar-card {
+      grid-column: 1 / -1;
+      grid-row: 5;
+      grid-template-columns: minmax(190px, 240px) minmax(240px, 1fr) minmax(220px, 280px) minmax(220px, 280px);
+      align-items: center;
+      gap: 8px 12px;
+    }
+    .controls.wide-controls .avatar-card-head,
+    .controls.wide-controls .avatar-card p,
+    .controls.wide-controls .avatar-card button,
+    .controls.wide-controls .avatar-note-input {
+      min-width: 0;
+    }
+    .controls.wide-controls .avatar-mini-grid {
+      grid-template-columns: 1fr 1fr;
+      grid-column: span 2;
+    }
+    .controls.wide-controls .render-note {
+      grid-column: 1 / -1;
+      grid-row: 6;
+      margin: 0;
+    }
+    .motif .motif-duration-badge {
+      position: absolute;
+      right: 7px;
+      top: 7px;
+      z-index: 3;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 34px;
+      padding: 3px 7px;
+      border: 1px solid rgba(23,63,103,.28);
+      border-radius: 999px;
+      background: rgba(255,255,255,.94);
+      color: var(--accent);
+      font-size: 10px;
+      font-weight: 950;
+      line-height: 1;
+      box-shadow: 0 2px 8px rgba(15,23,42,.12);
+    }
+    .motif.active .motif-duration-badge {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+    .motif .motif-title {
+      display: block;
+      padding: 7px 8px;
+      font-size: 12px;
+      font-weight: 800;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .rail {
+      margin-top: 0;
+    }
+    @media (max-width: 1500px) {
+      .controls.wide-controls {
+        grid-template-columns: repeat(12, minmax(0, 1fr));
+      }
+      .controls.wide-controls .motion-row {
+        grid-column: 1 / span 4;
+        grid-row: 1;
+      }
+      .controls.wide-controls .motion-help {
+        grid-column: 1 / span 4;
+        grid-row: 2;
+      }
+      .controls.wide-controls .preset-grid {
+        grid-column: 5 / span 8;
+        grid-row: 1 / span 2;
+      }
+      .controls.wide-controls .preset-grid {
+        grid-template-columns: repeat(3, minmax(130px, 1fr));
+      }
+      .controls.wide-controls .zoom-row {
+        grid-column: 1 / span 6;
+        grid-row: 4;
+      }
+      .controls.wide-controls .duration-row,
+      .controls.wide-controls .preview-row,
+      .controls.wide-controls .text-row {
+        justify-self: stretch;
+        width: auto;
+        max-width: none;
+      }
+      .controls.wide-controls .duration-row { grid-column: 7 / span 6; grid-row: 4; }
+      .controls.wide-controls .preview-row { grid-column: 1 / span 6; grid-row: 5; }
+      .controls.wide-controls .text-row { grid-column: 7 / span 6; grid-row: 5; }
+      .controls.wide-controls .avatar-card {
+        grid-column: 1 / -1;
+        grid-row: 6;
+        grid-template-columns: minmax(180px, 240px) minmax(240px, 1fr);
+      }
+      .controls.wide-controls .render-note {
+        grid-row: 7;
+      }
+    }
+    @media (max-width: 980px) {
+      :root {
+        --workbench-stage-height: auto;
+      }
+      body {
+        overflow-x: hidden;
+      }
+      main {
+        width: 100%;
+        padding-inline: 10px;
+        overflow-x: hidden;
+      }
+      .editor {
+        grid-template-columns: minmax(0, 1fr);
+        width: 100%;
+      }
+      .panel,
+      .preview-panel,
+      .controls.wide-controls {
+        min-width: 0;
+        max-width: 100%;
+      }
+      .source-wrap,
+      .portrait-shell {
+        height: auto;
+      }
+      .source-stage {
+        width: 100%;
+        height: auto;
+      }
+      .portrait {
+        width: min(100%, 315px);
+        height: auto;
+      }
+      .controls.wide-controls,
+      .controls.wide-controls .avatar-card {
+        grid-template-columns: 1fr;
+      }
+      .controls.wide-controls .motion-row,
+      .controls.wide-controls .motion-help,
+      .controls.wide-controls .preset-grid,
+      .controls.wide-controls .type-composer,
+      .controls.wide-controls .zoom-row,
+      .controls.wide-controls .duration-row,
+      .controls.wide-controls .preview-row,
+      .controls.wide-controls .text-row,
+      .controls.wide-controls .avatar-card,
+      .controls.wide-controls .render-note {
+        grid-column: 1;
+        grid-row: auto;
+        justify-self: stretch;
+        width: auto;
+      }
+      .controls.wide-controls .preset-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .type-composer { grid-template-columns: 1fr; }
+      .type-preset-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .controls.wide-controls .zoom-tools,
+      .controls.wide-controls .avatar-mini-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 520px) {
+      header {
+        position: relative;
+        top: auto;
+        align-items: stretch;
+      }
+      .header-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        align-items: stretch;
+      }
+      .header-actions .timeline-header-link,
+      .header-actions #planStatus,
+      .header-actions #renderStatus { grid-column: 1 / -1; }
+      .controls.wide-controls .preset-grid {
+        grid-template-columns: 1fr;
+      }
+      .type-preset-grid { grid-template-columns: 1fr 1fr; }
+      .header-actions > *,
+      .controls.wide-controls .row,
+      .controls.wide-controls .preset-button {
+        width: 100%;
+      }
+    }
+
+  </style>
+</head>
+<body>
+  <a class="brand-dot" href="/dashboard/video-studio?candidate=7" aria-label="Zur Timeline zurück">i</a>
+  <header>
+    <div>
+      <h1>Kandidat 7 · Bewegung & Text</h1>
+      <p class="subline">Bewegung und Typografie pro Szene gestalten</p>
+    </div>
+    <div class="header-actions">
+      <a class="timeline-header-link" href="/dashboard/video-studio?candidate=7">Zur Timeline</a>
+      <button id="resetCurrent">Aktuelles zurücksetzen</button>
+      <button id="savePlanBtn">Arbeitsstand speichern</button>
+      <button id="loadPlanBtn">Plan laden</button>
+      <button id="exportBtn">Technisches JSON</button>
+      <button id="renderVideoBtn">Video rendern</button>
+      <input id="planFileInput" type="file" accept="application/json,.json" hidden>
+      <span id="planStatus" class="subline" role="status"></span>
+      <span id="renderStatus" class="subline" role="status"></span>
+    </div>
+    <div class="workflow-strip" aria-label="Arbeitsstand">
+      <span class="workflow-step ready"><strong>1</strong>Timeline pruefen</span>
+      <span class="workflow-step warning" id="brokerWorkflowStep"><strong>2</strong>Makler-Szene fehlt</span>
+      <span class="workflow-step" id="planWorkflowStep"><strong>3</strong>Arbeitsstand speichern</span>
+      <span class="workflow-step"><strong>4</strong>Rendern</span>
+      <span class="workflow-step"><strong>5</strong>MP4 herunterladen</span>
+    </div>
+  </header>
+  <main>
+    <section class="editor">
+      <section class="panel">
+        <div class="panel-head">
+          <span class="panel-title">Original mit Start-/Endrahmen</span>
+          <span class="subline" id="activeName"></span>
+        </div>
+        <div class="source-wrap">
+          <div class="source-stage" id="sourceStage">
+            <img id="sourceImg" alt="">
+            <div class="avatar-marker" id="avatarMarker" hidden><span>Makler</span></div>
+            <div class="crop-box editing" data-target="start" id="startBox"><span class="crop-label">Start</span></div>
+            <div class="crop-box" data-target="end" id="endBox"><span class="crop-label">Ende</span></div>
+          </div>
+        </div>
+        <div class="meta" id="imageMeta"></div>
+      </section>
+      <section class="panel preview-panel">
+        <div class="panel-head">
+          <span class="panel-title">9:16 Vorschau</span>
+          <div class="mode-buttons">
+            <button id="startMode" class="active">Start</button>
+            <button id="endMode">Ende</button>
+          </div>
+        </div>
+        <div class="portrait-shell">
+          <div class="portrait" id="portrait">
+            <span class="preview-badge" id="previewBadge">Start</span>
+            <img id="portraitImg" alt="">
+            <div class="preview-grid" aria-hidden="true"></div>
+            <div class="text-layer" id="textLayer">
+              <span class="text-title" id="textTitlePreview"></span>
+              <span class="text-subtitle" id="textSubtitlePreview"></span>
+            </div>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="row">
+            <label for="motionType">Bewegung</label>
+            <select id="motionType">
+              <option value="still">Keine Bewegung</option>
+              <option value="slow_push">Slow Push</option>
+              <option value="pull_out">Pull Out</option>
+              <option value="slide_left">Slide links</option>
+              <option value="slide_right">Slide rechts</option>
+              <option value="tilt_up">Tilt hoch</option>
+              <option value="tilt_down">Tilt runter</option>
+              <option value="masked_text_reveal">Text-Reveal später</option>
+              <option value="qwen_layered_opening">Qwen Layered Test</option>
+            </select>
+          </div>
+          <div class="motion-help">Demo-Varianten funktionieren sofort ohne manuelles Setzen von Start und Ende. Danach kannst du die Rahmen individuell verschieben oder stärker zoomen.</div>
+          <div class="preset-grid" id="motionPresetGrid">
+            <button class="preset-button" data-motion-preset="still"><strong>Keine Bewegung</strong><span>statischer Kontroll-Clip</span></button>
+            <button class="preset-button" data-motion-preset="slow_push"><strong>Slow Push</strong><span>ruhiger Push-in</span></button>
+            <button class="preset-button" data-motion-preset="pull_out"><strong>Pull Out</strong><span>von nah nach weit</span></button>
+            <button class="preset-button" data-motion-preset="slide_left"><strong>Slide links</strong><span>reiner Schwenk</span></button>
+            <button class="preset-button" data-motion-preset="slide_right"><strong>Slide rechts</strong><span>Gegenschwenk</span></button>
+            <button class="preset-button" data-motion-preset="tilt_up"><strong>Tilt hoch</strong><span>vertikal nach oben</span></button>
+            <button class="preset-button" data-motion-preset="tilt_down"><strong>Tilt runter</strong><span>vertikal nach unten</span></button>
+          </div>
+          <section class="type-composer" aria-label="Typografie für diese Szene">
+            <div class="type-composer-head">
+              <div>
+                <strong>Textstil</strong>
+                <p>Direkt auf dem Bild, ohne Kasten. Stil und Bewegung werden gemeinsam für diese Szene gespeichert.</p>
+              </div>
+              <button id="toggleTextEnabled" class="text-enabled-button" type="button" aria-pressed="false">Text ist aus</button>
+            </div>
+            <div class="type-preset-grid" id="typePresetGrid">
+              <button class="type-preset" type="button" data-type-preset="quiet">
+                <small>Ruhig</small><span style="font:800 18px Inter,sans-serif">KLAR &amp; DIREKT</span>
+              </button>
+              <button class="type-preset" type="button" data-type-preset="editorial">
+                <small>Editorial</small><span style="font:700 23px 'Cormorant Garamond',serif">Mit Charakter</span>
+              </button>
+              <button class="type-preset" type="button" data-type-preset="architecture">
+                <small>Architektur</small><span style="font:400 24px 'Bebas Neue',sans-serif;letter-spacing:.05em">RAUM. LINIE. LICHT.</span>
+              </button>
+              <button class="type-preset" type="button" data-type-preset="warm">
+                <small>Warm</small><span style="font:700 19px 'Playfair Display',serif;color:#7b4d35">Zuhause ankommen</span>
+              </button>
+            </div>
+            <div class="type-quick-copy">
+              <input id="quickTitleText" maxlength="42" placeholder="Titelzeile">
+              <input id="quickSubtitleText" maxlength="64" placeholder="Unterzeile">
+              <span class="type-summary" id="typeSummary">Kein Text in dieser Szene</span>
+              <button id="toggleTextPanel" type="button">Typografie fein einstellen</button>
+            </div>
+          </section>
+          <div class="row">
+            <label for="zoomInput">Zoom</label>
+            <div class="zoom-tools">
+              <input id="zoomInput" type="range" min="1" max="2.4" step="0.01">
+              <button id="syncZoomBoth" class="sync-button">Beide angleichen</button>
+            </div>
+          </div>
+          <div class="row">
+            <label for="durationInput">Dauer</label>
+            <input id="durationInput" type="number" min="2" max="6" step="0.1">
+          </div>
+          <div class="row">
+            <label>Preview</label>
+            <div class="play-row">
+              <button id="playMotionPreview">Abspielen</button>
+              <div class="motion-progress" aria-hidden="true"><span id="motionProgress"></span></div>
+            </div>
+          </div>
+          <div class="avatar-card" id="avatarCard">
+            <div class="avatar-card-head">
+              <strong>Makler im Video</strong>
+              <span class="avatar-status" id="avatarStatus">nicht gewählt</span>
+            </div>
+            <p id="avatarNotePreview">Nur markierte Szenen werden im Video durch den Makler-Auftritt ersetzt.</p>
+            <button id="toggleAvatarCandidate" type="button">Makler in dieser Szene einsetzen</button>
+            <input id="avatarNoteInput" class="avatar-note-input" type="text" placeholder="kurze Notiz zur Makler-Position">
+            <div class="avatar-mini-grid">
+              <label>Fußpunkt X
+                <input id="avatarFootX" type="range" min="8" max="92" step="1">
+              </label>
+              <label>Fußpunkt Y
+                <input id="avatarFootY" type="range" min="45" max="94" step="1">
+              </label>
+            </div>
+          </div>
+          <div class="render-note">Browser-Vorschau nutzt komprimierte Preview-Bilder. Der spätere Render soll die Originaldatei mit voller Auflösung und dieselben normalisierten Crop-Werte verwenden.</div>
+        </div>
+      </section>
+    </section>
+    <section class="rail" id="rail" aria-label="Ausgewählte Motive"></section>
+  </main>
+  <dialog id="textDialog" class="text-dialog">
+    <div class="text-dialog-layout">
+      <div class="text-dialog-preview">
+        <div class="text-modal-portrait" id="textModalPortrait">
+          <img id="textModalImg" alt="">
+          <div class="text-layer" id="textModalLayer">
+            <span class="text-title" id="textModalTitlePreview"></span>
+            <span class="text-subtitle" id="textModalSubtitlePreview"></span>
+          </div>
+        </div>
+      </div>
+      <div class="text-dialog-side">
+        <div class="text-dialog-head">
+          <h2>Text gestalten</h2>
+          <button id="closeTextDialogTop">Schließen</button>
+        </div>
+        <div class="text-dialog-scroll">
+          <div class="text-panel" id="textPanel">
+            <div class="text-grid">
+              <div class="text-source-block">
+                <label for="qwenAltText">Vorhandene Bildanalyse</label>
+                <textarea id="qwenAltText" readonly></textarea>
+                <label for="suggestedTitle">Kurzer Textvorschlag</label>
+                <div class="suggestion-row">
+                  <input id="suggestedTitle" readonly>
+                  <button id="useSuggestedText">Übernehmen</button>
+                </div>
+                <input id="suggestedSubtitle" readonly>
+                <button type="button" disabled title="Folgt im nächsten Ausbauschritt">Weitere Varianten mit Qwen · nächster Ausbau</button>
+                <label for="hookText">Eigener Text</label>
+              </div>
+              <input class="wide" id="hookText" maxlength="42" placeholder="Titelzeile">
+              <input class="wide" id="subtitleText" maxlength="64" placeholder="Unterzeile">
+              <div class="font-picker">
+                <select id="titleFont"></select>
+                <div class="font-preview" id="titleFontPreview">Titelzeile</div>
+                <div class="font-samples" id="titleFontSamples"></div>
+              </div>
+              <div class="font-picker">
+                <select id="subtitleFont"></select>
+                <div class="font-preview" id="subtitleFontPreview">Unterzeile</div>
+                <div class="font-samples" id="subtitleFontSamples"></div>
+              </div>
+              <div class="swatch-row">
+                <input id="titleColorText" value="#ffffff" aria-label="Titel-Farbwert">
+                <input id="titleColor" type="color" value="#ffffff" aria-label="Titel-Farbe">
+              </div>
+              <div class="swatch-row">
+                <input id="subtitleColorText" value="#ffffff" aria-label="Unterzeile-Farbwert">
+                <input id="subtitleColor" type="color" value="#ffffff" aria-label="Unterzeile-Farbe">
+              </div>
+              <div class="range-control">
+                <label for="titleSize"><span>Titelgröße</span><output id="titleSizeValue">42</output></label>
+                <input id="titleSize" type="range" min="24" max="76" step="1" aria-label="Titelgröße">
+              </div>
+              <div class="range-control">
+                <label for="subtitleSize"><span>Unterzeilengröße</span><output id="subtitleSizeValue">20</output></label>
+                <input id="subtitleSize" type="range" min="12" max="38" step="1" aria-label="Unterzeilengröße">
+              </div>
+              <div class="range-control">
+                <label for="titleScaleX"><span>Titel strecken</span><output id="titleScaleXValue">100%</output></label>
+                <input id="titleScaleX" type="range" min="60" max="220" step="1" aria-label="Titel horizontal strecken">
+                <button id="fitTitleWidth" class="range-action">Titel füllen</button>
+              </div>
+              <div class="range-control">
+                <label for="subtitleScaleX"><span>Unterzeile strecken</span><output id="subtitleScaleXValue">100%</output></label>
+                <input id="subtitleScaleX" type="range" min="60" max="220" step="1" aria-label="Unterzeile horizontal strecken">
+                <button id="fitSubtitleWidth" class="range-action">Unterzeile füllen</button>
+              </div>
+              <div class="range-control">
+                <label for="textY"><span>Höhe</span><output id="textYValue">18%</output></label>
+                <input id="textY" type="range" min="8" max="92" step="1" aria-label="Texthöhe">
+              </div>
+              <div class="range-control">
+                <label for="textX"><span>Horizontal</span><output id="textXValue">50%</output></label>
+                <input id="textX" type="range" min="8" max="92" step="1" aria-label="Text horizontal">
+              </div>
+              <div class="range-control wide">
+                <label for="lineGap"><span>Abstand Titel/Unterzeile</span><output id="lineGapValue">6px</output></label>
+                <input id="lineGap" type="range" min="0" max="42" step="1" aria-label="Zeilenabstand">
+              </div>
+              <div class="range-control wide">
+                <label for="textWidth"><span>Textrahmen</span><output id="textWidthValue">88%</output></label>
+                <input id="textWidth" type="range" min="36" max="100" step="1" aria-label="Textrahmen">
+              </div>
+              <select class="wide" id="textMotion">
+                <option value="static">Text statisch</option>
+                <option value="slide_in_left">Text von links</option>
+                <option value="slide_in_right">Text von rechts</option>
+                <option value="drift_with_crop">Text leicht mitziehen</option>
+                <option value="masked_reveal_later">Masken-Reveal später</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="text-dialog-foot">
+          <button id="closeTextDialog">Fertig</button>
+        </div>
+      </div>
+    </div>
+  </dialog>
+  <dialog id="exportDialog">
+    <h2>Kandidat 10 Motion / Typo JSON</h2>
+    <textarea id="exportText" spellcheck="false"></textarea>
+    <div class="header-actions" style="margin-top:10px">
+      <button id="copyExport">Kopieren</button>
+      <button id="downloadExport">JSON speichern</button>
+      <button id="closeExport">Schließen</button>
+    </div>
+  </dialog>
+  <script src="/video-workbench/shared/project-store.js"></script>
+  <script>
+    const items = [{"id": "take_01_DSF2392", "index": 1, "filename": "01 · Startbild · 20260625-115605000-Aussenansicht-DSF2392.jpg", "copied_filename": "20260625-115605000-Aussenansicht-DSF2392.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_01_DSF2392.jpg", "large": "candidate_10_motion_typo_assets/large/take_01_DSF2392.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-115605000-Aussenansicht-DSF2392.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-115605000-Aussenansicht-DSF2392.jpg", "qwen_item_id": "candidate10_DSF2392", "quality_flags": "Kandidat 10; Startbild; aussenansicht; 4s", "alt_text_de": "Gebäude an einer Straßenecke mit roten Fenstern und Türen, geparkte Autos und Bäume im Vordergrund.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 1, "slot_role": "Startbild", "slot_kind": "hook", "duration_seconds": 4, "room_label_de": "aussenansicht", "scene_type": "exterior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": true, "suggested": true, "suitability": "Maklerin Opening", "note": "Kandidat 10 Opening: Stadtfassade mit Strasse, Maklerin als Referenz.", "footpoint": {"x": 0.58, "y": 0.82}}}, {"id": "take_02_DSF2397", "index": 2, "filename": "02 · Take · 20260625-115907000-Aussenansicht-DSF2397.jpg", "copied_filename": "20260625-115907000-Aussenansicht-DSF2397.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_02_DSF2397.jpg", "large": "candidate_10_motion_typo_assets/large/take_02_DSF2397.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-115907000-Aussenansicht-DSF2397.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-115907000-Aussenansicht-DSF2397.jpg", "qwen_item_id": "candidate10_DSF2397", "quality_flags": "Kandidat 10; Take; aussenansicht; 1.5s", "alt_text_de": "Fassade eines mehrstöckigen Wohnhauses mit roten Fenstern und geparkten Autos vor der Haustür.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 2, "slot_role": "Take", "slot_kind": "info", "duration_seconds": 1.5, "room_label_de": "aussenansicht", "scene_type": "exterior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_03_DSF2402", "index": 3, "filename": "03 · Take · 20260625-115955000-Aussenansicht-DSF2402.jpg", "copied_filename": "20260625-115955000-Aussenansicht-DSF2402.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_03_DSF2402.jpg", "large": "candidate_10_motion_typo_assets/large/take_03_DSF2402.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-115955000-Aussenansicht-DSF2402.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-115955000-Aussenansicht-DSF2402.jpg", "qwen_item_id": "candidate10_DSF2402", "quality_flags": "Kandidat 10; Take; aussenansicht; 0.75s", "alt_text_de": "Fassade eines Hauses mit roter Eingangstür, roten Fenstern und Fahrrädern davor.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 3, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "aussenansicht", "scene_type": "exterior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_04_DSF2412", "index": 4, "filename": "04 · Take · 20260625-121547000-Wohnzimmer-DSF2412.jpg", "copied_filename": "20260625-121547000-Wohnzimmer-DSF2412.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_04_DSF2412.jpg", "large": "candidate_10_motion_typo_assets/large/take_04_DSF2412.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-121547000-Wohnzimmer-DSF2412.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-121547000-Wohnzimmer-DSF2412.jpg", "qwen_item_id": "candidate10_DSF2412", "quality_flags": "Kandidat 10; Take; wohnzimmer; 0.75s", "alt_text_de": "Offene Wohnfläche mit Holzboden, Sofa vor Ziegelwand, Tür im Vordergrund und Garderobe rechts.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 4, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "wohnzimmer", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_05_DSF2407", "index": 5, "filename": "05 · Take · 20260625-121342000-Wohnzimmer-DSF2407.jpg", "copied_filename": "20260625-121342000-Wohnzimmer-DSF2407.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_05_DSF2407.jpg", "large": "candidate_10_motion_typo_assets/large/take_05_DSF2407.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-121342000-Wohnzimmer-DSF2407.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-121342000-Wohnzimmer-DSF2407.jpg", "qwen_item_id": "candidate10_DSF2407", "quality_flags": "Kandidat 10; Take; wohnzimmer; 2s", "alt_text_de": "Wohnzimmer mit grauem Sofa, Holzboden und sichtbarer Backsteinwand, offen zum Küchenbereich.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 5, "slot_role": "Take", "slot_kind": "info", "duration_seconds": 2, "room_label_de": "wohnzimmer", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_06_DSF2422", "index": 6, "filename": "06 · Take · 20260625-121943000-Wohnzimmer-DSF2422.jpg", "copied_filename": "20260625-121943000-Wohnzimmer-DSF2422.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_06_DSF2422.jpg", "large": "candidate_10_motion_typo_assets/large/take_06_DSF2422.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-121943000-Wohnzimmer-DSF2422.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-121943000-Wohnzimmer-DSF2422.jpg", "qwen_item_id": "candidate10_DSF2422", "quality_flags": "Kandidat 10; Take; wohnzimmer; 0.75s", "alt_text_de": "Wohnraum mit Holzboden, Backsteinwand, Fernseher und Sitzgelegenheit, Blick in Küche und Balkon.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 6, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "wohnzimmer", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_07_DSF2427", "index": 7, "filename": "07 · Take · 20260625-122008000-Kueche-DSF2427.jpg", "copied_filename": "20260625-122008000-Kueche-DSF2427.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_07_DSF2427.jpg", "large": "candidate_10_motion_typo_assets/large/take_07_DSF2427.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122008000-Kueche-DSF2427.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122008000-Kueche-DSF2427.jpg", "qwen_item_id": "candidate10_DSF2427", "quality_flags": "Kandidat 10; Take; kueche; 0.75s", "alt_text_de": "Modern eingerichtete Küche mit Backsteinwand, Holzboden und Kücheninsel auf einem Texaco-Fass. Hintergrund zeigt Balkon.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 7, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "kueche", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_08_DSF2442", "index": 8, "filename": "08 · Take · 20260625-122148000-Kueche-DSF2442.jpg", "copied_filename": "20260625-122148000-Kueche-DSF2442.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_08_DSF2442.jpg", "large": "candidate_10_motion_typo_assets/large/take_08_DSF2442.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122148000-Kueche-DSF2442.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122148000-Kueche-DSF2442.jpg", "qwen_item_id": "candidate10_DSF2442", "quality_flags": "Kandidat 10; Take; kueche; 0.75s", "alt_text_de": "Modern eingerichtete Küche mit Backsteinwand, weißen Schränken und Gasherd auf Insel.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 8, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "kueche", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_09_DSF2447", "index": 9, "filename": "09 · Take · 20260625-122205000-Kueche-DSF2447.jpg", "copied_filename": "20260625-122205000-Kueche-DSF2447.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_09_DSF2447.jpg", "large": "candidate_10_motion_typo_assets/large/take_09_DSF2447.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122205000-Kueche-DSF2447.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122205000-Kueche-DSF2447.jpg", "qwen_item_id": "candidate10_DSF2447", "quality_flags": "Kandidat 10; Take; kueche; 3s", "alt_text_de": "Küche mit weißen Schränken, Backsteinwand, Edelstahl-Kühlschrank und Waschmaschine, Holzboden und Balkontür.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 9, "slot_role": "Take", "slot_kind": "anchor", "duration_seconds": 3, "room_label_de": "kueche", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_10_DSF2462", "index": 10, "filename": "10 · Take · 20260625-122303000-Kueche-DSF2462.jpg", "copied_filename": "20260625-122303000-Kueche-DSF2462.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_10_DSF2462.jpg", "large": "candidate_10_motion_typo_assets/large/take_10_DSF2462.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122303000-Kueche-DSF2462.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122303000-Kueche-DSF2462.jpg", "qwen_item_id": "candidate10_DSF2462", "quality_flags": "Kandidat 10; Take; kueche; 0.75s", "alt_text_de": "Küche mit Holzboden, Edelstahl-Kochinsel und Texaco-Fass als Stuhl, im Hintergrund Wohnzimmer mit Fenstern.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 10, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "kueche", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_11_DSF2467", "index": 11, "filename": "11 · Take · 20260625-122335000-Kueche-DSF2467.jpg", "copied_filename": "20260625-122335000-Kueche-DSF2467.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_11_DSF2467.jpg", "large": "candidate_10_motion_typo_assets/large/take_11_DSF2467.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122335000-Kueche-DSF2467.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122335000-Kueche-DSF2467.jpg", "qwen_item_id": "candidate10_DSF2467", "quality_flags": "Kandidat 10; Take; kueche; 0.75s", "alt_text_de": "Küchenbereich mit Holzboden, Edelstahl-Hängelampe und Kochinsel aus Beton und Holz.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 11, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "kueche", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_12_DSF2472", "index": 12, "filename": "12 · Take · 20260625-122408000-Esszimmer-DSF2472.jpg", "copied_filename": "20260625-122408000-Esszimmer-DSF2472.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_12_DSF2472.jpg", "large": "candidate_10_motion_typo_assets/large/take_12_DSF2472.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122408000-Esszimmer-DSF2472.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122408000-Esszimmer-DSF2472.jpg", "qwen_item_id": "candidate10_DSF2472", "quality_flags": "Kandidat 10; Take; esszimmer; 1.5s", "alt_text_de": "Esszimmer mit Holztisch, Stühlen, Pflanze und Fensterblick auf Dachziegel.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 12, "slot_role": "Take", "slot_kind": "info", "duration_seconds": 1.5, "room_label_de": "esszimmer", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_13_DSF2477", "index": 13, "filename": "13 · Take · 20260625-122428000-Esszimmer-DSF2477.jpg", "copied_filename": "20260625-122428000-Esszimmer-DSF2477.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_13_DSF2477.jpg", "large": "candidate_10_motion_typo_assets/large/take_13_DSF2477.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122428000-Esszimmer-DSF2477.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122428000-Esszimmer-DSF2477.jpg", "qwen_item_id": "candidate10_DSF2477", "quality_flags": "Kandidat 10; Take; esszimmer; 0.75s", "alt_text_de": "Esszimmer mit Holztisch, zwei Stühlen, Pflanze am Fenster und moderner Deckenleuchte.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 13, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "esszimmer", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_14_DSF2482", "index": 14, "filename": "14 · Take · 20260625-122603000-Bad-DSF2482.jpg", "copied_filename": "20260625-122603000-Bad-DSF2482.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_14_DSF2482.jpg", "large": "candidate_10_motion_typo_assets/large/take_14_DSF2482.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122603000-Bad-DSF2482.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122603000-Bad-DSF2482.jpg", "qwen_item_id": "candidate10_DSF2482", "quality_flags": "Kandidat 10; Take; bad; 0.75s", "alt_text_de": "Badezimmer mit weißem Waschbecken, Spiegel und WC vor Fenster mit Holzverkleidung.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 14, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "bad", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_15_DSF2492", "index": 15, "filename": "15 · Take · 20260625-122930000-Esszimmer-DSF2492.jpg", "copied_filename": "20260625-122930000-Esszimmer-DSF2492.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_15_DSF2492.jpg", "large": "candidate_10_motion_typo_assets/large/take_15_DSF2492.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122930000-Esszimmer-DSF2492.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122930000-Esszimmer-DSF2492.jpg", "qwen_item_id": "candidate10_DSF2492", "quality_flags": "Kandidat 10; Take; esszimmer; 1.5s", "alt_text_de": "Esszimmer mit Holztisch, zwei Stühlen, Pflanze und Fenster im Hintergrund.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 15, "slot_role": "Take", "slot_kind": "info", "duration_seconds": 1.5, "room_label_de": "esszimmer", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_16_DSF2497", "index": 16, "filename": "16 · Take · 20260625-123218000-Flur-Diele-DSF2497.jpg", "copied_filename": "20260625-123218000-Flur-Diele-DSF2497.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_16_DSF2497.jpg", "large": "candidate_10_motion_typo_assets/large/take_16_DSF2497.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123218000-Flur-Diele-DSF2497.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123218000-Flur-Diele-DSF2497.jpg", "qwen_item_id": "candidate10_DSF2497", "quality_flags": "Kandidat 10; Take; flur_diele; 1.25s", "alt_text_de": "Flur mit Holzboden, Treppe, Wandbild und schwarzer Kommode unter der Treppe.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 16, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 1.25, "room_label_de": "flur_diele", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_17_DSF2522", "index": 17, "filename": "17 · Take · 20260625-123710000-Flur-Diele-DSF2522.jpg", "copied_filename": "20260625-123710000-Flur-Diele-DSF2522.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_17_DSF2522.jpg", "large": "candidate_10_motion_typo_assets/large/take_17_DSF2522.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123710000-Flur-Diele-DSF2522.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123710000-Flur-Diele-DSF2522.jpg", "qwen_item_id": "candidate10_DSF2522", "quality_flags": "Kandidat 10; Take; flur_diele; 1.25s", "alt_text_de": "Flur mit Holzboden, Schiebetüren, Wandbild und Zugang zu Bad sowie Fitnessbereich.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 17, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 1.25, "room_label_de": "flur_diele", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_18_DSF2527", "index": 18, "filename": "18 · Take · 20260625-123735000-Bad-DSF2527.jpg", "copied_filename": "20260625-123735000-Bad-DSF2527.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_18_DSF2527.jpg", "large": "candidate_10_motion_typo_assets/large/take_18_DSF2527.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123735000-Bad-DSF2527.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123735000-Bad-DSF2527.jpg", "qwen_item_id": "candidate10_DSF2527", "quality_flags": "Kandidat 10; Take; bad; 0.75s", "alt_text_de": "Badezimmer mit Holzwaschtisch, Toilette und Dachfenster, dekoriert mit Pflanze und Statuen.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 18, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "bad", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_19_DSF2532", "index": 19, "filename": "19 · Take · 20260625-123824000-Dachboden-DSF2532.jpg", "copied_filename": "20260625-123824000-Dachboden-DSF2532.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_19_DSF2532.jpg", "large": "candidate_10_motion_typo_assets/large/take_19_DSF2532.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123824000-Dachboden-DSF2532.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123824000-Dachboden-DSF2532.jpg", "qwen_item_id": "candidate10_DSF2532", "quality_flags": "Kandidat 10; Take; dachboden; 0.75s", "alt_text_de": "Dachboden mit Holzboden, Dachschräge, Waschbecken und Wäscheständer an der Wand.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 19, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "dachboden", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_20_DSF2537", "index": 20, "filename": "20 · Take · 20260625-123849000-Dachboden-DSF2537.jpg", "copied_filename": "20260625-123849000-Dachboden-DSF2537.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_20_DSF2537.jpg", "large": "candidate_10_motion_typo_assets/large/take_20_DSF2537.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123849000-Dachboden-DSF2537.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123849000-Dachboden-DSF2537.jpg", "qwen_item_id": "candidate10_DSF2537", "quality_flags": "Kandidat 10; Take; dachboden; 0.75s", "alt_text_de": "Dachbodenraum mit Holzboden, Dachfenster, Pflanze und Wandbild an der schrägen Wand.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 20, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "dachboden", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_21_DSF2542", "index": 21, "filename": "21 · Take · 20260625-123947000-Bad-DSF2542.jpg", "copied_filename": "20260625-123947000-Bad-DSF2542.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_21_DSF2542.jpg", "large": "candidate_10_motion_typo_assets/large/take_21_DSF2542.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123947000-Bad-DSF2542.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123947000-Bad-DSF2542.jpg", "qwen_item_id": "candidate10_DSF2542", "quality_flags": "Kandidat 10; Take; bad; 0.75s", "alt_text_de": "Badezimmer mit Dusche, Holzfliesen, Wandbild und WC im Hintergrund.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 21, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "bad", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_22_DSF2547", "index": 22, "filename": "22 · Take · 20260625-124016000-Bad-DSF2547.jpg", "copied_filename": "20260625-124016000-Bad-DSF2547.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_22_DSF2547.jpg", "large": "candidate_10_motion_typo_assets/large/take_22_DSF2547.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-124016000-Bad-DSF2547.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-124016000-Bad-DSF2547.jpg", "qwen_item_id": "candidate10_DSF2547", "quality_flags": "Kandidat 10; Take; bad; 1.5s", "alt_text_de": "Badezimmer mit Holz- und Beton-Elementen, Wandwaschbecken, Toilette und dekorativen Gegenständen.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 22, "slot_role": "Take", "slot_kind": "info", "duration_seconds": 1.5, "room_label_de": "bad", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_23_DSF2502", "index": 23, "filename": "23 · Take · 20260625-123404000-Schlafzimmer-DSF2502.jpg", "copied_filename": "20260625-123404000-Schlafzimmer-DSF2502.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_23_DSF2502.jpg", "large": "candidate_10_motion_typo_assets/large/take_23_DSF2502.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123404000-Schlafzimmer-DSF2502.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123404000-Schlafzimmer-DSF2502.jpg", "qwen_item_id": "candidate10_DSF2502", "quality_flags": "Kandidat 10; Take; schlafzimmer; 0.75s", "alt_text_de": "Schlafzimmer mit Holzbalken, Bett auf Podest, Boxsack und Elefantenbild an der Wand.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 23, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "schlafzimmer", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_24_DSF2507", "index": 24, "filename": "24 · Take · 20260625-123423000-Schlafzimmer-DSF2507.jpg", "copied_filename": "20260625-123423000-Schlafzimmer-DSF2507.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_24_DSF2507.jpg", "large": "candidate_10_motion_typo_assets/large/take_24_DSF2507.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123423000-Schlafzimmer-DSF2507.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123423000-Schlafzimmer-DSF2507.jpg", "qwen_item_id": "candidate10_DSF2507", "quality_flags": "Kandidat 10; Take; schlafzimmer; 1.5s", "alt_text_de": "Schlafzimmer mit Dachschräge, Holzbalken, Bett, Boxsack und Fahrrad an der Wand.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 24, "slot_role": "Take", "slot_kind": "info", "duration_seconds": 1.5, "room_label_de": "schlafzimmer", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_25_DSF2512", "index": 25, "filename": "25 · Take · 20260625-123541000-Unklar-DSF2512.jpg", "copied_filename": "20260625-123541000-Unklar-DSF2512.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_25_DSF2512.jpg", "large": "candidate_10_motion_typo_assets/large/take_25_DSF2512.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-123541000-Unklar-DSF2512.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-123541000-Unklar-DSF2512.jpg", "qwen_item_id": "candidate10_DSF2512", "quality_flags": "Kandidat 10; Take; sonstiges_unklar; 0.75s", "alt_text_de": "Raum mit Holzbalken, Backsteinwand, Boxsack und großem Elefantenbild an der Wand.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 25, "slot_role": "Take", "slot_kind": "pulse", "duration_seconds": 0.75, "room_label_de": "sonstiges_unklar", "scene_type": "interior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}, {"id": "take_26_DSF2457", "index": 26, "filename": "26 · Schlussbild · 20260625-122241000-Balkon-Terrasse-DSF2457.jpg", "copied_filename": "20260625-122241000-Balkon-Terrasse-DSF2457.jpg", "thumb": "candidate_10_motion_typo_assets/thumbs/take_26_DSF2457.jpg", "large": "candidate_10_motion_typo_assets/large/take_26_DSF2457.jpg", "original_path": "/Volumes/2026-client/Kundendata/_COPIED_FROM_8TB_ELE_2026_2026-06-30/DB/DB_CG/2060625-DB-CG/20260625-DB-CG/20260625-122241000-Balkon-Terrasse-DSF2457.jpg", "copied_path": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/all_highres_jpgs_by_candidate/10_10_qwenexp2026_86da1af6f65de0da/20260625-122241000-Balkon-Terrasse-DSF2457.jpg", "qwen_item_id": "candidate10_DSF2457", "quality_flags": "Kandidat 10; Schlussbild; balkon_terrasse; 3s", "alt_text_de": "Balkon mit Holztisch, Sonnenschirm und Blick auf angrenzende Häuser mit roten Fenstern.", "width": 6000, "height": 4000, "cutplan": {"candidate_index": 10, "candidate_label": "Stadtfassade mit Strasse", "order": 26, "slot_role": "Schlussbild", "slot_kind": "end", "duration_seconds": 3, "room_label_de": "balkon_terrasse", "scene_type": "exterior", "source_cutplan": "/Volumes/drive 1/PIXCAPTURE/exports/opening_video_muster_candidates_2026-07-07/video_planning/locked_cutplans/opening-video-candidate-10-cutplan-current.json"}, "avatar_demo": {"selected": false, "suggested": false, "suitability": "nicht geprueft", "note": "Take aus dem gesicherten Kandidat-10-Schnittplan.", "footpoint": {"x": 0.5, "y": 0.78}}}];
+    
+    const pageParams = new URLSearchParams(window.location.search);
+    const workbenchBootstrap = window.__PIX_VIDEO_BOOTSTRAP__ || {};
+    const requestedCandidateIndex = Number(pageParams.get("candidate"));
+    let activeCandidateIndex = Number(workbenchBootstrap.candidateIndex)
+      || (Number.isInteger(requestedCandidateIndex) && requestedCandidateIndex > 0 ? requestedCandidateIndex : 7);
+    let activeCandidateLabel = workbenchBootstrap.projectTitle || "Backsteinhaus mit Einfahrt";
+
+    function activeCandidateKey() {
+      return String(activeCandidateIndex || requestedCandidateIndex || 7);
+    }
+    function selectedCandidateHref() {
+      if (workbenchBootstrap.jobReference) {
+        return `/dashboard/video-studio?jobId=${encodeURIComponent(workbenchBootstrap.jobReference)}`;
+      }
+      return `/dashboard/video-studio?candidate=${encodeURIComponent(activeCandidateKey())}`;
+    }
+    function updateCandidateChrome() {
+      const title = workbenchBootstrap.jobMode
+        ? `${activeCandidateLabel} · Bewegung & Text`
+        : `Kandidat ${activeCandidateIndex} · Bewegung & Text`;
+      document.title = title.replace(" · ", " ");
+      document.querySelector(".brand-dot")?.setAttribute("href", selectedCandidateHref());
+      document.querySelector(".timeline-header-link")?.setAttribute("href", selectedCandidateHref());
+      const heading = document.querySelector("header h1");
+      if (heading) heading.textContent = title;
+      const subline = document.querySelector("header .subline");
+      if (subline) {
+        subline.textContent = `${items.length} Szenen · ${activeCandidateLabel} · Bewegung und Typografie gemeinsam gestalten`;
+      }
+      const jsonTitle = document.querySelector(".export-panel h2");
+      if (jsonTitle) jsonTitle.textContent = `${workbenchBootstrap.jobMode ? activeCandidateLabel : `Kandidat ${activeCandidateIndex}`} Motion / Typo JSON`;
+    }
+    function basename(value) {
+      return String(value || "").split(/[\\/]/).pop() || "";
+    }
+    function stemFromFilename(value) {
+      const match = basename(value).match(/DSF\d+/i);
+      return match ? match[0].toUpperCase() : basename(value).replace(/\.[^.]+$/, "");
+    }
+    function workbenchAssetKeyFromImageSrc(value) {
+      const raw = String(value || "").trim().replace(/^\/+/, "").replace(/^video-workbench\//, "");
+      if (!raw) return "";
+      if (raw.startsWith("../all_highres_jpgs_by_candidate/")) {
+        return `video-workbench/source-assets/${raw.replace(/^\.\.\//, "")}`;
+      }
+      if (raw.startsWith("all_highres_jpgs_by_candidate/")) {
+        return `video-workbench/source-assets/${raw}`;
+      }
+      return "";
+    }
+    function itemFromTimelineTake(take, index, cutplan) {
+      const filename = take?.filename || "";
+      const imagePath = take?.image_src || "";
+      if (!filename || !imagePath) return null;
+      const role = take.slot_role || (index === 0 ? "Startbild" : index === cutplan.timeline.length - 1 ? "Schlussbild" : "Take");
+      const duration = Number(take.duration_seconds || 4);
+      const stem = stemFromFilename(filename) || String(index + 1).padStart(2, "0");
+      return {
+        id: `candidate_${activeCandidateIndex}_take_${String(index + 1).padStart(2, "0")}_${stem}`.replace(/[^a-zA-Z0-9_-]/g, "_"),
+        index: index + 1,
+        filename: `${String(index + 1).padStart(2, "0")} · ${role} · ${filename}`,
+        copied_filename: filename,
+        thumb: imagePath,
+        large: imagePath,
+        original_path: take.source_file || "",
+        copied_path: take.working_file || imagePath,
+        render_source_r2_key: workbenchAssetKeyFromImageSrc(imagePath),
+        qwen_item_id: `candidate${activeCandidateIndex}_${stem}`,
+        quality_flags: "",
+        alt_text_de: take.qwen_alt_text_de || "",
+        width: Number(take.width || 6000),
+        height: Number(take.height || 4000),
+        duration_seconds: duration,
+        cutplan: {
+          candidate_index: activeCandidateIndex,
+          candidate_label: activeCandidateLabel,
+          order: index + 1,
+          slot_role: role,
+          slot_kind: take.slot_kind || "",
+          duration_seconds: duration,
+          room_label_de: take.room_label_de || "",
+          scene_type: take.scene_type || "",
+          saved_at: cutplan.saved_at || "",
+        },
+        avatar_demo: {
+          selected: false,
+          suggested: false,
+          suitability: "nicht geprueft",
+          note: "",
+          footpoint: { x: .5, y: .78 },
+        },
+      };
+    }
+
+    const cutplanStorageKey = "opening-video-planning-v1:current-cutplan-by-candidate";
+    function liftEditorControls() {
+      const controls = document.querySelector(".preview-panel > .controls");
+      const editor = document.querySelector(".editor");
+      if (!controls || !editor) return;
+      document.querySelector("#motionType")?.closest(".row")?.classList.add("motion-row");
+      document.querySelector("#zoomInput")?.closest(".row")?.classList.add("zoom-row");
+      const durationInput = document.querySelector("#durationInput");
+      durationInput?.closest(".row")?.classList.add("duration-row");
+      if (durationInput) {
+        durationInput.min = "0.25";
+        durationInput.title = "Startwert aus der Timeline; hier bei Bedarf fuer die Bewegung korrigieren.";
+        durationInput.setAttribute("aria-label", "Dauer, Startwert aus der Timeline");
+      }
+      document.querySelector("#playMotionPreview")?.closest(".row")?.classList.add("preview-row");
+      const textButton = document.querySelector("#toggleTextPanel");
+      controls.classList.add("wide-controls", "panel");
+      editor.insertAdjacentElement("afterend", controls);
+    }
+    liftEditorControls();
+    function setTimelineHandoffStatus(message, mode = "neutral") {
+      document.documentElement.dataset.timelineHandoff = mode;
+    }
+    function formatMotionDuration(value) {
+      const parsed = Number(value);
+      if (!Number.isFinite(parsed)) return "-";
+      const rounded = Math.round(parsed * 100) / 100;
+      return Number.isInteger(rounded) ? String(rounded) : String(rounded).replace(".", ",");
+    }
+    function normalizeCutplanShape(raw, source) {
+      if (!raw) return null;
+      const parsed = typeof raw === "string" ? JSON.parse(raw) : raw;
+      const requestedKey = String(activeCandidateIndex || requestedCandidateIndex || 7);
+      const cutplan = parsed?.timeline
+        ? parsed
+        : parsed?.[requestedKey]
+          || parsed?.[String(parsed?.candidate_index || "")]
+          || Object.values(parsed || {}).find((value) => value?.timeline?.length);
+      if (!cutplan?.timeline?.length) return null;
+      return {
+        source,
+        cutplan: {
+          ...cutplan,
+          timeline: cutplan.timeline,
+        },
+      };
+    }
+    function readTimelineHandoff() {
+      const params = new URLSearchParams(window.location.search);
+      const directHandoff = params.get("handoff");
+      if (directHandoff) {
+        try {
+          const parsed = normalizeCutplanShape(decodeURIComponent(directHandoff), "URL-Uebergabe");
+          if (parsed) {
+            try {
+              const current = { [String(parsed.cutplan.candidate_index || activeCandidateIndex || 7)]: parsed.cutplan };
+              sessionStorage.setItem(cutplanStorageKey, JSON.stringify(current));
+              localStorage.setItem(cutplanStorageKey, JSON.stringify(current));
+            } catch (storageError) {
+              console.warn("Schnittplan konnte nicht zwischengespeichert werden.", storageError);
+            }
+            return parsed;
+          }
+        } catch (error) {
+          console.warn("Schnittplan aus URL konnte nicht gelesen werden.", error);
+        }
+      }
+      try {
+        const parsed = normalizeCutplanShape(sessionStorage.getItem(cutplanStorageKey) || "", "Sitzungsspeicher");
+        if (parsed) return parsed;
+      } catch (error) {
+        console.warn("Schnittplan aus Sitzungsspeicher konnte nicht gelesen werden.", error);
+      }
+      try {
+        const parsed = normalizeCutplanShape(localStorage.getItem(cutplanStorageKey) || "", "Browser-Speicher");
+        if (parsed) return parsed;
+      } catch (error) {
+        console.warn("Schnittplan aus Browser-Speicher konnte nicht gelesen werden.", error);
+      }
+      return null;
+    }
+    function applySavedCutplanFromTimeline() {
+      try {
+        const handoff = readTimelineHandoff();
+        const cutplan = handoff?.cutplan;
+        if (!cutplan?.timeline?.length) {
+          setTimelineHandoffStatus("", "fallback");
+          return;
+        }
+        activeCandidateIndex = Number(cutplan.candidate_index || activeCandidateIndex || 7);
+        activeCandidateLabel = cutplan.candidate_label || activeCandidateLabel;
+        const byFilename = new Map(items.map((item) => [item.copied_filename, item]));
+        const ordered = [];
+        cutplan.timeline.forEach((take, index) => {
+          if (!take?.filename) return;
+          const templateItem = byFilename.get(take.filename);
+          const item = templateItem ? {
+            ...templateItem,
+            cutplan: { ...(templateItem.cutplan || {}) },
+            avatar_demo: { ...(templateItem.avatar_demo || {}) },
+          } : itemFromTimelineTake(take, index, cutplan);
+          if (!item) return;
+          const role = take.slot_role || (index === 0 ? "Startbild" : index === cutplan.timeline.length - 1 ? "Schlussbild" : "Take");
+          const duration = Number(take.duration_seconds || item.duration_seconds || 4);
+          item.index = index + 1;
+          item.filename = `${String(index + 1).padStart(2, "0")} · ${role} · ${take.filename}`;
+          item.quality_flags = `Kandidat ${activeCandidateIndex}; ${role}; ${take.room_label_de || "-"}; ${duration}s`;
+          item.alt_text_de = take.qwen_alt_text_de || item.alt_text_de;
+          item.duration_seconds = duration;
+          item.cutplan = {
+            ...(item.cutplan || {}),
+            candidate_index: activeCandidateIndex,
+            candidate_label: activeCandidateLabel,
+            order: index + 1,
+            slot_role: role,
+            slot_kind: take.slot_kind || item.cutplan?.slot_kind || "",
+            duration_seconds: duration,
+            room_label_de: take.room_label_de || item.cutplan?.room_label_de || "",
+            scene_type: take.scene_type || item.cutplan?.scene_type || "",
+            saved_at: cutplan.saved_at || "",
+          };
+          ordered.push(item);
+        });
+        if (ordered.length) {
+          items.splice(0, items.length, ...ordered);
+          const totalDuration = ordered.reduce((sum, item) => sum + Number(item.duration_seconds || 0), 0);
+          const durationLabel = Number.isInteger(totalDuration) ? String(totalDuration) : String(Math.round(totalDuration * 100) / 100).replace(".", ",");
+          updateCandidateChrome();
+          setTimelineHandoffStatus("", "ok");
+        } else {
+          updateCandidateChrome();
+          setTimelineHandoffStatus("", "fallback");
+        }
+      } catch (error) {
+        setTimelineHandoffStatus("", "error");
+        console.warn("Timeline-Schnittplan konnte nicht uebernommen werden.", error);
+      }
+    }
+    applySavedCutplanFromTimeline();
+    updateCandidateChrome();
+    const storageKey = `pixcapture.candidate${activeCandidateIndex}.motion.typo.editor.v1`;
+    const aspect = 9 / 16;
+    const fontCatalog = [
+      { group: "Ruhig", family: "Inter" },
+      { group: "Ruhig", family: "IBM Plex Sans" },
+      { group: "Ruhig", family: "Manrope" },
+      { group: "Ruhig", family: "Sora" },
+      { group: "Ruhig", family: "Space Grotesk" },
+      { group: "Editorial", family: "Playfair Display" },
+      { group: "Editorial", family: "Cormorant Garamond" },
+      { group: "Editorial", family: "Libre Baskerville" },
+      { group: "Modern", family: "Montserrat" },
+      { group: "Modern", family: "Oswald" },
+      { group: "Modern", family: "Bebas Neue" },
+      { group: "Script", family: "Dancing Script" },
+      { group: "Script", family: "Caveat" },
+      { group: "Spielerisch", family: "Fredoka" },
+      { group: "Spielerisch", family: "Baloo 2" },
+      { group: "Ballon", family: "Rubik Bubbles" },
+      { group: "Ballon", family: "Bungee Shade" },
+      { group: "Ballon", family: "Bagel Fat One" },
+      { group: "Ballon", family: "Modak" },
+      { group: "Ballon", family: "Chewy" },
+      { group: "Ballon", family: "Coiny" }
+    ];
+    const typographyPresets = {
+      quiet: {
+        label: "Ruhig",
+        titleFont: "Inter",
+        subtitleFont: "Inter",
+        titleColor: "#ffffff",
+        subtitleColor: "#ffffff",
+        titleSize: 48,
+        subtitleSize: 18,
+        titleScaleX: 1,
+        subtitleScaleX: 1,
+        lineGap: 8,
+        width: .84,
+        x: .5,
+        y: .18,
+        motion: "static"
+      },
+      editorial: {
+        label: "Editorial",
+        titleFont: "Cormorant Garamond",
+        subtitleFont: "Manrope",
+        titleColor: "#ffffff",
+        subtitleColor: "#ffffff",
+        titleSize: 60,
+        subtitleSize: 17,
+        titleScaleX: 1,
+        subtitleScaleX: 1,
+        lineGap: 10,
+        width: .9,
+        x: .5,
+        y: .2,
+        motion: "slide_in_left"
+      },
+      architecture: {
+        label: "Architektur",
+        titleFont: "Bebas Neue",
+        subtitleFont: "Space Grotesk",
+        titleColor: "#ffffff",
+        subtitleColor: "#ffffff",
+        titleSize: 68,
+        subtitleSize: 17,
+        titleScaleX: 1.08,
+        subtitleScaleX: 1,
+        lineGap: 5,
+        width: .9,
+        x: .5,
+        y: .76,
+        motion: "drift_with_crop"
+      },
+      warm: {
+        label: "Warm",
+        titleFont: "Playfair Display",
+        subtitleFont: "Manrope",
+        titleColor: "#fff3e3",
+        subtitleColor: "#fff3e3",
+        titleSize: 52,
+        subtitleSize: 18,
+        titleScaleX: 1,
+        subtitleScaleX: 1,
+        lineGap: 9,
+        width: .86,
+        x: .5,
+        y: .22,
+        motion: "slide_in_right"
+      }
+    };
+    const defaults = {
+      duration: 4,
+      motionType: "slow_push",
+      hookText: "",
+      text: {
+        enabled: false,
+        presetId: "quiet",
+        title: "",
+        subtitle: "",
+        titleFont: "Playfair Display",
+        subtitleFont: "Inter",
+        titleColor: "#ffffff",
+        subtitleColor: "#ffffff",
+        titleSize: 42,
+        subtitleSize: 20,
+        titleScaleX: 1,
+        subtitleScaleX: 1,
+        lineGap: 6,
+        width: .88,
+        x: .5,
+        y: .18,
+        motion: "static"
+      },
+      avatar: {
+        candidate: false,
+        suggested: false,
+        suitability: "nicht geprueft",
+        note: "",
+        source: "",
+        footpointX: .5,
+        footpointY: .78
+      },
+      start: { cx: .5, cy: .5, zoom: 1.08 },
+      end: { cx: .5, cy: .5, zoom: 1.24 }
+    };
+    let saved = {};
+    try {
+      saved = JSON.parse(localStorage.getItem(storageKey) || "{}");
+    } catch (error) {
+      saved = {};
+    }
+    if (workbenchBootstrap.motionEditorState && typeof workbenchBootstrap.motionEditorState === "object") {
+      saved = { ...saved, ...workbenchBootstrap.motionEditorState };
+    }
+    let activeIndex = 0;
+    let editTarget = "start";
+    let dragging = null;
+    let previewAnimation = null;
+
+    const sourceStage = document.getElementById("sourceStage");
+    const sourceImg = document.getElementById("sourceImg");
+    const portrait = document.getElementById("portrait");
+    const portraitImg = document.getElementById("portraitImg");
+    const textLayer = document.getElementById("textLayer");
+    const textModalPortrait = document.getElementById("textModalPortrait");
+    const textModalImg = document.getElementById("textModalImg");
+    const textModalLayer = document.getElementById("textModalLayer");
+
+    function clone(value) { return JSON.parse(JSON.stringify(value)); }
+    function itemById(id) { return items.find(item => item.id === id); }
+    function itemDurationSeconds(item, fallback = 4) {
+      return Number(item?.cutplan?.duration_seconds ?? item?.duration_seconds ?? fallback);
+    }
+    function timelineFingerprintForItem(item) {
+      return [item?.cutplan?.order, item?.cutplan?.slot_role, itemDurationSeconds(item), item?.copied_filename, item?.cutplan?.saved_at].join("|");
+    }
+    function syncDurationsFromTimelineOnLoad() {
+      const syncVersion = "candidate-duration-sync-v7";
+      items.forEach((item) => {
+        const duration = itemDurationSeconds(item, null);
+        if (!item?.id || !duration) return;
+        if (!saved[item.id]) saved[item.id] = clone(defaults);
+        saved[item.id].duration = Number(duration);
+        saved[item.id].timelineFingerprint = timelineFingerprintForItem(item);
+        saved[item.id].durationManuallyEdited = false;
+      });
+      saved.__durationSyncVersion = syncVersion;
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(saved));
+      } catch (error) {
+        console.warn("Timeline-Dauern konnten nicht gespeichert werden.", error);
+      }
+    }
+    syncDurationsFromTimelineOnLoad();
+    function applyBriefingTextSeed() {
+      const textByFilename = workbenchBootstrap.textByFilename || {};
+      items.forEach((item) => {
+        const seed = textByFilename[item.copied_filename];
+        if (!seed) return;
+        const cfg = saved[item.id] || clone(defaults);
+        const existingText = cfg.text || {};
+        if (existingText.title || existingText.subtitle || existingText.enabled) return;
+        const preset = typographyPresets[seed.presetId] || typographyPresets.quiet;
+        cfg.text = {
+          ...defaults.text,
+          ...preset,
+          enabled: seed.enabled !== false,
+          presetId: seed.presetId || "quiet",
+          title: seed.title || "",
+          subtitle: seed.subtitle || "",
+        };
+        cfg.hookText = cfg.text.title;
+        saved[item.id] = cfg;
+      });
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(saved));
+      } catch (error) {
+        console.warn("Textvorgaben konnten nicht lokal vorbereitet werden.", error);
+      }
+    }
+    applyBriefingTextSeed();
+    function migrateCenteredZoomOnlyMotion() {
+      const migrationVersion = "centered-zoom-only-motion-v1";
+      if (saved.__zoomOnlyMotionMigrationVersion === migrationVersion) return;
+      Object.entries(saved).forEach(([id, cfg]) => {
+        if (!cfg || typeof cfg !== "object" || !isZoomOnlyMotion(cfg.motionType) || !cfg.start || !cfg.end) return;
+        const oldDx = Number(cfg.end.cx) - Number(cfg.start.cx);
+        const oldDy = Number(cfg.end.cy) - Number(cfg.start.cy);
+        if (Math.abs(oldDx) < .0005 && Math.abs(oldDy) < .0005) return;
+        alignZoomOnlyCenter(cfg, itemById(id) || currentItem());
+      });
+      saved.__zoomOnlyMotionMigrationVersion = migrationVersion;
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(saved));
+      } catch (error) {
+        console.warn("Zoom-Bewegungs-Migration konnte nicht gespeichert werden.", error);
+      }
+    }
+    migrateCenteredZoomOnlyMotion();
+    function simpleAxisMotionForItem(item) {
+      const duration = itemDurationSeconds(item, 1.5);
+      const order = Number(item?.cutplan?.order ?? item?.index ?? 1);
+      const isShort = duration < 1;
+      const isLong = duration >= 2.5;
+      const isMedium = duration >= 1.5;
+      const slide = isLong ? .075 : isMedium ? .05 : .028;
+      const zoom = isShort ? .035 : isLong ? .14 : isMedium ? .1 : .055;
+      const start = { cx: .5, cy: .5, zoom: 1.08 };
+      if (isShort) {
+        return {
+          motionType: "slow_push",
+          start,
+          end: { cx: .5, cy: .5, zoom: start.zoom + zoom },
+        };
+      }
+      const pattern = order % 4;
+      if (pattern === 0) {
+        return {
+          motionType: "slow_push",
+          start,
+          end: { cx: .5, cy: .5, zoom: start.zoom + zoom },
+        };
+      }
+      if (pattern === 1) {
+        const pullStart = { cx: .5, cy: .5, zoom: start.zoom + zoom };
+        return {
+          motionType: "pull_out",
+          start: pullStart,
+          end: start,
+        };
+      }
+      if (pattern === 2) {
+        return {
+          motionType: "slide_left",
+          start,
+          end: { cx: .5 + slide, cy: .5, zoom: start.zoom },
+        };
+      }
+      return {
+        motionType: "slide_right",
+        start,
+        end: { cx: .5 - slide, cy: .5, zoom: start.zoom },
+      };
+    }
+    function isSlideMotion(type) {
+      return type === "slide_left" || type === "slide_right";
+    }
+    function isZoomOnlyMotion(type) {
+      return type === "slow_push" || type === "pull_out";
+    }
+    function hasSameCropSize(start, end) {
+      return Math.abs(Number(start?.zoom ?? 1) - Number(end?.zoom ?? 1)) < .001;
+    }
+    function alignZoomOnlyCenter(cfg, item = currentItem()) {
+      if (!isZoomOnlyMotion(cfg.motionType)) return;
+      const start = normalizeCrop(cfg.start, item);
+      const end = normalizeCrop(cfg.end, item);
+      cfg.start = start;
+      cfg.end = normalizeCrop({ ...end, cx: start.cx, cy: start.cy }, item);
+    }
+    function alignSlideFrameHeight(cfg, item = currentItem()) {
+      cfg.start = normalizeCrop(cfg.start, item);
+      cfg.end = normalizeCrop(cfg.end, item);
+      if (!isSlideMotion(cfg.motionType) || !hasSameCropSize(cfg.start, cfg.end)) return;
+      cfg.end = normalizeCrop({
+        ...cfg.end,
+        cy: cfg.start.cy,
+        zoom: cfg.start.zoom,
+      }, item);
+    }
+    function alignMotionConstraints(cfg, item = currentItem(), anchorTarget = "start") {
+      alignZoomOnlyCenter(cfg, item, anchorTarget);
+      alignSlideFrameHeight(cfg, item);
+    }
+    function migrateSimpleAxisMotion() {
+      const migrationVersion = "simple-axis-motion-v5";
+      if (saved.__axisMotionMigrationVersion === migrationVersion) return;
+      items.forEach((item) => {
+        if (!item?.id) return;
+        const cfg = saved[item.id] || clone(defaults);
+        const motion = simpleAxisMotionForItem(item);
+        cfg.motionType = motion.motionType;
+        cfg.start = normalizeCrop(motion.start, item);
+        cfg.end = normalizeCrop(motion.end, item);
+        cfg.slideVerticalOffset = 0;
+        alignMotionConstraints(cfg, item);
+        cfg.motionPresetBaseStart = normalizeCrop(motion.start, item);
+        saved[item.id] = cfg;
+      });
+      saved.__axisMotionMigrationVersion = migrationVersion;
+      try {
+        localStorage.setItem(storageKey, JSON.stringify(saved));
+      } catch (error) {
+        console.warn("Einachs-Bewegungen konnten nicht gespeichert werden.", error);
+      }
+    }
+    migrateSimpleAxisMotion();
+    function settings(id) {
+      if (!saved[id]) {
+        saved[id] = clone(defaults);
+      }
+      const item = itemById(id);
+      const timelineFingerprint = timelineFingerprintForItem(item);
+      const duration = itemDurationSeconds(item, null);
+      if (duration && saved[id].durationManuallyEdited !== true) {
+        saved[id].duration = Number(duration);
+        saved[id].timelineFingerprint = timelineFingerprint;
+      } else if (duration && saved[id].timelineFingerprint !== timelineFingerprint) {
+        saved[id].duration = Number(duration);
+        saved[id].timelineFingerprint = timelineFingerprint;
+        saved[id].durationManuallyEdited = false;
+      }
+      ensureText(saved[id]);
+      ensureAvatar(saved[id], itemById(id));
+      return saved[id];
+    }
+    function persist() {
+      localStorage.setItem(storageKey, JSON.stringify(saved));
+      window.VideoWorkbenchProject?.saveSectionDebounced("motion", () => ({
+        storage_key: storageKey,
+        saved_at: new Date().toISOString(),
+        candidate_index: activeCandidateIndex,
+        candidate_label: activeCandidateLabel,
+        editor_state: saved,
+      }), {
+        page: "motion",
+        sourceProduct: window.VideoWorkbenchProject?.sourceProduct || "workbench",
+      }, 500);
+    }
+    function clamp(value, min, max) { return Math.max(min, Math.min(max, value)); }
+    function ensureAvatar(cfg, item = currentItem()) {
+      const demo = item?.avatar_demo || {};
+      const footpoint = demo.footpoint || defaults.avatar;
+      if (!cfg.avatar) {
+        cfg.avatar = {
+          candidate: Boolean(demo.selected),
+          suggested: Boolean(demo.suggested),
+          suitability: demo.suitability || defaults.avatar.suitability,
+          note: demo.note || defaults.avatar.note,
+          source: demo.suggested ? "codex_suggestion" : "",
+          footpointX: Number(footpoint.x ?? defaults.avatar.footpointX),
+          footpointY: Number(footpoint.y ?? defaults.avatar.footpointY)
+        };
+      }
+      if (demo.selected && !cfg.avatar.candidate && !cfg.avatar.source && !cfg.avatar.note) {
+        cfg.avatar.candidate = true;
+        cfg.avatar.suggested = Boolean(demo.suggested);
+        cfg.avatar.suitability = demo.suitability || defaults.avatar.suitability;
+        cfg.avatar.note = demo.note || defaults.avatar.note;
+        cfg.avatar.source = "codex_suggestion";
+        cfg.avatar.footpointX = Number(footpoint.x ?? defaults.avatar.footpointX);
+        cfg.avatar.footpointY = Number(footpoint.y ?? defaults.avatar.footpointY);
+      }
+      if (
+        demo.suggested &&
+        cfg.avatar.candidate &&
+        !cfg.avatar.source &&
+        String(cfg.avatar.note || "").startsWith("Manuell vorausgewaehlt:")
+      ) {
+        cfg.avatar.candidate = false;
+        cfg.avatar.suggested = true;
+        cfg.avatar.suitability = demo.suitability || "Codex-Vorschlag";
+        cfg.avatar.note = demo.note || "";
+        cfg.avatar.source = "codex_suggestion";
+        cfg.avatar.footpointX = Number(footpoint.x ?? defaults.avatar.footpointX);
+        cfg.avatar.footpointY = Number(footpoint.y ?? defaults.avatar.footpointY);
+      }
+      cfg.avatar.candidate = Boolean(cfg.avatar.candidate);
+      cfg.avatar.suggested = Boolean(cfg.avatar.suggested || demo.suggested);
+      cfg.avatar.suitability = cfg.avatar.suitability || defaults.avatar.suitability;
+      cfg.avatar.note = cfg.avatar.note || "";
+      cfg.avatar.source = cfg.avatar.source || "";
+      cfg.avatar.footpointX = clamp(Number(cfg.avatar.footpointX ?? defaults.avatar.footpointX), .08, .92);
+      cfg.avatar.footpointY = clamp(Number(cfg.avatar.footpointY ?? defaults.avatar.footpointY), .45, .94);
+      return cfg.avatar;
+    }
+    function ensureText(cfg) {
+      if (!cfg.text) {
+        cfg.text = clone(defaults.text);
+        cfg.text.title = cfg.hookText || "";
+      }
+      if (!cfg.text.title && cfg.hookText) cfg.text.title = cfg.hookText;
+      cfg.text.enabled = Boolean(cfg.text.enabled ?? Boolean(cfg.text.title || cfg.text.subtitle));
+      cfg.text.presetId = cfg.text.presetId || defaults.text.presetId;
+      cfg.text.subtitle = cfg.text.subtitle ?? "";
+      cfg.text.titleFont = cfg.text.titleFont || defaults.text.titleFont;
+      cfg.text.subtitleFont = cfg.text.subtitleFont || defaults.text.subtitleFont;
+      cfg.text.titleColor = cfg.text.titleColor || defaults.text.titleColor;
+      cfg.text.subtitleColor = cfg.text.subtitleColor || defaults.text.subtitleColor;
+      cfg.text.titleSize = Number(cfg.text.titleSize || defaults.text.titleSize);
+      cfg.text.subtitleSize = Number(cfg.text.subtitleSize || defaults.text.subtitleSize);
+      cfg.text.titleScaleX = clamp(Number(cfg.text.titleScaleX ?? defaults.text.titleScaleX), .6, 2.2);
+      cfg.text.subtitleScaleX = clamp(Number(cfg.text.subtitleScaleX ?? defaults.text.subtitleScaleX), .6, 2.2);
+      cfg.text.lineGap = Number(cfg.text.lineGap ?? defaults.text.lineGap);
+      cfg.text.width = clamp(Number(cfg.text.width ?? defaults.text.width), .36, 1);
+      cfg.text.x = clamp(Number(cfg.text.x ?? defaults.text.x), .08, .92);
+      cfg.text.y = clamp(Number(cfg.text.y ?? defaults.text.y), .08, .92);
+      cfg.text.motion = cfg.text.motion || defaults.text.motion;
+      return cfg.text;
+    }
+    function shortTextSuggestion(altText) {
+      const text = String(altText || "").toLowerCase();
+      if (text.includes("hochhaus") || text.includes("balkonen")) return { title: "urban wohnen", subtitle: "mit Weitblick" };
+      if (text.includes("historisch") || text.includes("altbau") || text.includes("arkaden")) return { title: "klassischer Charme", subtitle: "mit Charakter" };
+      if (text.includes("garten") || text.includes("rasen") || text.includes("vorgarten")) return { title: "grün wohnen", subtitle: "viel Raum" };
+      if (text.includes("backstein") || text.includes("ziegel")) return { title: "starke Fassade", subtitle: "ruhiger Auftritt" };
+      if (text.includes("einfamilienhaus")) return { title: "Zuhause ankommen", subtitle: "ruhig und hell" };
+      return { title: "neue Ansicht", subtitle: "kurz und klar" };
+    }
+    function fontStack(family) {
+      const serifFonts = ["Playfair Display", "Cormorant Garamond", "Libre Baskerville"];
+      const scriptFonts = ["Dancing Script", "Caveat"];
+      const fallback = scriptFonts.includes(family) ? "cursive" : serifFonts.includes(family) ? "serif" : "sans-serif";
+      return `'${family}', ${fallback}`;
+    }
+    function populateFontSelects() {
+      const html = fontCatalog.map(font => `<option value="${font.family}" style="font-family:${fontStack(font.family)}">${font.group} · ${font.family}</option>`).join("");
+      document.getElementById("titleFont").innerHTML = html;
+      document.getElementById("subtitleFont").innerHTML = html;
+      renderFontSampleButtons();
+    }
+    function fontSampleHtml(target) {
+      const text = ensureText(currentSettings());
+      const sample = target === "title" ? (text.title || text.suggestedTitle || "Titelzeile") : (text.subtitle || text.suggestedSubtitle || "Unterzeile");
+      return fontCatalog.map(font => `
+        <button class="font-sample" type="button" data-font-target="${target}" data-font-family="${font.family}">
+          <small>${font.group} · ${font.family}</small>
+          <span style="font-family:${fontStack(font.family)}">${sample}</span>
+        </button>
+      `).join("");
+    }
+    function renderFontSampleButtons() {
+      document.getElementById("titleFontSamples").innerHTML = fontSampleHtml("title");
+      document.getElementById("subtitleFontSamples").innerHTML = fontSampleHtml("subtitle");
+    }
+    function cropSize(crop, item = currentItem()) {
+      const imageAspect = item.width / item.height;
+      let baseW;
+      let baseH;
+      if (imageAspect > aspect) {
+        baseH = 1;
+        baseW = aspect / imageAspect;
+      } else {
+        baseW = 1;
+        baseH = imageAspect / aspect;
+      }
+      return { w: baseW / crop.zoom, h: baseH / crop.zoom };
+    }
+    function normalizeCrop(crop, item = currentItem()) {
+      const next = { cx: Number(crop.cx), cy: Number(crop.cy), zoom: clamp(Number(crop.zoom), 1, 2.4) };
+      const s = cropSize(next, item);
+      next.cx = clamp(next.cx, s.w / 2, 1 - s.w / 2);
+      next.cy = clamp(next.cy, s.h / 2, 1 - s.h / 2);
+      return next;
+    }
+    function currentItem() { return items[activeIndex]; }
+    function currentSettings() { return settings(currentItem().id); }
+    function setMode(target) {
+      stopMotionPreview(false);
+      editTarget = target;
+      document.getElementById("startMode").classList.toggle("active", target === "start");
+      document.getElementById("endMode").classList.toggle("active", target === "end");
+      document.getElementById("startBox").classList.toggle("editing", target === "start");
+      document.getElementById("endBox").classList.toggle("editing", target === "end");
+      document.getElementById("previewBadge").textContent = target === "start" ? "Start" : "Ende";
+      document.getElementById("zoomInput").value = normalizeCrop(currentSettings()[target]).zoom;
+      document.getElementById("motionProgress").style.width = target === "start" ? "0%" : "100%";
+      renderPreview();
+    }
+    function stageImageRect() {
+      const stage = sourceStage.getBoundingClientRect();
+      const img = currentItem();
+      const imageAspect = img.width / img.height;
+      const stageAspect = stage.width / stage.height;
+      if (imageAspect > stageAspect) {
+        const width = stage.width;
+        const height = width / imageAspect;
+        return { left: 0, top: (stage.height - height) / 2, width, height };
+      }
+      const height = stage.height;
+      const width = height * imageAspect;
+      return { left: (stage.width - width) / 2, top: 0, width, height };
+    }
+    function boxStyleFor(crop) {
+      const c = normalizeCrop(crop);
+      const s = cropSize(c);
+      const r = stageImageRect();
+      return {
+        left: r.left + (c.cx - s.w / 2) * r.width,
+        top: r.top + (c.cy - s.h / 2) * r.height,
+        width: s.w * r.width,
+        height: s.h * r.height
+      };
+    }
+    function applyBox(box, crop) {
+      const st = boxStyleFor(crop);
+      box.style.left = `${st.left}px`;
+      box.style.top = `${st.top}px`;
+      box.style.width = `${st.width}px`;
+      box.style.height = `${st.height}px`;
+    }
+    function renderAvatarMarker() {
+      const marker = document.getElementById("avatarMarker");
+      const avatar = ensureAvatar(currentSettings());
+      if (!avatar.candidate) {
+        marker.hidden = true;
+        return;
+      }
+      const r = stageImageRect();
+      marker.hidden = false;
+      marker.style.left = `${r.left + avatar.footpointX * r.width}px`;
+      marker.style.top = `${r.top + avatar.footpointY * r.height}px`;
+    }
+    function renderBoxes() {
+      const cfg = currentSettings();
+      cfg.start = normalizeCrop(cfg.start);
+      cfg.end = normalizeCrop(cfg.end);
+      alignMotionConstraints(cfg);
+      applyBox(document.getElementById("startBox"), cfg.start);
+      applyBox(document.getElementById("endBox"), cfg.end);
+      renderAvatarMarker();
+    }
+    function renderImagePreview(frameEl, imageEl, item, crop) {
+      const frame = frameEl.getBoundingClientRect();
+      if (!frame.width || !frame.height) return;
+      const s = cropSize(crop, item);
+      const scale = frame.width / (s.w * item.width);
+      const displayW = item.width * scale;
+      const displayH = item.height * scale;
+      imageEl.src = item.large;
+      imageEl.style.width = `${displayW}px`;
+      imageEl.style.height = `${displayH}px`;
+      imageEl.style.left = `${-(crop.cx - s.w / 2) * displayW}px`;
+      imageEl.style.top = `${-(crop.cy - s.h / 2) * displayH}px`;
+    }
+    function renderPreview() {
+      const item = currentItem();
+      const crop = normalizeCrop(currentSettings()[editTarget], item);
+      renderPreviewForCrop(crop);
+    }
+    function renderPreviewForCrop(crop) {
+      const item = currentItem();
+      renderImagePreview(portrait, portraitImg, item, crop);
+      renderImagePreview(textModalPortrait, textModalImg, item, crop);
+      renderTextOverlay();
+    }
+    function textPreviewScale(layer) {
+      const frame = layer.closest(".portrait, .text-modal-portrait");
+      const width = frame ? frame.getBoundingClientRect().width : 440;
+      return width ? width / 440 : 1;
+    }
+    function applyTextOverlay(layer, title, subtitle, text) {
+      const previewScale = textPreviewScale(layer);
+      title.textContent = text.title || "";
+      subtitle.textContent = text.subtitle || "";
+      title.style.fontFamily = fontStack(text.titleFont);
+      subtitle.style.fontFamily = fontStack(text.subtitleFont);
+      title.style.color = text.titleColor;
+      subtitle.style.color = text.subtitleColor;
+      title.style.fontSize = `${text.titleSize * previewScale}px`;
+      subtitle.style.fontSize = `${text.subtitleSize * previewScale}px`;
+      title.style.transform = `scaleX(${text.titleScaleX})`;
+      subtitle.style.transform = `scaleX(${text.subtitleScaleX})`;
+      title.style.transformOrigin = "center";
+      subtitle.style.transformOrigin = "center";
+      title.style.fontWeight = ["Bebas Neue", "Bungee Shade", "Modak", "Rubik Bubbles", "Bagel Fat One"].includes(text.titleFont) ? "400" : "800";
+      subtitle.style.fontWeight = ["Bebas Neue", "Bungee Shade", "Modak", "Rubik Bubbles", "Bagel Fat One"].includes(text.subtitleFont) ? "400" : "700";
+      subtitle.style.marginTop = `${text.lineGap * previewScale}px`;
+      layer.style.width = `${text.width * 100}%`;
+      layer.style.left = `${text.x * 100}%`;
+      layer.style.top = `${text.y * 100}%`;
+      layer.style.display = text.enabled && (text.title || text.subtitle) ? "block" : "none";
+    }
+    function renderTextOverlay() {
+      const cfg = currentSettings();
+      const text = ensureText(cfg);
+      applyTextOverlay(textLayer, document.getElementById("textTitlePreview"), document.getElementById("textSubtitlePreview"), text);
+      applyTextOverlay(textModalLayer, document.getElementById("textModalTitlePreview"), document.getElementById("textModalSubtitlePreview"), text);
+      renderFontPreviews(text);
+      renderTextReadouts(text);
+    }
+    function renderFontPreviews(text) {
+      const titlePreview = document.getElementById("titleFontPreview");
+      const subtitlePreview = document.getElementById("subtitleFontPreview");
+      titlePreview.textContent = text.title || "Titelzeile";
+      subtitlePreview.textContent = text.subtitle || "Unterzeile";
+      titlePreview.style.fontFamily = fontStack(text.titleFont);
+      subtitlePreview.style.fontFamily = fontStack(text.subtitleFont);
+      titlePreview.style.fontSize = `${Math.min(34, Math.max(20, text.titleSize * .62))}px`;
+      subtitlePreview.style.fontSize = `${Math.min(26, Math.max(16, text.subtitleSize * .82))}px`;
+    }
+    function renderTextReadouts(text) {
+      document.getElementById("titleSizeValue").textContent = `${text.titleSize}px`;
+      document.getElementById("subtitleSizeValue").textContent = `${text.subtitleSize}px`;
+      document.getElementById("titleScaleXValue").textContent = `${Math.round(text.titleScaleX * 100)}%`;
+      document.getElementById("subtitleScaleXValue").textContent = `${Math.round(text.subtitleScaleX * 100)}%`;
+      document.getElementById("lineGapValue").textContent = `${text.lineGap}px`;
+      document.getElementById("textWidthValue").textContent = `${Math.round(text.width * 100)}%`;
+      document.getElementById("textXValue").textContent = `${Math.round(text.x * 100)}%`;
+      document.getElementById("textYValue").textContent = `${Math.round(text.y * 100)}%`;
+      document.querySelectorAll(".font-sample").forEach(button => {
+        const target = button.dataset.fontTarget;
+        const family = button.dataset.fontFamily;
+        button.classList.toggle("active", (target === "title" && family === text.titleFont) || (target === "subtitle" && family === text.subtitleFont));
+      });
+    }
+    function typographyPresetMatches(text, preset) {
+      return Object.entries(preset).every(([key, value]) => key === "label" || text[key] === value);
+    }
+    function renderTypographyQuickControls() {
+      const text = ensureText(currentSettings());
+      const matchingPreset = Object.entries(typographyPresets).find(([, preset]) => typographyPresetMatches(text, preset));
+      document.querySelectorAll("[data-type-preset]").forEach(button => {
+        button.classList.toggle("active", button.dataset.typePreset === matchingPreset?.[0]);
+      });
+      const enabledButton = document.getElementById("toggleTextEnabled");
+      enabledButton.setAttribute("aria-pressed", String(text.enabled));
+      enabledButton.textContent = text.enabled ? "Text ist an" : "Text ist aus";
+      document.getElementById("quickTitleText").value = text.title || "";
+      document.getElementById("quickSubtitleText").value = text.subtitle || "";
+      const styleLabel = matchingPreset?.[1]?.label || "Individuell";
+      document.getElementById("typeSummary").textContent = text.enabled
+        ? `${styleLabel} · ${text.titleFont} / ${text.subtitleFont} · ${text.motion === "static" ? "statisch" : "animiert"}`
+        : "Kein Text in dieser Szene";
+    }
+    function applyTypographyPreset(presetId) {
+      const preset = typographyPresets[presetId];
+      if (!preset) return;
+      const cfg = currentSettings();
+      const text = ensureText(cfg);
+      const suggestion = shortTextSuggestion(currentItem().alt_text_de);
+      const { label: _label, ...settings } = preset;
+      Object.assign(text, settings, {
+        enabled: true,
+        presetId,
+        title: text.title || suggestion.title,
+        subtitle: text.subtitle || suggestion.subtitle
+      });
+      cfg.hookText = text.title;
+      persist();
+      renderTextControls();
+      renderTypographyQuickControls();
+    }
+    function renderMotionPresetButtons(type = currentSettings().motionType) {
+      document.querySelectorAll("[data-motion-preset]").forEach(button => {
+        button.classList.toggle("active", button.dataset.motionPreset === type);
+      });
+    }
+    function renderAvatarControls() {
+      const avatar = ensureAvatar(currentSettings());
+      const card = document.getElementById("avatarCard");
+      card.classList.toggle("active", avatar.candidate);
+      card.classList.toggle("suggested", !avatar.candidate && avatar.suggested);
+      document.getElementById("avatarStatus").textContent = avatar.candidate ? "Makler wird gerendert" : avatar.suggested ? "Vorschlag vorhanden" : "nicht im Render";
+      document.getElementById("toggleAvatarCandidate").textContent = avatar.candidate ? "Makler aus dieser Szene entfernen" : avatar.suggested ? "Makler hier einsetzen" : "Makler in dieser Szene einsetzen";
+      document.getElementById("avatarNotePreview").textContent = avatar.note || "Nur markierte Szenen werden im Video durch den Makler-Auftritt ersetzt.";
+      document.getElementById("avatarNoteInput").value = avatar.note;
+      document.getElementById("avatarFootX").value = Math.round(avatar.footpointX * 100);
+      document.getElementById("avatarFootY").value = Math.round(avatar.footpointY * 100);
+      renderAvatarMarker();
+      renderBrokerWorkflowStep();
+    }
+    function updateAvatar(mutator) {
+      const avatar = ensureAvatar(currentSettings());
+      mutator(avatar);
+      persist();
+      renderAvatarControls();
+      renderRail();
+    }
+    function renderTextControls() {
+      const cfg = currentSettings();
+      const text = ensureText(cfg);
+      const item = currentItem();
+      const suggestion = shortTextSuggestion(item.alt_text_de);
+      text.qwenAltText = item.alt_text_de || "";
+      text.suggestedTitle = text.suggestedTitle || suggestion.title;
+      text.suggestedSubtitle = text.suggestedSubtitle || suggestion.subtitle;
+      document.getElementById("qwenAltText").value = text.qwenAltText;
+      document.getElementById("suggestedTitle").value = text.suggestedTitle;
+      document.getElementById("suggestedSubtitle").value = text.suggestedSubtitle;
+      document.getElementById("hookText").value = text.title;
+      document.getElementById("subtitleText").value = text.subtitle;
+      document.getElementById("titleFont").value = text.titleFont;
+      document.getElementById("subtitleFont").value = text.subtitleFont;
+      document.getElementById("titleColor").value = text.titleColor;
+      document.getElementById("titleColorText").value = text.titleColor;
+      document.getElementById("subtitleColor").value = text.subtitleColor;
+      document.getElementById("subtitleColorText").value = text.subtitleColor;
+      document.getElementById("titleSize").value = text.titleSize;
+      document.getElementById("subtitleSize").value = text.subtitleSize;
+      document.getElementById("titleScaleX").value = Math.round(text.titleScaleX * 100);
+      document.getElementById("subtitleScaleX").value = Math.round(text.subtitleScaleX * 100);
+      document.getElementById("lineGap").value = text.lineGap;
+      document.getElementById("textWidth").value = Math.round(text.width * 100);
+      document.getElementById("textX").value = Math.round(text.x * 100);
+      document.getElementById("textY").value = Math.round(text.y * 100);
+      document.getElementById("textMotion").value = text.motion;
+      renderTextOverlay();
+      renderFontSampleButtons();
+      renderTypographyQuickControls();
+    }
+    function updateText(mutator) {
+      const cfg = currentSettings();
+      const text = ensureText(cfg);
+      mutator(text, cfg);
+      if (text.title || text.subtitle) text.enabled = true;
+      cfg.hookText = text.title;
+      persist();
+      renderTextOverlay();
+      renderFontSampleButtons();
+      renderTextReadouts(text);
+      renderTypographyQuickControls();
+    }
+    function normalizeHex(value, fallback) {
+      const trimmed = String(value || "").trim();
+      return /^#[0-9a-fA-F]{6}$/.test(trimmed) ? trimmed : fallback;
+    }
+    function easeInOut(t) {
+      return t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
+    function interpolateCrop(start, end, t) {
+      return normalizeCrop({
+        cx: start.cx + (end.cx - start.cx) * t,
+        cy: start.cy + (end.cy - start.cy) * t,
+        zoom: start.zoom + (end.zoom - start.zoom) * t
+      });
+    }
+    function shiftedCrop(base, dx, dy, zoom) {
+      return normalizeCrop({
+        cx: base.cx + dx,
+        cy: base.cy + dy,
+        zoom: zoom ?? base.zoom
+      });
+    }
+    function updateMotionBaseFromStart() {
+      const cfg = currentSettings();
+      cfg.motionPresetBaseStart = normalizeCrop(cfg.start);
+    }
+    function applyMotionPreset(type) {
+      stopMotionPreview();
+      const cfg = currentSettings();
+      const base = normalizeCrop(cfg.motionPresetBaseStart || cfg.start);
+      cfg.motionPresetBaseStart = base;
+      let nextStart = base;
+      let nextEnd = normalizeCrop(cfg.end);
+      if (type === "still") {
+        nextStart = base;
+        nextEnd = base;
+      } else if (type === "slow_push") {
+        nextEnd = shiftedCrop(base, 0, 0, base.zoom + .18);
+      } else if (type === "pull_out") {
+        nextStart = shiftedCrop(base, 0, 0, Math.max(base.zoom + .24, 1.24));
+        nextEnd = shiftedCrop(base, 0, 0, Math.max(1, base.zoom));
+      } else if (type === "slide_left") {
+        nextEnd = shiftedCrop(base, .14, 0, base.zoom);
+      } else if (type === "slide_right") {
+        nextEnd = shiftedCrop(base, -.14, 0, base.zoom);
+      } else if (type === "tilt_up") {
+        nextEnd = shiftedCrop(base, 0, .12, base.zoom);
+      } else if (type === "tilt_down") {
+        nextEnd = shiftedCrop(base, 0, -.12, base.zoom);
+      } else if (type === "masked_text_reveal") {
+        nextEnd = shiftedCrop(base, .045, -.02, base.zoom + .10);
+        ensureText(cfg).motion = "masked_reveal_later";
+        document.getElementById("textMotion").value = "masked_reveal_later";
+      } else if (type === "qwen_layered_opening") {
+        nextEnd = shiftedCrop(base, -.035, .035, base.zoom + .14);
+        ensureText(cfg).motion = "drift_with_crop";
+        document.getElementById("textMotion").value = "drift_with_crop";
+      }
+      cfg.start = nextStart;
+      cfg.end = nextEnd;
+      cfg.motionType = type;
+      cfg.slideVerticalOffset = 0;
+      alignMotionConstraints(cfg);
+      persist();
+      renderBoxes();
+      document.getElementById("motionType").value = type;
+      renderMotionPresetButtons(type);
+      setMode("end");
+    }
+    function resetTextMotionPreview() {
+      textLayer.style.opacity = "1";
+      textLayer.style.transform = "translate(-50%, -50%)";
+    }
+    function renderTextMotionProgress(raw, eased) {
+      const text = ensureText(currentSettings());
+      if (!text.enabled || text.motion === "static") {
+        resetTextMotionPreview();
+        return;
+      }
+      const entrance = clamp(raw / .28, 0, 1);
+      const entranceEased = easeInOut(entrance);
+      if (text.motion === "slide_in_left") {
+        textLayer.style.opacity = String(entrance);
+        textLayer.style.transform = `translate(calc(-50% + ${(-52 + entranceEased * 52).toFixed(1)}px), -50%)`;
+      } else if (text.motion === "slide_in_right") {
+        textLayer.style.opacity = String(entrance);
+        textLayer.style.transform = `translate(calc(-50% + ${(52 - entranceEased * 52).toFixed(1)}px), -50%)`;
+      } else if (text.motion === "drift_with_crop") {
+        textLayer.style.opacity = "1";
+        textLayer.style.transform = `translate(calc(-50% + ${(eased * 12 - 6).toFixed(1)}px), -50%)`;
+      } else {
+        resetTextMotionPreview();
+      }
+    }
+    function stopMotionPreview(reset = true) {
+      if (previewAnimation) cancelAnimationFrame(previewAnimation);
+      previewAnimation = null;
+      document.getElementById("playMotionPreview").textContent = "Abspielen";
+      if (reset) {
+        resetTextMotionPreview();
+        document.getElementById("motionProgress").style.width = "0%";
+        document.getElementById("previewBadge").textContent = editTarget === "start" ? "Start" : "Ende";
+        renderPreview();
+      }
+    }
+    function playMotionPreview() {
+      if (previewAnimation) {
+        stopMotionPreview();
+        return;
+      }
+      const cfg = currentSettings();
+      alignMotionConstraints(cfg);
+      const start = normalizeCrop(cfg.start);
+      const end = normalizeCrop(cfg.end);
+      const durationMs = Math.max(500, Number(cfg.duration || 4) * 1000);
+      const startedAt = performance.now();
+      document.getElementById("playMotionPreview").textContent = "Stopp";
+      const step = (now) => {
+        const raw = clamp((now - startedAt) / durationMs, 0, 1);
+        const eased = easeInOut(raw);
+        renderPreviewForCrop(interpolateCrop(start, end, eased));
+        renderTextMotionProgress(raw, eased);
+        document.getElementById("motionProgress").style.width = `${raw * 100}%`;
+        document.getElementById("previewBadge").textContent = "Preview";
+        if (raw < 1) {
+          previewAnimation = requestAnimationFrame(step);
+        } else {
+          previewAnimation = null;
+          document.getElementById("playMotionPreview").textContent = "Abspielen";
+          document.getElementById("previewBadge").textContent = "Ende";
+          editTarget = "end";
+          setMode("end");
+          document.getElementById("motionProgress").style.width = "100%";
+        }
+      };
+      previewAnimation = requestAnimationFrame(step);
+    }
+    function fitTextLineToWidth(kind) {
+      renderTextOverlay();
+      const cfg = currentSettings();
+      const text = ensureText(cfg);
+      const line = kind === "title" ? document.getElementById("textModalTitlePreview") : document.getElementById("textModalSubtitlePreview");
+      const layer = document.getElementById("textModalLayer");
+      const currentScale = kind === "title" ? text.titleScaleX : text.subtitleScaleX;
+      const visibleWidth = line.getBoundingClientRect().width;
+      const naturalWidth = visibleWidth / currentScale;
+      if (!naturalWidth) return;
+      const nextScale = clamp(layer.getBoundingClientRect().width / naturalWidth, .6, 2.2);
+      updateText((next) => {
+        if (kind === "title") next.titleScaleX = nextScale;
+        else next.subtitleScaleX = nextScale;
+      });
+      renderTextControls();
+    }
+    function syncZoomBoth() {
+      const cfg = currentSettings();
+      const activeCrop = normalizeCrop(cfg[editTarget]);
+      cfg.start = normalizeCrop({ ...cfg.start, zoom: activeCrop.zoom });
+      cfg.end = normalizeCrop({ ...cfg.end, zoom: activeCrop.zoom });
+      if (isSlideMotion(cfg.motionType)) cfg.slideVerticalOffset = 0;
+      alignMotionConstraints(cfg, currentItem(), editTarget);
+      updateMotionBaseFromStart();
+      document.getElementById("zoomInput").value = activeCrop.zoom;
+      persist();
+      renderBoxes();
+      renderPreview();
+    }
+    function renderRail() {
+      document.getElementById("rail").innerHTML = items.map((item, index) => {
+        const cfg = settings(item.id);
+        const avatar = ensureAvatar(cfg, item);
+        const durationLabel = formatMotionDuration(cfg.duration ?? item.duration_seconds);
+        return `
+        <button class="motif ${index === activeIndex ? "active" : ""} ${avatar.candidate ? "avatar-ready" : ""} ${!avatar.candidate && avatar.suggested ? "avatar-suggested" : ""}" data-index="${index}">
+          ${avatar.candidate ? `<span class="motif-avatar-badge">Makler</span>` : avatar.suggested ? `<span class="motif-avatar-badge suggestion">Makler?</span>` : ""}
+          <span class="motif-duration-badge">${durationLabel}s</span>
+          <img src="${item.thumb}" alt="${item.alt_text_de}">
+          <span class="motif-title">#${item.index} · ${item.filename}</span>
+        </button>`;
+      }).join("");
+    }
+    function renderActive() {
+      const item = currentItem();
+      const cfg = currentSettings();
+      sourceImg.src = item.large;
+      portraitImg.src = item.large;
+      document.getElementById("activeName").textContent = item.filename;
+      document.getElementById("imageMeta").innerHTML = `<strong>${item.alt_text_de}</strong><br>${item.quality_flags}<br>${item.copied_path}`;
+      document.getElementById("motionType").value = cfg.motionType;
+      document.getElementById("durationInput").value = cfg.duration;
+      renderMotionPresetButtons(cfg.motionType);
+      renderAvatarControls();
+      renderTextControls();
+      setMode(editTarget);
+      setTimeout(() => { renderBoxes(); renderPreview(); }, 30);
+      renderRail();
+    }
+    function exportPayload() {
+      const exportedItems = items.map(item => {
+        const cfg = settings(item.id);
+        alignMotionConstraints(cfg, item);
+        const timelineDuration = itemDurationSeconds(item, cfg.duration);
+        return {
+          id: item.id,
+          filename: item.filename,
+          copied_path: item.copied_path,
+          original_path: item.original_path,
+          render_source_path: item.copied_path,
+          render_source_r2_key: item.render_source_r2_key || item.r2_key || "",
+          preview_large_path: item.large,
+          width: item.width,
+          height: item.height,
+          duration_seconds: Number(cfg.durationManuallyEdited ? cfg.duration : timelineDuration),
+          cutplan: item.cutplan,
+          motion_type: cfg.motionType,
+          hook_text: cfg.hookText || "",
+          text_overlay: ensureText(cfg),
+          avatar_prep: ensureAvatar(cfg, item),
+          start_crop: normalizeCrop(cfg.start, item),
+          end_crop: normalizeCrop(cfg.end, item),
+          alt_text_de: item.alt_text_de,
+          quality_flags: item.quality_flags
+        };
+      });
+      const brokerItems = exportedItems.filter(item => item.avatar_prep?.candidate);
+      return {
+        version: "candidate_motion_typo_selection_v1",
+        created_at: new Date().toISOString(),
+        candidate_index: activeCandidateIndex,
+        candidate_label: activeCandidateLabel,
+        target_format: "9:16",
+        default_duration_seconds: 4,
+        render_intent: "ffmpeg_motion_plan_with_start_end_crops",
+        storage_key: storageKey,
+        broker_summary: {
+          enabled: brokerItems.length > 0,
+          count: brokerItems.length,
+          scenes: brokerItems.map(item => ({
+            scene_order: item.cutplan?.order || null,
+            scene_role: item.cutplan?.slot_role || "",
+            filename: item.filename,
+            duration_seconds: item.duration_seconds,
+            note: item.avatar_prep?.note || "",
+            footpoint: {
+              x: item.avatar_prep?.footpointX ?? null,
+              y: item.avatar_prep?.footpointY ?? null,
+            },
+          })),
+        },
+        items: exportedItems
+      };
+    }
+    function brokerItemCount(payload = exportPayload()) {
+      return (payload.items || []).filter(item => item.avatar_prep?.candidate).length;
+    }
+    function renderBrokerWorkflowStep(payload) {
+      const step = document.getElementById("brokerWorkflowStep");
+      if (!step) return;
+      const count = brokerItemCount(payload);
+      step.classList.toggle("ready", count > 0);
+      step.classList.toggle("warning", count === 0);
+      step.innerHTML = count > 0
+        ? `<strong>2</strong>${count} Makler-Szene${count === 1 ? "" : "n"} markiert`
+        : "<strong>2</strong>Makler-Szene fehlt";
+    }
+    function renderPlanWorkflowStep(savedOk = false) {
+      const step = document.getElementById("planWorkflowStep");
+      if (!step) return;
+      step.classList.toggle("ready", savedOk);
+      step.innerHTML = savedOk
+        ? "<strong>3</strong>Arbeitsstand gespeichert"
+        : "<strong>3</strong>Arbeitsstand speichern";
+    }
+    function setPlanStatus(message) {
+      const status = document.getElementById("planStatus");
+      if (!status) return;
+      status.textContent = message || "";
+    }
+    function motionPlanFilename() {
+      const stamp = new Date().toISOString().replace(/[:.]/g, "-").slice(0, 19);
+      return `candidate-${activeCandidateIndex}-motion-plan-${stamp}.json`;
+    }
+    async function saveMotionPlan() {
+      const button = document.getElementById("savePlanBtn");
+      const payload = exportPayload();
+      const brokerCount = brokerItemCount(payload);
+      saved.__lastSavedAt = payload.created_at;
+      persist();
+      renderBrokerWorkflowStep(payload);
+      renderPlanWorkflowStep(false);
+      setPlanStatus("Arbeitsstand wird intern gespeichert...");
+      button.disabled = true;
+      try {
+        await window.VideoWorkbenchProject?.saveSection("motion", payload, {
+          page: "motion",
+          sourceProduct: window.VideoWorkbenchProject?.sourceProduct || "workbench",
+        });
+        renderPlanWorkflowStep(true);
+        setPlanStatus(brokerCount
+          ? `Arbeitsstand gespeichert. ${brokerCount} Makler-Szene${brokerCount === 1 ? "" : "n"} im Video-Plan.`
+          : "Arbeitsstand gespeichert. Es ist keine Makler-Szene markiert.");
+      } catch (error) {
+        console.warn("Motion-Plan konnte nicht gespeichert werden.", error);
+        setPlanStatus("Arbeitsstand konnte nicht gespeichert werden.");
+      } finally {
+        button.disabled = false;
+      }
+    }
+    function downloadMotionPlan() {
+      const payload = exportPayload();
+      saved.__lastExportedAt = payload.created_at;
+      persist();
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = motionPlanFilename();
+      a.click();
+      URL.revokeObjectURL(url);
+      setPlanStatus("Technisches JSON heruntergeladen. Der Arbeitsstand bleibt intern davon getrennt.");
+    }
+    function projectApiId() {
+      return window.VideoWorkbenchProject?.projectId || `candidate-${activeCandidateIndex}-shared-video-project-v1`;
+    }
+    function setRenderStatus(message, job) {
+      const status = document.getElementById("renderStatus");
+      if (!status) return;
+      status.textContent = message || "";
+      if (job?.outputUrl) {
+        status.textContent = "";
+        const prefix = document.createElement("span");
+        prefix.textContent = message ? `${message} ` : "";
+        const links = document.createElement("span");
+        links.className = "render-links";
+        const downloadLink = document.createElement("a");
+        downloadLink.href = job.outputUrl;
+        downloadLink.className = "render-link";
+        downloadLink.textContent = "MP4 herunterladen";
+        downloadLink.setAttribute("download", "");
+        const openLink = document.createElement("a");
+        openLink.href = job.outputUrl;
+        openLink.target = "_blank";
+        openLink.rel = "noopener";
+        openLink.className = "render-link secondary";
+        openLink.textContent = "Im Browser öffnen";
+        links.append(downloadLink, openLink);
+        status.append(prefix, links);
+      }
+    }
+    function wait(ms) {
+      return new Promise(resolve => setTimeout(resolve, ms));
+    }
+    async function pollRenderJob(jobId) {
+      const deadline = Date.now() + 8 * 60 * 1000;
+      while (Date.now() < deadline) {
+        const response = await fetch(`/api/video-workbench/projects/${encodeURIComponent(projectApiId())}/render/status?jobId=${encodeURIComponent(jobId)}`, {
+          cache: "no-store",
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || data.job?.error || "Renderstatus konnte nicht gelesen werden.");
+        }
+        const job = data.job;
+        if (job?.status === "completed") {
+          return job;
+        }
+        if (job?.status === "failed") {
+          throw new Error(job.error || "Render fehlgeschlagen.");
+        }
+        const progress = job?.progress?.progress ? ` ${Math.round(job.progress.progress)}%` : "";
+        setRenderStatus(`Render laeuft${progress}...`);
+        await wait(2500);
+      }
+      throw new Error("Render laeuft zu lange. Bitte Status spaeter erneut pruefen.");
+    }
+    async function renderMotionVideo() {
+      const button = document.getElementById("renderVideoBtn");
+      const payload = exportPayload();
+      const sourceProduct = window.VideoWorkbenchProject?.sourceProduct || "workbench";
+      renderBrokerWorkflowStep(payload);
+      if (!brokerItemCount(payload)) {
+        const shouldContinue = window.confirm("Es ist keine Makler-Szene markiert. Soll wirklich ein Video ohne Makler erstellt werden?");
+        if (!shouldContinue) {
+          setRenderStatus("Video abgebrochen: Makler-Szene fehlt.");
+          return;
+        }
+      }
+      button.disabled = true;
+      setRenderStatus("Render laeuft. Zwischenbilder werden nicht dauerhaft behalten...");
+      try {
+        saved.__lastRenderRequestedAt = payload.created_at;
+        persist();
+        await window.VideoWorkbenchProject?.saveSection("motion", payload, {
+          page: "motion",
+          sourceProduct,
+        });
+        const response = await fetch(`/api/video-workbench/projects/${encodeURIComponent(projectApiId())}/render/start`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ motionPlan: payload, sourceProduct }),
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.success) {
+          throw new Error(data.error || data.job?.error || "Render fehlgeschlagen.");
+        }
+        const completedJob = data.job?.status === "completed" ? data.job : await pollRenderJob(data.job?.id);
+        setRenderStatus("Render fertig.", completedJob);
+      } catch (error) {
+        console.error(error);
+        setRenderStatus(error instanceof Error ? error.message : "Render fehlgeschlagen.");
+      } finally {
+        button.disabled = false;
+      }
+    }
+    function applyMotionPlan(payload) {
+      if (!payload?.items?.length) {
+        throw new Error("Die Datei enthält keinen Motion-/Typo-Plan.");
+      }
+      const byId = new Map(payload.items.map(item => [item.id, item]));
+      const byCopiedPath = new Map(payload.items.map(item => [item.copied_path || item.render_source_path, item]));
+      let applied = 0;
+      items.forEach(item => {
+        const planItem = byId.get(item.id) || byCopiedPath.get(item.copied_path);
+        if (!planItem) return;
+        const cfg = saved[item.id] || clone(defaults);
+        cfg.duration = Number(planItem.duration_seconds || cfg.duration || item.duration_seconds || 4);
+        cfg.durationManuallyEdited = true;
+        cfg.motionType = planItem.motion_type || cfg.motionType || defaults.motionType;
+        cfg.hookText = planItem.hook_text ?? cfg.hookText ?? "";
+        cfg.text = {
+          ...clone(defaults.text),
+          ...(cfg.text || {}),
+          ...(planItem.text_overlay || {})
+        };
+        cfg.avatar = {
+          ...clone(defaults.avatar),
+          ...(cfg.avatar || {}),
+          ...(planItem.avatar_prep || {})
+        };
+        cfg.start = normalizeCrop(planItem.start_crop || cfg.start || defaults.start, item);
+        cfg.end = normalizeCrop(planItem.end_crop || cfg.end || defaults.end, item);
+        cfg.slideVerticalOffset = 0;
+        alignMotionConstraints(cfg, item);
+        cfg.timelineFingerprint = timelineFingerprintForItem(item);
+        saved[item.id] = cfg;
+        applied += 1;
+      });
+      saved.__loadedMotionPlan = {
+        loaded_at: new Date().toISOString(),
+        source_created_at: payload.created_at || "",
+        version: payload.version || ""
+      };
+      persist();
+      renderActive();
+      setPlanStatus(`${applied} Szenen aus JSON geladen.`);
+    }
+    sourceImg.addEventListener("load", () => { renderBoxes(); renderPreview(); });
+    window.addEventListener("resize", () => { renderBoxes(); renderPreview(); });
+    document.getElementById("rail").addEventListener("click", event => {
+      const button = event.target.closest("[data-index]");
+      if (!button) return;
+      stopMotionPreview();
+      activeIndex = Number(button.dataset.index);
+      renderActive();
+    });
+    document.getElementById("startMode").addEventListener("click", () => setMode("start"));
+    document.getElementById("endMode").addEventListener("click", () => setMode("end"));
+    document.getElementById("motionType").addEventListener("change", event => {
+      applyMotionPreset(event.target.value);
+    });
+    document.getElementById("motionPresetGrid").addEventListener("click", event => {
+      const button = event.target.closest("[data-motion-preset]");
+      if (!button) return;
+      applyMotionPreset(button.dataset.motionPreset);
+    });
+    document.getElementById("typePresetGrid").addEventListener("click", event => {
+      const button = event.target.closest("[data-type-preset]");
+      if (!button) return;
+      applyTypographyPreset(button.dataset.typePreset);
+    });
+    document.getElementById("toggleTextEnabled").addEventListener("click", () => {
+      const cfg = currentSettings();
+      const text = ensureText(cfg);
+      text.enabled = !text.enabled;
+      if (text.enabled && !text.title && !text.subtitle) {
+        const suggestion = shortTextSuggestion(currentItem().alt_text_de);
+        text.title = suggestion.title;
+        text.subtitle = suggestion.subtitle;
+        cfg.hookText = text.title;
+      }
+      persist();
+      renderTextControls();
+    });
+    document.getElementById("quickTitleText").addEventListener("input", event => {
+      updateText((text) => { text.title = event.target.value; });
+    });
+    document.getElementById("quickSubtitleText").addEventListener("input", event => {
+      updateText((text) => { text.subtitle = event.target.value; });
+    });
+    document.getElementById("durationInput").addEventListener("input", event => {
+      const cfg = currentSettings();
+      cfg.duration = Number(event.target.value);
+      cfg.durationManuallyEdited = true;
+      persist();
+      renderRail();
+    });
+    document.getElementById("playMotionPreview").addEventListener("click", playMotionPreview);
+    document.getElementById("useSuggestedText").addEventListener("click", () => {
+      const cfg = currentSettings();
+      const text = ensureText(cfg);
+      text.title = document.getElementById("suggestedTitle").value;
+      text.subtitle = document.getElementById("suggestedSubtitle").value;
+      text.enabled = true;
+      cfg.hookText = text.title;
+      persist();
+      renderTextControls();
+    });
+    document.getElementById("hookText").addEventListener("input", event => {
+      updateText((text) => { text.title = event.target.value; });
+    });
+    document.getElementById("subtitleText").addEventListener("input", event => {
+      updateText((text) => { text.subtitle = event.target.value; });
+    });
+    document.getElementById("titleFont").addEventListener("change", event => {
+      updateText((text) => { text.titleFont = event.target.value; });
+    });
+    document.getElementById("subtitleFont").addEventListener("change", event => {
+      updateText((text) => { text.subtitleFont = event.target.value; });
+    });
+    document.getElementById("titleColor").addEventListener("input", event => {
+      updateText((text) => { text.titleColor = event.target.value; });
+      document.getElementById("titleColorText").value = event.target.value;
+    });
+    document.getElementById("subtitleColor").addEventListener("input", event => {
+      updateText((text) => { text.subtitleColor = event.target.value; });
+      document.getElementById("subtitleColorText").value = event.target.value;
+    });
+    document.getElementById("titleColorText").addEventListener("change", event => {
+      const value = normalizeHex(event.target.value, currentSettings().text.titleColor);
+      updateText((text) => { text.titleColor = value; });
+      event.target.value = value;
+      document.getElementById("titleColor").value = value;
+    });
+    document.getElementById("subtitleColorText").addEventListener("change", event => {
+      const value = normalizeHex(event.target.value, currentSettings().text.subtitleColor);
+      updateText((text) => { text.subtitleColor = value; });
+      event.target.value = value;
+      document.getElementById("subtitleColor").value = value;
+    });
+    document.getElementById("titleSize").addEventListener("input", event => {
+      updateText((text) => { text.titleSize = Number(event.target.value); });
+    });
+    document.getElementById("subtitleSize").addEventListener("input", event => {
+      updateText((text) => { text.subtitleSize = Number(event.target.value); });
+    });
+    document.getElementById("titleScaleX").addEventListener("input", event => {
+      updateText((text) => { text.titleScaleX = Number(event.target.value) / 100; });
+    });
+    document.getElementById("subtitleScaleX").addEventListener("input", event => {
+      updateText((text) => { text.subtitleScaleX = Number(event.target.value) / 100; });
+    });
+    document.getElementById("fitTitleWidth").addEventListener("click", () => fitTextLineToWidth("title"));
+    document.getElementById("fitSubtitleWidth").addEventListener("click", () => fitTextLineToWidth("subtitle"));
+    document.getElementById("textX").addEventListener("input", event => {
+      updateText((text) => { text.x = Number(event.target.value) / 100; });
+    });
+    document.getElementById("textY").addEventListener("input", event => {
+      updateText((text) => { text.y = Number(event.target.value) / 100; });
+    });
+    document.getElementById("lineGap").addEventListener("input", event => {
+      updateText((text) => { text.lineGap = Number(event.target.value); });
+    });
+    document.getElementById("textWidth").addEventListener("input", event => {
+      updateText((text) => { text.width = Number(event.target.value) / 100; });
+    });
+    document.getElementById("textMotion").addEventListener("change", event => {
+      updateText((text) => { text.motion = event.target.value; });
+    });
+    document.querySelectorAll(".font-samples").forEach(container => {
+      container.addEventListener("click", event => {
+        const button = event.target.closest("[data-font-family]");
+        if (!button) return;
+        const family = button.dataset.fontFamily;
+        if (button.dataset.fontTarget === "title") {
+          document.getElementById("titleFont").value = family;
+          updateText((text) => { text.titleFont = family; });
+        } else {
+          document.getElementById("subtitleFont").value = family;
+          updateText((text) => { text.subtitleFont = family; });
+        }
+      });
+    });
+    document.getElementById("toggleTextPanel").addEventListener("click", () => {
+      const dialog = document.getElementById("textDialog");
+      renderTextControls();
+      dialog.showModal();
+      requestAnimationFrame(() => renderPreview());
+    });
+    document.getElementById("closeTextDialog").addEventListener("click", () => document.getElementById("textDialog").close());
+    document.getElementById("closeTextDialogTop").addEventListener("click", () => document.getElementById("textDialog").close());
+    document.getElementById("toggleAvatarCandidate").addEventListener("click", () => {
+      updateAvatar((avatar) => {
+        if (avatar.candidate) {
+          avatar.candidate = false;
+          avatar.suggested = Boolean(currentItem().avatar_demo?.suggested);
+          avatar.source = avatar.suggested ? "codex_suggestion" : "";
+          avatar.suitability = avatar.suggested ? "Codex-Vorschlag" : "nicht geprueft";
+          if (avatar.suggested) avatar.note = currentItem().avatar_demo?.note || avatar.note;
+        } else {
+          avatar.candidate = true;
+          avatar.suggested = false;
+          avatar.source = "user";
+          avatar.suitability = "manuell";
+          if (!avatar.note) avatar.note = "Makler soll in dieser Szene erscheinen; Fussposition und Perspektive pruefen.";
+        }
+      });
+    });
+    document.getElementById("avatarNoteInput").addEventListener("change", event => {
+      updateAvatar((avatar) => { avatar.note = event.target.value; });
+    });
+    document.getElementById("avatarFootX").addEventListener("input", event => {
+      updateAvatar((avatar) => { avatar.footpointX = Number(event.target.value) / 100; });
+    });
+    document.getElementById("avatarFootY").addEventListener("input", event => {
+      updateAvatar((avatar) => { avatar.footpointY = Number(event.target.value) / 100; });
+    });
+    document.getElementById("zoomInput").addEventListener("input", event => {
+      const cfg = currentSettings();
+      const crop = normalizeCrop(cfg[editTarget]);
+      cfg[editTarget] = normalizeCrop({ ...crop, zoom: Number(event.target.value) });
+      alignMotionConstraints(cfg, currentItem(), editTarget);
+      if (editTarget === "start" || isZoomOnlyMotion(cfg.motionType)) updateMotionBaseFromStart();
+      persist();
+      renderBoxes();
+      renderPreview();
+    });
+    document.getElementById("syncZoomBoth").addEventListener("click", syncZoomBoth);
+    document.querySelectorAll(".crop-box").forEach(box => {
+      box.addEventListener("pointerdown", event => {
+        const target = box.dataset.target;
+        setMode(target);
+        const cfg = currentSettings();
+        const crop = normalizeCrop(cfg[target]);
+        dragging = { kind: "crop", target, crop, x: event.clientX, y: event.clientY };
+        box.setPointerCapture(event.pointerId);
+      });
+    });
+    function startTextDrag(layer, frame, event) {
+      const text = ensureText(currentSettings());
+      dragging = { kind: "text", frame, textX: text.x, textY: text.y, x: event.clientX, y: event.clientY };
+      layer.classList.add("dragging");
+      layer.setPointerCapture(event.pointerId);
+    }
+    textLayer.addEventListener("pointerdown", event => startTextDrag(textLayer, portrait, event));
+    textModalLayer.addEventListener("pointerdown", event => startTextDrag(textModalLayer, textModalPortrait, event));
+    window.addEventListener("pointermove", event => {
+      if (!dragging) return;
+      if (dragging.kind === "text") {
+        const rect = dragging.frame.getBoundingClientRect();
+        updateText((text) => {
+          text.x = clamp(dragging.textX + (event.clientX - dragging.x) / rect.width, .08, .92);
+          text.y = clamp(dragging.textY + (event.clientY - dragging.y) / rect.height, .08, .92);
+        });
+        return;
+      }
+      const rect = stageImageRect();
+      const dx = (event.clientX - dragging.x) / rect.width;
+      const dy = (event.clientY - dragging.y) / rect.height;
+      const cfg = currentSettings();
+      let nextCrop = normalizeCrop({ ...dragging.crop, cx: dragging.crop.cx + dx, cy: dragging.crop.cy + dy });
+      const slideLockedY = isSlideMotion(cfg.motionType) && dragging.target === "end" && hasSameCropSize(cfg.start, nextCrop);
+      if (slideLockedY) {
+        const startCrop = normalizeCrop(cfg.start);
+        nextCrop = normalizeCrop({ ...nextCrop, cy: startCrop.cy });
+      }
+      cfg[dragging.target] = nextCrop;
+      alignMotionConstraints(cfg, currentItem(), dragging.target);
+      if (dragging.target === "start" || isZoomOnlyMotion(cfg.motionType)) updateMotionBaseFromStart();
+      persist();
+      renderBoxes();
+      renderPreview();
+    });
+    window.addEventListener("pointerup", () => {
+      dragging = null;
+      textLayer.classList.remove("dragging");
+      textModalLayer.classList.remove("dragging");
+    });
+    document.getElementById("resetCurrent").addEventListener("click", () => {
+      stopMotionPreview();
+      delete saved[currentItem().id];
+      persist();
+      renderActive();
+    });
+    document.getElementById("exportBtn").addEventListener("click", () => {
+      document.getElementById("exportText").value = JSON.stringify(exportPayload(), null, 2);
+      document.getElementById("exportDialog").showModal();
+    });
+    document.getElementById("savePlanBtn").addEventListener("click", saveMotionPlan);
+    document.getElementById("renderVideoBtn").addEventListener("click", renderMotionVideo);
+    document.getElementById("loadPlanBtn").addEventListener("click", () => {
+      document.getElementById("planFileInput").click();
+    });
+    document.getElementById("planFileInput").addEventListener("change", async event => {
+      const file = event.target.files?.[0];
+      event.target.value = "";
+      if (!file) return;
+      try {
+        applyMotionPlan(JSON.parse(await file.text()));
+      } catch (error) {
+        console.warn("Motion-/Typo-Plan konnte nicht geladen werden.", error);
+        setPlanStatus("JSON konnte nicht geladen werden.");
+      }
+    });
+    document.getElementById("closeExport").addEventListener("click", () => document.getElementById("exportDialog").close());
+    document.getElementById("copyExport").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(document.getElementById("exportText").value);
+    });
+    document.getElementById("downloadExport").addEventListener("click", () => {
+      downloadMotionPlan();
+    });
+    populateFontSelects();
+    renderActive();
+  </script>
+</body>
+</html>

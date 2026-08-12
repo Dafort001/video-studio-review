@@ -1,0 +1,34 @@
+# Dependencies and framework output
+node_modules/
+.next/
+dist/
+build/
+.build/
+out/
+coverage/
+.turbo/
+.cache/
+DerivedData/
+SourcePackages/
+.swiftpm/
+
+# Local configuration and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*.pfx
+*.key
+
+# Package-manager and editor caches
+Package.resolved
+*.xcuserstate
+.DS_Store
+
+# Test and render artifacts
+test-results/
+playwright-report/
+artifacts/
+renders/
+tmp/

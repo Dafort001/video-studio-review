@@ -1,0 +1,242 @@
+{
+  "schemaVersion": "pix_video_font_manifest_v2",
+  "manifestId": "pix-video-fonts-v2-038b637da7b3fd956a4ed93ffc607c3d5e4ce172",
+  "source": "https://github.com/google/fonts",
+  "sourceCommit": "038b637da7b3fd956a4ed93ffc607c3d5e4ce172",
+  "families": [
+    {
+      "family": "Inter",
+      "ttf": "Inter.ttf",
+      "ttfSha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031",
+      "woff2": "Inter.woff2",
+      "woff2Sha256": "988d7b065d265ed6ee93dc4aa1f69cc85a7817265221fb686f5217204ede73a4",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-inter.txt"
+    },
+    {
+      "family": "IBM Plex Sans",
+      "ttf": "IBMPlexSans.ttf",
+      "ttfSha256": "3b031aa4216174205bd8471f88a49b91f093169e9e87bd5262242bc5967fe2e3",
+      "woff2": "IBMPlexSans.woff2",
+      "woff2Sha256": "cd4fa5944a24c884118c8d85784bda12e4547d14910fb38991d2b25679698fe3",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-ibmplexsans.txt"
+    },
+    {
+      "family": "Manrope",
+      "ttf": "Manrope.ttf",
+      "ttfSha256": "d0639be45d0af36e798172419d7bd173c4bd4f29e2b76cbb69db1d11bf8b0a40",
+      "woff2": "Manrope.woff2",
+      "woff2Sha256": "6cdc1ab894062a84250bf9d0a724e20c6f19767ac93acd48c0a47c73bc46d935",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-manrope.txt"
+    },
+    {
+      "family": "Sora",
+      "ttf": "Sora.ttf",
+      "ttfSha256": "84ff7096ae3ec6c8be47d906d1a0ba4de7f2ce78c615275c77301964a316e16c",
+      "woff2": "Sora.woff2",
+      "woff2Sha256": "4f8ca42433ff77ae54ad0516bb803c385c19eecb0e85cc822e41ce0515277e97",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-sora.txt"
+    },
+    {
+      "family": "Space Grotesk",
+      "ttf": "SpaceGrotesk.ttf",
+      "ttfSha256": "acad6de1fc93436f5c0f1f4137751ef04f1aea3063e7036535970ffcfbd79f72",
+      "woff2": "SpaceGrotesk.woff2",
+      "woff2Sha256": "bd7a44d36a620f96671f621feb37a3ff59bfa2fcb1ea6114c11beb095367117c",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-spacegrotesk.txt"
+    },
+    {
+      "family": "Playfair Display",
+      "ttf": "PlayfairDisplay.ttf",
+      "ttfSha256": "c40f2293766a503bc70cce9e512ef844a4ccb7cbcde792fe2ea31d191917d8d6",
+      "woff2": "PlayfairDisplay.woff2",
+      "woff2Sha256": "ac9eb7b91f155cbe0e014f3070156db8bd8f1baaf16e0ae7b9e223802a99d675",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-playfairdisplay.txt"
+    },
+    {
+      "family": "Cormorant Garamond",
+      "ttf": "CormorantGaramond.ttf",
+      "ttfSha256": "b20b7d9626dd956b2c5e558692ad328b1f19e3275e2782db4fa07670d83f35e0",
+      "woff2": "CormorantGaramond.woff2",
+      "woff2Sha256": "c8c1df394eacb8e47b3a3063661a85f94529222bd5a1080f8eb3844ca3d5d172",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-cormorantgaramond.txt"
+    },
+    {
+      "family": "Libre Baskerville",
+      "ttf": "LibreBaskerville.ttf",
+      "ttfSha256": "05a95421961341c5b2556285e8415df9db27dab4f4abe22b446b3c6a8b916c5d",
+      "woff2": "LibreBaskerville.woff2",
+      "woff2Sha256": "4789691e22782f5a1ff97734d98432c00edc39060e92ca4f803c0367be9982cc",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-librebaskerville.txt"
+    },
+    {
+      "family": "Fraunces",
+      "ttf": "Fraunces.ttf",
+      "ttfSha256": "177ff6c0f14e5550a3c624247cd1189611d4eb65d000b14944c63d967958abbb",
+      "woff2": "Fraunces.woff2",
+      "woff2Sha256": "eaac52353e124f4deae6aa25aef47882c22b05b9de9cea1b257dddb8c70f3b2b",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-fraunces.txt"
+    },
+    {
+      "family": "Newsreader",
+      "ttf": "Newsreader.ttf",
+      "ttfSha256": "8a08d13f8a6c0d51be379a60af84f945f65369a67e509ee3c3bdcc421254d7c1",
+      "woff2": "Newsreader.woff2",
+      "woff2Sha256": "f246b285f82c0955ccdef4ff035bc5d074646706e847b8f5f7ff4fe18d9a89da",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-newsreader.txt"
+    },
+    {
+      "family": "Montserrat",
+      "ttf": "Montserrat.ttf",
+      "ttfSha256": "0f7b311b2f3279e4eef9b2f968bcdbab6e28f4daeb1f049f4f278a902bcd82f7",
+      "woff2": "Montserrat.woff2",
+      "woff2Sha256": "8bc07f39f2666af445101cda147053b4a29b828480acd345ea1c06f389d91065",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-montserrat.txt"
+    },
+    {
+      "family": "Oswald",
+      "ttf": "Oswald.ttf",
+      "ttfSha256": "5b38c246e255a12f5712d640d56bcced0472466fc68983d2d0410ec0457c2817",
+      "woff2": "Oswald.woff2",
+      "woff2Sha256": "4d26776366df2560d38c94352978ecd118ff035714ec25a2d66797ed517339c5",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-oswald.txt"
+    },
+    {
+      "family": "Bebas Neue",
+      "ttf": "BebasNeue.ttf",
+      "ttfSha256": "08e4623805102d819f58601e46e345648846075e363b2ceb23313c2d1c83ec73",
+      "woff2": "BebasNeue.woff2",
+      "woff2Sha256": "7e009f7a475be0b624345d2716c96951cae10d03effad6b11bf2e79f10d0a4d5",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-bebasneue.txt"
+    },
+    {
+      "family": "Outfit",
+      "ttf": "Outfit.ttf",
+      "ttfSha256": "fc7287273e66929776e2ba54f144fe699080bec29f61bf649d70d871468aeade",
+      "woff2": "Outfit.woff2",
+      "woff2Sha256": "33a63fdae8ed0d5ffacf2fc474d3f398acefe9d7201358450e52bf42a17f40e6",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-outfit.txt"
+    },
+    {
+      "family": "Archivo Narrow",
+      "ttf": "ArchivoNarrow.ttf",
+      "ttfSha256": "adbe027f625c8393ae0f6e174e32e233dda485bc3eda5153ce428275394ef97f",
+      "woff2": "ArchivoNarrow.woff2",
+      "woff2Sha256": "8435367dcf53848477cb5cd1e138a19d7062daccfcd1e207521d55aa7efc818f",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-archivonarrow.txt"
+    },
+    {
+      "family": "Archivo",
+      "ttf": "Archivo.ttf",
+      "ttfSha256": "0e094a7d3c7c4c25cf1310c4b30014f1dae9332220b1c2c88f4fa996f0b05053",
+      "woff2": "Archivo.woff2",
+      "woff2Sha256": "879bdc578d7056f74d753eeecec0950b058970567768d473af91e119892f072a",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-archivo.txt"
+    },
+    {
+      "family": "Dancing Script",
+      "ttf": "DancingScript.ttf",
+      "ttfSha256": "21808625578fe8d8cd10cb684be546dca077b27cd03a53a2f1ec11dc743c924c",
+      "woff2": "DancingScript.woff2",
+      "woff2Sha256": "b2730141b09a4f8acda6b366267e32e5324a5b0e587d8d988f6fe6b15b14305f",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-dancingscript.txt"
+    },
+    {
+      "family": "Caveat",
+      "ttf": "Caveat.ttf",
+      "ttfSha256": "0bdb6b660482d31531b3945849fba5916b3ef8695da7024a9e6b9ee3c4157988",
+      "woff2": "Caveat.woff2",
+      "woff2Sha256": "505eb4a5be54ba3fbbff292c86d061ce232d537a5b61179a04c96834d93d1411",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-caveat.txt"
+    },
+    {
+      "family": "Fredoka",
+      "ttf": "Fredoka.ttf",
+      "ttfSha256": "2ba02e68b152868aef9ba28e24b3648c7d457fe6f25c761f2c2c53fb61a73fc8",
+      "woff2": "Fredoka.woff2",
+      "woff2Sha256": "79b6f5630ca8d4d062cad0d801abb58e41dd730b4e2e52394a114afa77312973",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-fredoka.txt"
+    },
+    {
+      "family": "Baloo 2",
+      "ttf": "Baloo2.ttf",
+      "ttfSha256": "d47a6852548059b1db49a1319d06d499d546c3fa2237cf9eee9c43c8abb025c2",
+      "woff2": "Baloo2.woff2",
+      "woff2Sha256": "fb1961672ee3ea98d5b06532258df3130d00d4a1f4f5cf7093fa2709cf419cb2",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-baloo2.txt"
+    },
+    {
+      "family": "Rubik Bubbles",
+      "ttf": "RubikBubbles.ttf",
+      "ttfSha256": "2171521dab2b1b3675bbb7aecd34b1c169167c360e3647dadb4939910490c974",
+      "woff2": "RubikBubbles.woff2",
+      "woff2Sha256": "2b8b8abc05d3a2202107d60609c5960a8f5fd472dd07e59ea9f0b557255af0c8",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-rubikbubbles.txt"
+    },
+    {
+      "family": "Bungee Shade",
+      "ttf": "BungeeShade.ttf",
+      "ttfSha256": "665c626082682b462f4e696308eafa7071c114da8f8ff3fb73a289c7ff7df482",
+      "woff2": "BungeeShade.woff2",
+      "woff2Sha256": "b577e6e78692e8cb1b42989f8dec281ef59a6f1c83af7f45453584556e75ab95",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-bungeeshade.txt"
+    },
+    {
+      "family": "Bagel Fat One",
+      "ttf": "BagelFatOne.ttf",
+      "ttfSha256": "9286944032c5a9b20ad70940105417beae14013e0b4f5fc292425afdc4330245",
+      "woff2": "BagelFatOne.woff2",
+      "woff2Sha256": "a6274a5a18515dcbba55d2a616486191a55b97bcee9a753d7bef7f81d2d017de",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-bagelfatone.txt"
+    },
+    {
+      "family": "Modak",
+      "ttf": "Modak.ttf",
+      "ttfSha256": "9a96ba056ddcbb7d0c937c52f744ff5d71004a97689b1fd2cdbd678f314db245",
+      "woff2": "Modak.woff2",
+      "woff2Sha256": "7bcd60e0cb1d02a7187fc76416f530572d07a2372dfe31a6afdce0115475a34b",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-modak.txt"
+    },
+    {
+      "family": "Chewy",
+      "ttf": "Chewy.ttf",
+      "ttfSha256": "7cf75ea288f82fd20badea8ab4da7a656a96a7277c170811e813b3d3d6294147",
+      "woff2": "Chewy.woff2",
+      "woff2Sha256": "98cd4df8c4df576ff0c8054efeac61a3d8f37009bb022f689d5fae459d7f4ed3",
+      "license": "Apache-2.0",
+      "licenseFile": "LICENSE-chewy.txt"
+    },
+    {
+      "family": "Coiny",
+      "ttf": "Coiny.ttf",
+      "ttfSha256": "ef02d723a54abe4819bea54ea8b2ecf72d77d258010bb336cd4862a37705eac7",
+      "woff2": "Coiny.woff2",
+      "woff2Sha256": "670eb98c80ff65563d9210538815e3beb12900731e7b006ec235c95b6eb6274a",
+      "license": "OFL-1.1",
+      "licenseFile": "OFL-coiny.txt"
+    }
+  ]
+}

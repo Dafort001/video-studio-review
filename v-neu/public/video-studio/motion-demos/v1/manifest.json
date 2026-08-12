@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "source": {
+    "filename": "exec-2049b9d6-cfc2-446b-b2eb-999da1d6e180.png",
+    "sha256": "68cfe601fb2ffb2f3c12aa46eda759407fa5e7f470b168bb22de2c2133ea6330",
+    "size": [
+      1672,
+      941
+    ]
+  },
+  "frameGuide": {
+    "filename": "Rahmen1.png",
+    "sha256": "affd6fd06076b672a3338ac45160bd9d00d830625ddfe7c293b087d0c9fddec3",
+    "size": [
+      900,
+      1600
+    ]
+  },
+  "durationSeconds": 1.5,
+  "fps": 60,
+  "outputSize": [
+    540,
+    960
+  ],
+  "motions": [
+    "PAN_LEFT",
+    "PAN_RIGHT",
+    "TILT_UP",
+    "TILT_DOWN",
+    "DIAGONAL_UP_LEFT",
+    "DIAGONAL_UP_RIGHT",
+    "DIAGONAL_DOWN_LEFT",
+    "DIAGONAL_DOWN_RIGHT",
+    "ZOOM_IN",
+    "ZOOM_OUT",
+    "PUSH_IN_2D",
+    "PULL_OUT_2D",
+    "CRASH_ZOOM_IN",
+    "CRASH_ZOOM_OUT",
+    "KEN_BURNS",
+    "ROLL_CLOCKWISE",
+    "ROLL_COUNTERCLOCKWISE",
+    "DUTCH_ANGLE_IN",
+    "DUTCH_ANGLE_OUT",
+    "DRIFT",
+    "FLOAT"
+  ]
+}

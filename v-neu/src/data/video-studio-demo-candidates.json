@@ -1,0 +1,2249 @@
+{
+  "version": "video-studio-demo-v1",
+  "candidates": [
+    {
+      "candidateIndex": 1,
+      "candidateLabel": "Haus mit Vorgarten",
+      "projectName": "Motiv 1: Haus mit Vorgarten",
+      "propertyAddress": "Pix.immo Video-Testdaten",
+      "durationSeconds": 30.25,
+      "shots": [
+        {
+          "order": 1,
+          "slotRole": "Startbild",
+          "slotKind": "hook",
+          "filename": "20260613-084032000-Aussenansicht-DSF1138.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/001-20260613-084032000-Aussenansicht-DSF1138.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 4.0,
+          "motionType": "push_in",
+          "suggestedMotion": "Opening Push / ruhiger Text-Hook",
+          "caption": "Einfamilienhaus mit Ziegelfassade, Dachziegeln und Garten hinter Metallzaun unter blauem Himmel.",
+          "altText": "Einfamilienhaus mit Ziegelfassade, Dachziegeln und Garten hinter Metallzaun unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.12
+          }
+        },
+        {
+          "order": 2,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260613-092754000-Flur-Diele-DSF1213.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/002-20260613-092754000-Flur-Diele-DSF1213.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 1.5,
+          "motionType": "still",
+          "suggestedMotion": "Slide entlang der Richtung",
+          "caption": "Langer, heller Flur mit weißen Wänden und Fliesenboden im Diagonalmuster.",
+          "altText": "Langer, heller Flur mit weißen Wänden und Fliesenboden im Diagonalmuster.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 3,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-090029000-Wohnzimmer-DSF1148.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/003-20260613-090029000-Wohnzimmer-DSF1148.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leeres Wohnzimmer mit Holzboden, weißen Wänden und Fenstern mit Blick auf Grünanlagen.",
+          "altText": "Leeres Wohnzimmer mit Holzboden, weißen Wänden und Fenstern mit Blick auf Grünanlagen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 4,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-090551000-Flur-Diele-DSF1168.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/004-20260613-090551000-Flur-Diele-DSF1168.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leerer Flur mit Holzboden und weißen Wänden, mehrere Türen zu anderen Räumen.",
+          "altText": "Leerer Flur mit Holzboden und weißen Wänden, mehrere Türen zu anderen Räumen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 5,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-090457000-Wohnzimmer-DSF1163.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/005-20260613-090457000-Wohnzimmer-DSF1163.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leeres Wohnzimmer mit Holzboden, weißen Wänden und großen Fenstern mit Blick auf Grünanlagen.",
+          "altText": "Leeres Wohnzimmer mit Holzboden, weißen Wänden und großen Fenstern mit Blick auf Grünanlagen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 6,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "_DSF1158.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/006-_DSF1158.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leeres Wohnzimmer mit Holzboden, weißen Wänden und Fenstern mit Blick nach draußen.",
+          "altText": "Leeres Wohnzimmer mit Holzboden, weißen Wänden und Fenstern mit Blick nach draußen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 7,
+          "slotRole": "Take",
+          "slotKind": "anchor",
+          "filename": "20260613-090348000-Wohnzimmer-DSF1153.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/007-20260613-090348000-Wohnzimmer-DSF1153.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 3.0,
+          "motionType": "pan_right",
+          "suggestedMotion": "ruhiger Push mit Atem",
+          "caption": "Leeres Wohnzimmer mit Holzboden, weißen Wänden und großen Fenstern mit Blick auf Garten.",
+          "altText": "Leeres Wohnzimmer mit Holzboden, weißen Wänden und großen Fenstern mit Blick auf Garten.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 8,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260613-091205000-Kueche-DSF1173.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/008-20260613-091205000-Kueche-DSF1173.jpg",
+          "roomLabel": "kueche",
+          "sceneType": "interior",
+          "durationSeconds": 2.0,
+          "motionType": "still",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Modern eingerichtete Küche mit weißen Schränken, dunkler Arbeitsplatte und Fensterblick auf grüne Bäume.",
+          "altText": "Modern eingerichtete Küche mit weißen Schränken, dunkler Arbeitsplatte und Fensterblick auf grüne Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 9,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-093039000-Schlafzimmer-DSF1218.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/009-20260613-093039000-Schlafzimmer-DSF1218.jpg",
+          "roomLabel": "schlafzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leeres Zimmer mit Holzboden, weißer Wand und Fenster mit Blick auf Grünanlage.",
+          "altText": "Leeres Zimmer mit Holzboden, weißer Wand und Fenster mit Blick auf Grünanlage.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 10,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-093107000-Schlafzimmer-DSF1223.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/010-20260613-093107000-Schlafzimmer-DSF1223.jpg",
+          "roomLabel": "schlafzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "pan_right",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "leeres Zimmer mit Holzboden, weißer Wand und Fenster mit Blick auf Grünflächen.",
+          "altText": "leeres Zimmer mit Holzboden, weißer Wand und Fenster mit Blick auf Grünflächen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 11,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-093144000-Schlafzimmer-DSF1228.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/011-20260613-093144000-Schlafzimmer-DSF1228.jpg",
+          "roomLabel": "schlafzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "still",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Leeres Zimmer mit Holzboden, weißem Fenster und Heizkörper, Blick auf grüne Bäume.",
+          "altText": "Leeres Zimmer mit Holzboden, weißem Fenster und Heizkörper, Blick auf grüne Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 12,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-092052000-Bad-DSF1188.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/012-20260613-092052000-Bad-DSF1188.jpg",
+          "roomLabel": "bad",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Badezimmer mit weißen Fliesen, Waschbecken, Spiegel und Toilette; Fenster mit Blick auf grüne Bäume.",
+          "altText": "Badezimmer mit weißen Fliesen, Waschbecken, Spiegel und Toilette; Fenster mit Blick auf grüne Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 13,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-101400000-Flur-Diele-DSF1293.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/013-20260613-101400000-Flur-Diele-DSF1293.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "pan_right",
+          "suggestedMotion": "Slide entlang der Richtung",
+          "caption": "Flur mit Holztreppe, weißer Tür und Fliesenboden, Blick in Treppenhaus.",
+          "altText": "Flur mit Holztreppe, weißer Tür und Fliesenboden, Blick in Treppenhaus.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 14,
+          "slotRole": "Take",
+          "slotKind": "anchor",
+          "filename": "20260613-101508000-Dachboden-DSF1303.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/014-20260613-101508000-Dachboden-DSF1303.jpg",
+          "roomLabel": "dachboden",
+          "sceneType": "interior",
+          "durationSeconds": 3.0,
+          "motionType": "still",
+          "suggestedMotion": "ruhiger Push mit Atem",
+          "caption": "Leeres Dachgeschoss mit Holzboden, Dachfenstern und weißen Deckenbalken.",
+          "altText": "Leeres Dachgeschoss mit Holzboden, Dachfenstern und weißen Deckenbalken.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 15,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260613-101454000-Dachboden-DSF1298.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/015-20260613-101454000-Dachboden-DSF1298.jpg",
+          "roomLabel": "dachboden",
+          "sceneType": "interior",
+          "durationSeconds": 2.0,
+          "motionType": "pan_left",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Leeres Dachgeschoss mit Holzboden, weißen Wänden und Dachfenstern, ohne Möbel.",
+          "altText": "Leeres Dachgeschoss mit Holzboden, weißen Wänden und Dachfenstern, ohne Möbel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 16,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-101614000-Flur-Diele-DSF1313.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/016-20260613-101614000-Flur-Diele-DSF1313.jpg",
+          "roomLabel": "treppenhaus",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Holztreppen mit Geländer in einem Flur mit hellem Parkettboden und weißen Wänden.",
+          "altText": "Holztreppen mit Geländer in einem Flur mit hellem Parkettboden und weißen Wänden.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 17,
+          "slotRole": "Schlussbild",
+          "slotKind": "end",
+          "filename": "_DSF1238.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/017-_DSF1238.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "ruhiger End-Hold",
+          "caption": "Leeres Wohnzimmer mit Holzboden, offenen Glastüren zum Garten und Blumen auf dem Fensterbrett.",
+          "altText": "Leeres Wohnzimmer mit Holzboden, offenen Glastüren zum Garten und Blumen auf dem Fensterbrett.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 18,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "_DSF1243.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/018-_DSF1243.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 1.0,
+          "motionType": "pan_left",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Grüner Rasen mit Hecken und Bäumen unter blauem Himmel, im Hintergrund Häuser und Landschaft.",
+          "altText": "Grüner Rasen mit Hecken und Bäumen unter blauem Himmel, im Hintergrund Häuser und Landschaft.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 19,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-094231000-Aussenansicht-DSF1268.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/019-20260613-094231000-Aussenansicht-DSF1268.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Grüne Pflanzen und ein Zaun vor einem See mit Holzsteg unter blauem Himmel.",
+          "altText": "Grüne Pflanzen und ein Zaun vor einem See mit Holzsteg unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 20,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260613-093717000-Aussenansicht-DSF1258.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/020-20260613-093717000-Aussenansicht-DSF1258.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 1.0,
+          "motionType": "still",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Einfamilienhaus mit Rasenfläche und Hecken im Vorgarten unter blauem Himmel.",
+          "altText": "Einfamilienhaus mit Rasenfläche und Hecken im Vorgarten unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 21,
+          "slotRole": "Take",
+          "slotKind": "anchor",
+          "filename": "20260613-093657000-Aussenansicht-DSF1253.jpg",
+          "deliveryKey": "demo/video-studio/candidate-01/021-20260613-093657000-Aussenansicht-DSF1253.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 3.0,
+          "motionType": "pan_left",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Einfamilienhaus mit Ziegeldach, Vorgarten und gepflegtem Rasen unter klarem Himmel.",
+          "altText": "Einfamilienhaus mit Ziegeldach, Vorgarten und gepflegtem Rasen unter klarem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        }
+      ]
+    },
+    {
+      "candidateIndex": 5,
+      "candidateLabel": "Historisches Wohnhaus",
+      "projectName": "Motiv 5: Historisches Wohnhaus",
+      "propertyAddress": "Pix.immo Video-Testdaten",
+      "durationSeconds": 30.5,
+      "shots": [
+        {
+          "order": 1,
+          "slotRole": "Startbild",
+          "slotKind": "hook",
+          "filename": "20260430-124359000-Aussenansicht-DSF4487.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/001-20260430-124359000-Aussenansicht-DSF4487.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 4.0,
+          "motionType": "push_in",
+          "suggestedMotion": "Opening Push / ruhiger Text-Hook",
+          "caption": "Historisches Wohnhaus mit weißen Fassaden und Balkonen, umgeben von grünen Hecken und einem schmiedeeisernen Tor.",
+          "altText": "Historisches Wohnhaus mit weißen Fassaden und Balkonen, umgeben von grünen Hecken und einem schmiedeeisernen Tor.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.12
+          }
+        },
+        {
+          "order": 2,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260430-123133000-Flur-Diele-DSF4472.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/002-20260430-123133000-Flur-Diele-DSF4472.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 1.5,
+          "motionType": "still",
+          "suggestedMotion": "Slide entlang der Richtung",
+          "caption": "Langer, heller Flur mit weißen Wänden, Holzfußboden und Wandlampen, Ende mit Tür zur Außentür.",
+          "altText": "Langer, heller Flur mit weißen Wänden, Holzfußboden und Wandlampen, Ende mit Tür zur Außentür.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 3,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-120147000-Flur-Diele-DSF4402.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/003-20260430-120147000-Flur-Diele-DSF4402.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leerer Flur mit Holzboden, weißer Treppe und einer Tür im Hintergrund.",
+          "altText": "Leerer Flur mit Holzboden, weißer Treppe und einer Tür im Hintergrund.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 4,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-113741000-Flur-Diele-DSF4342.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/004-20260430-113741000-Flur-Diele-DSF4342.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leerer Flur mit Holzboden, weißen Wänden und offenen Türen zu anderen Räumen.",
+          "altText": "Leerer Flur mit Holzboden, weißen Wänden und offenen Türen zu anderen Räumen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 5,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-113852000-Wohnzimmer-DSF4352.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/005-20260430-113852000-Wohnzimmer-DSF4352.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leeres Zimmer mit Holzboden, weißen Wänden und drei Bogenfenstern mit Blick auf Bäume.",
+          "altText": "Leeres Zimmer mit Holzboden, weißen Wänden und drei Bogenfenstern mit Blick auf Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 6,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-113934000-Wohnzimmer-DSF4362.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/006-20260430-113934000-Wohnzimmer-DSF4362.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leeres Zimmer mit Holzboden, weißen Wänden und Bogenfenstern mit Blick auf grüne Bäume.",
+          "altText": "Leeres Zimmer mit Holzboden, weißen Wänden und Bogenfenstern mit Blick auf grüne Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 7,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-114356000-Unklar-DSF4387.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/007-20260430-114356000-Unklar-DSF4387.jpg",
+          "roomLabel": "sonstiges_unklar",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leerer Raum mit weißen Einbauschränken und Holzboden, Blick durch Tür auf Fenster mit Grün im Hintergrund.",
+          "altText": "Leerer Raum mit weißen Einbauschränken und Holzboden, Blick durch Tür auf Fenster mit Grün im Hintergrund.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 8,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-114320000-Unklar-DSF4382.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/008-20260430-114320000-Unklar-DSF4382.jpg",
+          "roomLabel": "sonstiges_unklar",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leeres Zimmer mit Holzboden, weißen Wänden und eingebautem Regal.",
+          "altText": "Leeres Zimmer mit Holzboden, weißen Wänden und eingebautem Regal.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 9,
+          "slotRole": "Take",
+          "slotKind": "anchor",
+          "filename": "20260430-114236000-Wohnzimmer-DSF4372.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/009-20260430-114236000-Wohnzimmer-DSF4372.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 3.0,
+          "motionType": "pan_left",
+          "suggestedMotion": "ruhiger Push mit Atem",
+          "caption": "Leeres Wohnzimmer mit Holzboden, weißen Regalen und Kamin aus Marmor, Tageslicht durch Dachfenster und Fenster.",
+          "altText": "Leeres Wohnzimmer mit Holzboden, weißen Regalen und Kamin aus Marmor, Tageslicht durch Dachfenster und Fenster.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 10,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260430-121107000-Kueche-DSF4417.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/010-20260430-121107000-Kueche-DSF4417.jpg",
+          "roomLabel": "kueche",
+          "sceneType": "interior",
+          "durationSeconds": 2.0,
+          "motionType": "pan_right",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Helle Küche mit weißen Schränken, grauem Arbeitsplatz und Fenster mit Blick auf Bäume.",
+          "altText": "Helle Küche mit weißen Schränken, grauem Arbeitsplatz und Fenster mit Blick auf Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 11,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-121225000-Kueche-DSF4427.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/011-20260430-121225000-Kueche-DSF4427.jpg",
+          "roomLabel": "kueche",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "still",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Helle Küche mit weißen Schränken, grauen Arbeitsplatten und Fensterblick auf Bäume.",
+          "altText": "Helle Küche mit weißen Schränken, grauen Arbeitsplatten und Fensterblick auf Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 12,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-121834000-Bad-DSF4437.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/012-20260430-121834000-Bad-DSF4437.jpg",
+          "roomLabel": "bad",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "pan_left",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Modernes Badezimmer mit Marmorfliesen, Doppelwaschbecken, Badewanne und Toilette.",
+          "altText": "Modernes Badezimmer mit Marmorfliesen, Doppelwaschbecken, Badewanne und Toilette.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 13,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260430-121851000-Bad-DSF4442.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/013-20260430-121851000-Bad-DSF4442.jpg",
+          "roomLabel": "bad",
+          "sceneType": "interior",
+          "durationSeconds": 2.5,
+          "motionType": "pan_right",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Modernes Badezimmer mit Marmorverkleidung, Dusche, Badewanne, Bidet und Waschtisch.",
+          "altText": "Modernes Badezimmer mit Marmorverkleidung, Dusche, Badewanne, Bidet und Waschtisch.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 14,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-121917000-Schlafzimmer-DSF4447.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/014-20260430-121917000-Schlafzimmer-DSF4447.jpg",
+          "roomLabel": "schlafzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "still",
+          "suggestedMotion": "ruhiger Push mit Atem",
+          "caption": "Leeres Zimmer mit Holzboden, Dachschräge, Fenster und Spiegeltüren zu Regalen.",
+          "altText": "Leeres Zimmer mit Holzboden, Dachschräge, Fenster und Spiegeltüren zu Regalen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 15,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-121946000-Schlafzimmer-DSF4452.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/015-20260430-121946000-Schlafzimmer-DSF4452.jpg",
+          "roomLabel": "kinderzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Leeres Zimmer mit Holzboden, weißen Regalen unter Dachfirst und Fenster mit Blick auf Bäume.",
+          "altText": "Leeres Zimmer mit Holzboden, weißen Regalen unter Dachfirst und Fenster mit Blick auf Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 16,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-122539000-Wohnzimmer-DSF4457.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/016-20260430-122539000-Wohnzimmer-DSF4457.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.25,
+          "motionType": "pan_right",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Leeres Zimmer mit Holzboden, weißen Wänden und zwei Fenstern mit Blick auf Bäume.",
+          "altText": "Leeres Zimmer mit Holzboden, weißen Wänden und zwei Fenstern mit Blick auf Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 17,
+          "slotRole": "Schlussbild",
+          "slotKind": "end",
+          "filename": "20260430-122631000-Wohnzimmer-DSF4462.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/017-20260430-122631000-Wohnzimmer-DSF4462.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.5,
+          "motionType": "still",
+          "suggestedMotion": "ruhiger End-Hold",
+          "caption": "Leeres Zimmer mit Holzboden, weißen Wänden und zwei Fenstern mit Blick auf Bäume.",
+          "altText": "Leeres Zimmer mit Holzboden, weißen Wänden und zwei Fenstern mit Blick auf Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 18,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-112315000-Balkon-Terrasse-DSF4312.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/018-20260430-112315000-Balkon-Terrasse-DSF4312.jpg",
+          "roomLabel": "balkon_terrasse",
+          "sceneType": "exterior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Holzterrasse mit schwarzem Geländer und Blick auf Bäume unter blauem Himmel.",
+          "altText": "Holzterrasse mit schwarzem Geländer und Blick auf Bäume unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 19,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260430-112053000-Balkon-Terrasse-DSF4277.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/019-20260430-112053000-Balkon-Terrasse-DSF4277.jpg",
+          "roomLabel": "balkon_terrasse",
+          "sceneType": "exterior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Holzterrasse mit Metallgeländer und Blick auf Bäume unter blauem Himmel.",
+          "altText": "Holzterrasse mit Metallgeländer und Blick auf Bäume unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 20,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260430-112118000-Balkon-Terrasse-DSF4282.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/020-20260430-112118000-Balkon-Terrasse-DSF4282.jpg",
+          "roomLabel": "balkon_terrasse",
+          "sceneType": "exterior",
+          "durationSeconds": 1.5,
+          "motionType": "still",
+          "suggestedMotion": "Reveal nach außen",
+          "caption": "Holzterrasse mit schwarzem Geländer und Blick auf Bäume unter blauem Himmel.",
+          "altText": "Holzterrasse mit schwarzem Geländer und Blick auf Bäume unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 21,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260430-112157000-Balkon-Terrasse-DSF4297.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/021-20260430-112157000-Balkon-Terrasse-DSF4297.jpg",
+          "roomLabel": "balkon_terrasse",
+          "sceneType": "exterior",
+          "durationSeconds": 1.5,
+          "motionType": "pan_left",
+          "suggestedMotion": "Reveal nach außen",
+          "caption": "Holzterrasse mit Metallgeländer und Blick auf Bäume unter blauem Himmel.",
+          "altText": "Holzterrasse mit Metallgeländer und Blick auf Bäume unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 22,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260430-112031000-Balkon-Terrasse-DSF4272.jpg",
+          "deliveryKey": "demo/video-studio/candidate-05/022-20260430-112031000-Balkon-Terrasse-DSF4272.jpg",
+          "roomLabel": "balkon_terrasse",
+          "sceneType": "exterior",
+          "durationSeconds": 2.0,
+          "motionType": "pan_right",
+          "suggestedMotion": "Reveal nach außen",
+          "caption": "Holzterrasse mit Metallgeländer und Blick auf Bäume unter blauem Himmel.",
+          "altText": "Holzterrasse mit Metallgeländer und Blick auf Bäume unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        }
+      ]
+    },
+    {
+      "candidateIndex": 7,
+      "candidateLabel": "Backsteinhaus mit Einfahrt",
+      "projectName": "Motiv 7: Backsteinhaus mit Einfahrt",
+      "propertyAddress": "Pix.immo Video-Testdaten",
+      "durationSeconds": 31.25,
+      "shots": [
+        {
+          "order": 1,
+          "slotRole": "Startbild",
+          "slotKind": "hook",
+          "filename": "20260527-150230000-Aussenansicht-DSF8331.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/001-20260527-150230000-Aussenansicht-DSF8331.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 3.0,
+          "motionType": "push_in",
+          "suggestedMotion": "Opening Push / ruhiger Text-Hook",
+          "caption": "Einfamilienhaus mit Ziegelwand und Gartenvorplatz unter blauem Himmel.",
+          "altText": "Einfamilienhaus mit Ziegelwand und Gartenvorplatz unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.12
+          }
+        },
+        {
+          "order": 2,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260527-150329000-Aussenansicht-DSF8341.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/002-20260527-150329000-Aussenansicht-DSF8341.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 1.5,
+          "motionType": "still",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Haus mit Ziegeldach und grünem Garten, blühende Sträucher und zwei Wickerstühle auf Rasen.",
+          "altText": "Haus mit Ziegeldach und grünem Garten, blühende Sträucher und zwei Wickerstühle auf Rasen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 3,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260527-150544000-Aussenansicht-DSF8366.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/003-20260527-150544000-Aussenansicht-DSF8366.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Hinterhof eines Hauses mit Pflanzen, Terrasse und Dachfenster unter blauem Himmel.",
+          "altText": "Hinterhof eines Hauses mit Pflanzen, Terrasse und Dachfenster unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 4,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260527-150657000-Balkon-Terrasse-DSF8371.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/004-20260527-150657000-Balkon-Terrasse-DSF8371.jpg",
+          "roomLabel": "balkon_terrasse",
+          "sceneType": "exterior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Gartenbereich mit Tisch, Pflanzen und Holzhaus im Hintergrund unter blauem Himmel.",
+          "altText": "Gartenbereich mit Tisch, Pflanzen und Holzhaus im Hintergrund unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 5,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260527-150753000-Balkon-Terrasse-DSF8381.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/005-20260527-150753000-Balkon-Terrasse-DSF8381.jpg",
+          "roomLabel": "balkon_terrasse",
+          "sceneType": "exterior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Hinterhof mit Rasen, Holzschuppen, Grill und Heizkamin unter blauem Himmel.",
+          "altText": "Hinterhof mit Rasen, Holzschuppen, Grill und Heizkamin unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 6,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260527-150805000-Aussenansicht-DSF8386.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/006-20260527-150805000-Aussenansicht-DSF8386.jpg",
+          "roomLabel": "garage",
+          "sceneType": "exterior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Hinterhof mit Holzgarage, weißen Rolltoren und grünem Rasen unter blauem Himmel.",
+          "altText": "Hinterhof mit Holzgarage, weißen Rolltoren und grünem Rasen unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 7,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260527-150822000-Balkon-Terrasse-DSF8391.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/007-20260527-150822000-Balkon-Terrasse-DSF8391.jpg",
+          "roomLabel": "balkon_terrasse",
+          "sceneType": "exterior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Garten mit Rasen, Hecke, Holzzaun und Steinofen unter blauem Himmel.",
+          "altText": "Garten mit Rasen, Hecke, Holzzaun und Steinofen unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 8,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260605-095358000-Esszimmer-DSF0082.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/008-20260605-095358000-Esszimmer-DSF0082.jpg",
+          "roomLabel": "esszimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Esszimmer mit Holztisch, schwarzen Stühlen, Kamin und großen Fenstern zur Terrasse.",
+          "altText": "Esszimmer mit Holztisch, schwarzen Stühlen, Kamin und großen Fenstern zur Terrasse.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 9,
+          "slotRole": "Take",
+          "slotKind": "anchor",
+          "filename": "20260605-095536000-Wohnzimmer-DSF0087.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/009-20260605-095536000-Wohnzimmer-DSF0087.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 3.0,
+          "motionType": "pan_left",
+          "suggestedMotion": "ruhiger Push mit Atem",
+          "caption": "Wohnzimmer mit Esstisch, Sesseln, Kamin und großen Fenstern zur Terrasse.",
+          "altText": "Wohnzimmer mit Esstisch, Sesseln, Kamin und großen Fenstern zur Terrasse.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 10,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260605-095602000-Esszimmer-DSF0092.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/010-20260605-095602000-Esszimmer-DSF0092.jpg",
+          "roomLabel": "esszimmer",
+          "sceneType": "interior",
+          "durationSeconds": 2.0,
+          "motionType": "pan_right",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Esszimmer mit Holztisch, schwarzen Stühlen und Blick auf Garten durch große Fenster.",
+          "altText": "Esszimmer mit Holztisch, schwarzen Stühlen und Blick auf Garten durch große Fenster.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 11,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260605-095729000-Wohnzimmer-DSF0097.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/011-20260605-095729000-Wohnzimmer-DSF0097.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "still",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Großes Wohnzimmer mit Holztisch, grauen Stühlen, Kamin und Fernseher an Backsteinwand.",
+          "altText": "Großes Wohnzimmer mit Holztisch, grauen Stühlen, Kamin und Fernseher an Backsteinwand.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 12,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260605-100132000-Esszimmer-DSF0107.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/012-20260605-100132000-Esszimmer-DSF0107.jpg",
+          "roomLabel": "esszimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "pan_left",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Esszimmer mit Holztisch, Stühlen und Blumenarrangement vor Fenstern mit Vorhängen.",
+          "altText": "Esszimmer mit Holztisch, Stühlen und Blumenarrangement vor Fenstern mit Vorhängen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 13,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260605-102516000-Bad-DSF0167.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/013-20260605-102516000-Bad-DSF0167.jpg",
+          "roomLabel": "bad",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "pan_right",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Badezimmer mit Dusche, WC, Waschbecken und Holzregal, Fenster mit Pflanze.",
+          "altText": "Badezimmer mit Dusche, WC, Waschbecken und Holzregal, Fenster mit Pflanze.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 14,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260605-102713000-Flur-Diele-DSF0172.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/014-20260605-102713000-Flur-Diele-DSF0172.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "still",
+          "suggestedMotion": "ruhiger Push mit Atem",
+          "caption": "Flur mit Holzschrank, Treppe und Eingangstür, rote Wanddekoration und Stern an der Decke.",
+          "altText": "Flur mit Holzschrank, Treppe und Eingangstür, rote Wanddekoration und Stern an der Decke.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 15,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260605-102952000-Flur-Diele-DSF0177.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/015-20260605-102952000-Flur-Diele-DSF0177.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 2.0,
+          "motionType": "pan_left",
+          "suggestedMotion": "Slide entlang der Richtung",
+          "caption": "Flur mit Holzschrank, Kommode und Treppe, rote Wandverkleidung und Stern an der Decke.",
+          "altText": "Flur mit Holzschrank, Kommode und Treppe, rote Wandverkleidung und Stern an der Decke.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 16,
+          "slotRole": "Take",
+          "slotKind": "anchor",
+          "filename": "20260605-103721000-Schlafzimmer-DSF0182.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/016-20260605-103721000-Schlafzimmer-DSF0182.jpg",
+          "roomLabel": "schlafzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 3.0,
+          "motionType": "pan_right",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Attikazimmer mit Holzbalken, Fenster, Küchenzeile und Sicht auf Dächer.",
+          "altText": "Attikazimmer mit Holzbalken, Fenster, Küchenzeile und Sicht auf Dächer.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 17,
+          "slotRole": "Schlussbild",
+          "slotKind": "end",
+          "filename": "20260605-103752000-Kueche-DSF0187.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/017-20260605-103752000-Kueche-DSF0187.jpg",
+          "roomLabel": "kueche",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "still",
+          "suggestedMotion": "ruhiger End-Hold",
+          "caption": "Küchenbereich mit Holzarmaturen, weißen Schränken und Dachfenster im Dachgeschoss.",
+          "altText": "Küchenbereich mit Holzarmaturen, weißen Schränken und Dachfenster im Dachgeschoss.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 18,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260605-104344000-Schlafzimmer-DSF0192.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/018-20260605-104344000-Schlafzimmer-DSF0192.jpg",
+          "roomLabel": "schlafzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.5,
+          "motionType": "pan_left",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Schlafzimmer mit Doppelbett, Patchwork-Bettdecke, Holzbalken an der Decke und Fenstern mit Blick auf Bäume.",
+          "altText": "Schlafzimmer mit Doppelbett, Patchwork-Bettdecke, Holzbalken an der Decke und Fenstern mit Blick auf Bäume.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 19,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260605-104621000-Flur-Diele-DSF0197.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/019-20260605-104621000-Flur-Diele-DSF0197.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Holzleiter im Flur, Backsteinwand mit Glasfenstern, Holzboden und Decke.",
+          "altText": "Holzleiter im Flur, Backsteinwand mit Glasfenstern, Holzboden und Decke.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 20,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260605-104925000-Bad-DSF0207.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/020-20260605-104925000-Bad-DSF0207.jpg",
+          "roomLabel": "bad",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Badezimmer mit Dachschräge, weißer Fliesenwand, Badewanne, Waschbecken und Pflanzen.",
+          "altText": "Badezimmer mit Dachschräge, weißer Fliesenwand, Badewanne, Waschbecken und Pflanzen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 21,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260605-105924000-Buero-DSF0212.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/021-20260605-105924000-Buero-DSF0212.jpg",
+          "roomLabel": "buero",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Büro mit Schreibtisch, Monitor, Regal mit Ordnern und Boxen unter Dachschräge.",
+          "altText": "Büro mit Schreibtisch, Monitor, Regal mit Ordnern und Boxen unter Dachschräge.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 22,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260605-110125000-Schlafzimmer-DSF0222.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/022-20260605-110125000-Schlafzimmer-DSF0222.jpg",
+          "roomLabel": "schlafzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.0,
+          "motionType": "pan_right",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Attikazimmer mit Holzbalken, Dachfenstern, Fitnessgerät und Bett im Vordergrund.",
+          "altText": "Attikazimmer mit Holzbalken, Dachfenstern, Fitnessgerät und Bett im Vordergrund.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 23,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260605-110149000-Aussenansicht-DSF0227.jpg",
+          "deliveryKey": "demo/video-studio/candidate-07/023-20260605-110149000-Aussenansicht-DSF0227.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 2.5,
+          "motionType": "still",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Blick von einem Dachbereich auf eine Wohngegend mit Häusern und Bäumen unter blauem Himmel.",
+          "altText": "Blick von einem Dachbereich auf eine Wohngegend mit Häusern und Bäumen unter blauem Himmel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        }
+      ]
+    },
+    {
+      "candidateIndex": 10,
+      "candidateLabel": "Stadtfassade mit Strasse",
+      "projectName": "Motiv 10: Stadtfassade mit Strasse",
+      "propertyAddress": "Pix.immo Video-Testdaten",
+      "durationSeconds": 33.25,
+      "shots": [
+        {
+          "order": 1,
+          "slotRole": "Startbild",
+          "slotKind": "hook",
+          "filename": "20260625-115605000-Aussenansicht-DSF2392.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/001-20260625-115605000-Aussenansicht-DSF2392.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 4,
+          "motionType": "push_in",
+          "suggestedMotion": "Opening Push / ruhiger Text-Hook",
+          "caption": "Gebäude an einer Straßenecke mit roten Fenstern und Türen, geparkte Autos und Bäume im Vordergrund.",
+          "altText": "Gebäude an einer Straßenecke mit roten Fenstern und Türen, geparkte Autos und Bäume im Vordergrund.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.12
+          }
+        },
+        {
+          "order": 2,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260625-115907000-Aussenansicht-DSF2397.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/002-20260625-115907000-Aussenansicht-DSF2397.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 1.5,
+          "motionType": "still",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Fassade eines mehrstöckigen Wohnhauses mit roten Fenstern und geparkten Autos vor der Haustür.",
+          "altText": "Fassade eines mehrstöckigen Wohnhauses mit roten Fenstern und geparkten Autos vor der Haustür.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 3,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-115955000-Aussenansicht-DSF2402.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/003-20260625-115955000-Aussenansicht-DSF2402.jpg",
+          "roomLabel": "aussenansicht",
+          "sceneType": "exterior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Fassade eines Hauses mit roter Eingangstür, roten Fenstern und Fahrrädern davor.",
+          "altText": "Fassade eines Hauses mit roter Eingangstür, roten Fenstern und Fahrrädern davor.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 4,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-121547000-Wohnzimmer-DSF2412.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/004-20260625-121547000-Wohnzimmer-DSF2412.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Offene Wohnfläche mit Holzboden, Sofa vor Ziegelwand, Tür im Vordergrund und Garderobe rechts.",
+          "altText": "Offene Wohnfläche mit Holzboden, Sofa vor Ziegelwand, Tür im Vordergrund und Garderobe rechts.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 5,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260625-121342000-Wohnzimmer-DSF2407.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/005-20260625-121342000-Wohnzimmer-DSF2407.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 2,
+          "motionType": "still",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Wohnzimmer mit grauem Sofa, Holzboden und sichtbarer Backsteinwand, offen zum Küchenbereich.",
+          "altText": "Wohnzimmer mit grauem Sofa, Holzboden und sichtbarer Backsteinwand, offen zum Küchenbereich.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 6,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-121943000-Wohnzimmer-DSF2422.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/006-20260625-121943000-Wohnzimmer-DSF2422.jpg",
+          "roomLabel": "wohnzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Wohnraum mit Holzboden, Backsteinwand, Fernseher und Sitzgelegenheit, Blick in Küche und Balkon.",
+          "altText": "Wohnraum mit Holzboden, Backsteinwand, Fernseher und Sitzgelegenheit, Blick in Küche und Balkon.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 7,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-122008000-Kueche-DSF2427.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/007-20260625-122008000-Kueche-DSF2427.jpg",
+          "roomLabel": "kueche",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Modern eingerichtete Küche mit Backsteinwand, Holzboden und Kücheninsel auf einem Texaco-Fass. Hintergrund zeigt Balkon.",
+          "altText": "Modern eingerichtete Küche mit Backsteinwand, Holzboden und Kücheninsel auf einem Texaco-Fass. Hintergrund zeigt Balkon.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 8,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-122148000-Kueche-DSF2442.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/008-20260625-122148000-Kueche-DSF2442.jpg",
+          "roomLabel": "kueche",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Modern eingerichtete Küche mit Backsteinwand, weißen Schränken und Gasherd auf Insel.",
+          "altText": "Modern eingerichtete Küche mit Backsteinwand, weißen Schränken und Gasherd auf Insel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 9,
+          "slotRole": "Take",
+          "slotKind": "anchor",
+          "filename": "20260625-122205000-Kueche-DSF2447.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/009-20260625-122205000-Kueche-DSF2447.jpg",
+          "roomLabel": "kueche",
+          "sceneType": "interior",
+          "durationSeconds": 3,
+          "motionType": "pan_left",
+          "suggestedMotion": "ruhiger Push mit Atem",
+          "caption": "Küche mit weißen Schränken, Backsteinwand, Edelstahl-Kühlschrank und Waschmaschine, Holzboden und Balkontür.",
+          "altText": "Küche mit weißen Schränken, Backsteinwand, Edelstahl-Kühlschrank und Waschmaschine, Holzboden und Balkontür.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 10,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-122303000-Kueche-DSF2462.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/010-20260625-122303000-Kueche-DSF2462.jpg",
+          "roomLabel": "kueche",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Küche mit Holzboden, Edelstahl-Kochinsel und Texaco-Fass als Stuhl, im Hintergrund Wohnzimmer mit Fenstern.",
+          "altText": "Küche mit Holzboden, Edelstahl-Kochinsel und Texaco-Fass als Stuhl, im Hintergrund Wohnzimmer mit Fenstern.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 11,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-122335000-Kueche-DSF2467.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/011-20260625-122335000-Kueche-DSF2467.jpg",
+          "roomLabel": "kueche",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Küchenbereich mit Holzboden, Edelstahl-Hängelampe und Kochinsel aus Beton und Holz.",
+          "altText": "Küchenbereich mit Holzboden, Edelstahl-Hängelampe und Kochinsel aus Beton und Holz.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 12,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260625-122408000-Esszimmer-DSF2472.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/012-20260625-122408000-Esszimmer-DSF2472.jpg",
+          "roomLabel": "esszimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.5,
+          "motionType": "pan_left",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Esszimmer mit Holztisch, Stühlen, Pflanze und Fensterblick auf Dachziegel.",
+          "altText": "Esszimmer mit Holztisch, Stühlen, Pflanze und Fensterblick auf Dachziegel.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 13,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-122428000-Esszimmer-DSF2477.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/013-20260625-122428000-Esszimmer-DSF2477.jpg",
+          "roomLabel": "esszimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Esszimmer mit Holztisch, zwei Stühlen, Pflanze am Fenster und moderner Deckenleuchte.",
+          "altText": "Esszimmer mit Holztisch, zwei Stühlen, Pflanze am Fenster und moderner Deckenleuchte.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 14,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-122603000-Bad-DSF2482.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/014-20260625-122603000-Bad-DSF2482.jpg",
+          "roomLabel": "bad",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Badezimmer mit weißem Waschbecken, Spiegel und WC vor Fenster mit Holzverkleidung.",
+          "altText": "Badezimmer mit weißem Waschbecken, Spiegel und WC vor Fenster mit Holzverkleidung.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 15,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260625-122930000-Esszimmer-DSF2492.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/015-20260625-122930000-Esszimmer-DSF2492.jpg",
+          "roomLabel": "esszimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.5,
+          "motionType": "pan_left",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Esszimmer mit Holztisch, zwei Stühlen, Pflanze und Fenster im Hintergrund.",
+          "altText": "Esszimmer mit Holztisch, zwei Stühlen, Pflanze und Fenster im Hintergrund.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 16,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-123218000-Flur-Diele-DSF2497.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/016-20260625-123218000-Flur-Diele-DSF2497.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 1.25,
+          "motionType": "pan_right",
+          "suggestedMotion": "Slide entlang der Richtung",
+          "caption": "Flur mit Holzboden, Treppe, Wandbild und schwarzer Kommode unter der Treppe.",
+          "altText": "Flur mit Holzboden, Treppe, Wandbild und schwarzer Kommode unter der Treppe.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 17,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-123710000-Flur-Diele-DSF2522.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/017-20260625-123710000-Flur-Diele-DSF2522.jpg",
+          "roomLabel": "flur_diele",
+          "sceneType": "interior",
+          "durationSeconds": 1.25,
+          "motionType": "still",
+          "suggestedMotion": "ruhiger End-Hold",
+          "caption": "Flur mit Holzboden, Schiebetüren, Wandbild und Zugang zu Bad sowie Fitnessbereich.",
+          "altText": "Flur mit Holzboden, Schiebetüren, Wandbild und Zugang zu Bad sowie Fitnessbereich.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 18,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-123735000-Bad-DSF2527.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/018-20260625-123735000-Bad-DSF2527.jpg",
+          "roomLabel": "bad",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Badezimmer mit Holzwaschtisch, Toilette und Dachfenster, dekoriert mit Pflanze und Statuen.",
+          "altText": "Badezimmer mit Holzwaschtisch, Toilette und Dachfenster, dekoriert mit Pflanze und Statuen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 19,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-123824000-Dachboden-DSF2532.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/019-20260625-123824000-Dachboden-DSF2532.jpg",
+          "roomLabel": "dachboden",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Dachboden mit Holzboden, Dachschräge, Waschbecken und Wäscheständer an der Wand.",
+          "altText": "Dachboden mit Holzboden, Dachschräge, Waschbecken und Wäscheständer an der Wand.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 20,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-123849000-Dachboden-DSF2537.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/020-20260625-123849000-Dachboden-DSF2537.jpg",
+          "roomLabel": "dachboden",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Dachbodenraum mit Holzboden, Dachfenster, Pflanze und Wandbild an der schrägen Wand.",
+          "altText": "Dachbodenraum mit Holzboden, Dachfenster, Pflanze und Wandbild an der schrägen Wand.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 21,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-123947000-Bad-DSF2542.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/021-20260625-123947000-Bad-DSF2542.jpg",
+          "roomLabel": "bad",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_left",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Badezimmer mit Dusche, Holzfliesen, Wandbild und WC im Hintergrund.",
+          "altText": "Badezimmer mit Dusche, Holzfliesen, Wandbild und WC im Hintergrund.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 22,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260625-124016000-Bad-DSF2547.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/022-20260625-124016000-Bad-DSF2547.jpg",
+          "roomLabel": "bad",
+          "sceneType": "interior",
+          "durationSeconds": 1.5,
+          "motionType": "pan_right",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Badezimmer mit Holz- und Beton-Elementen, Wandwaschbecken, Toilette und dekorativen Gegenständen.",
+          "altText": "Badezimmer mit Holz- und Beton-Elementen, Wandwaschbecken, Toilette und dekorativen Gegenständen.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 23,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-123404000-Schlafzimmer-DSF2502.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/023-20260625-123404000-Schlafzimmer-DSF2502.jpg",
+          "roomLabel": "schlafzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "still",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Schlafzimmer mit Holzbalken, Bett auf Podest, Boxsack und Elefantenbild an der Wand.",
+          "altText": "Schlafzimmer mit Holzbalken, Bett auf Podest, Boxsack und Elefantenbild an der Wand.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 24,
+          "slotRole": "Take",
+          "slotKind": "info",
+          "filename": "20260625-123423000-Schlafzimmer-DSF2507.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/024-20260625-123423000-Schlafzimmer-DSF2507.jpg",
+          "roomLabel": "schlafzimmer",
+          "sceneType": "interior",
+          "durationSeconds": 1.5,
+          "motionType": "pan_left",
+          "suggestedMotion": "weicher Pan oder Push",
+          "caption": "Schlafzimmer mit Dachschräge, Holzbalken, Bett, Boxsack und Fahrrad an der Wand.",
+          "altText": "Schlafzimmer mit Dachschräge, Holzbalken, Bett, Boxsack und Fahrrad an der Wand.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 10,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 25,
+          "slotRole": "Take",
+          "slotKind": "pulse",
+          "filename": "20260625-123541000-Unklar-DSF2512.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/025-20260625-123541000-Unklar-DSF2512.jpg",
+          "roomLabel": "sonstiges_unklar",
+          "sceneType": "interior",
+          "durationSeconds": 0.75,
+          "motionType": "pan_right",
+          "suggestedMotion": "kurzer Akzent / schneller Push",
+          "caption": "Raum mit Holzbalken, Backsteinwand, Boxsack und großem Elefantenbild an der Wand.",
+          "altText": "Raum mit Holzbalken, Backsteinwand, Boxsack und großem Elefantenbild an der Wand.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.08
+          }
+        },
+        {
+          "order": 26,
+          "slotRole": "Schlussbild",
+          "slotKind": "end",
+          "filename": "20260625-122241000-Balkon-Terrasse-DSF2457.jpg",
+          "deliveryKey": "demo/video-studio/candidate-10/026-20260625-122241000-Balkon-Terrasse-DSF2457.jpg",
+          "roomLabel": "balkon_terrasse",
+          "sceneType": "exterior",
+          "durationSeconds": 3,
+          "motionType": "still",
+          "suggestedMotion": "Reveal nach außen",
+          "caption": "Balkon mit Holztisch, Sonnenschirm und Blick auf angrenzende Häuser mit roten Fenstern.",
+          "altText": "Balkon mit Holztisch, Sonnenschirm und Blick auf angrenzende Häuser mit roten Fenstern.",
+          "startCrop": {
+            "x": 8,
+            "y": 8,
+            "scale": 1.0
+          },
+          "endCrop": {
+            "x": 12,
+            "y": 8,
+            "scale": 1.08
+          }
+        }
+      ]
+    }
+  ]
+}
